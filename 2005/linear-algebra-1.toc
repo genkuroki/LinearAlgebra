@@ -1,0 +1,52 @@
+\contentsline {section}{\numberline {1}行列に関する雑多な問題}{4}
+\contentsline {subsection}{\numberline {1.1}回転行列}{4}
+\contentsline {subsection}{\numberline {1.2}対角行列}{4}
+\contentsline {subsection}{\numberline {1.3}行列単位}{5}
+\contentsline {subsection}{\numberline {1.4}置換行列}{6}
+\contentsline {subsection}{\numberline {1.5}確率行列}{7}
+\contentsline {subsection}{\numberline {1.6}Neumann 級数}{9}
+\contentsline {subsection}{\numberline {1.7}Neumann 級数 (続き)}{10}
+\contentsline {subsection}{\numberline {1.8}三角行列}{10}
+\contentsline {subsection}{\numberline {1.9}行列の指数函数}{11}
+\contentsline {subsection}{\numberline {1.10}複素数の実2次正方行列による表現}{13}
+\contentsline {subsection}{\numberline {1.11}コラム: 線形代数と量子力学}{13}
+\contentsline {section}{\numberline {2}行列式}{14}
+\contentsline {subsection}{\numberline {2.1}行列式の定義と基本性質}{14}
+\contentsline {subsection}{\numberline {2.2}行列式の余因子展開と Cram\'er の公式}{20}
+\contentsline {subsection}{\numberline {2.3}Cayley-Hamilton の定理}{25}
+\contentsline {subsection}{\numberline {2.4}Gauss 分解}{29}
+\contentsline {subsection}{\numberline {2.5}行列式と面積や体積の関係}{32}
+\contentsline {subsection}{\numberline {2.6}小行列式と外積代数}{37}
+\contentsline {section}{\numberline {3}色々な行列式}{43}
+\contentsline {subsection}{\numberline {3.1}Vandermonde の行列式 (ヴァンデルモンドの行列式)}{43}
+\contentsline {subsection}{\numberline {3.2}Cauchy の行列式と Hilbert の行列式}{44}
+\contentsline {subsection}{\numberline {3.3}Gram 行列式}{46}
+\contentsline {subsection}{\numberline {3.4}Sylvester の行列式と判別式}{47}
+\contentsline {subsection}{\numberline {3.5}Jacobian}{48}
+\contentsline {subsection}{\numberline {3.6}特性多項式の係数}{49}
+\contentsline {subsection}{\numberline {3.7}行列式の微分と行列の指数函数の行列式}{49}
+\contentsline {subsection}{\numberline {3.8}Pfaffian (パフィアン)}{49}
+\contentsline {subsection}{\numberline {3.9}雑多な問題}{50}
+\contentsline {section}{\numberline {4}一次方程式の理論}{52}
+\contentsline {subsection}{\numberline {4.1}一次方程式とその解空間}{52}
+\contentsline {subsection}{\numberline {4.2}Cram\'er の公式について}{55}
+\contentsline {subsection}{\numberline {4.3}行列の基本操作と基本変形の導入}{55}
+\contentsline {subsection}{\numberline {4.4}行列の rank の定義}{58}
+\contentsline {subsection}{\numberline {4.5}行列の基本変形による行列の簡単化}{62}
+\contentsline {subsection}{\numberline {4.6}$K^n$ の部分空間とその次元}{65}
+\contentsline {subsection}{\numberline {4.7}rank と image と kernel の関係}{70}
+\contentsline {subsection}{\numberline {4.8}行列の rank の計算の仕方}{72}
+\contentsline {subsection}{\numberline {4.9}斉次な一次方程式の解法}{75}
+\contentsline {subsection}{\numberline {4.10}非斉次な一次方程式の解法}{77}
+\contentsline {section}{\numberline {5}体上のベクトル空間の理論}{81}
+\contentsline {subsection}{\numberline {5.1}可換環上の加群と体上のベクトル空間の定義}{81}
+\contentsline {subsection}{\numberline {5.2}加群の準同型とベクトル空間の線形写像の定義}{85}
+\contentsline {subsection}{\numberline {5.3}一次独立性と基底}{89}
+\contentsline {subsection}{\numberline {5.4}同型写像}{89}
+\contentsline {subsection}{\numberline {5.5}線形写像の行列表示}{90}
+\contentsline {subsection}{\numberline {5.6}商ベクトル空間}{99}
+\contentsline {subsection}{\numberline {5.7}双対空間}{104}
+\contentsline {section}{\numberline {6}計量ベクトル空間}{107}
+\contentsline {subsection}{\numberline {6.1}計量ベクトル空間の定義}{107}
+\contentsline {subsection}{\numberline {6.2}Cauchy-Schwarz の不等式と三角不等式}{108}
+\contentsline {subsection}{\numberline {6.3}正規直交基底}{110}

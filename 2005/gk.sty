@@ -1,0 +1,251 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% my macros
+%
+
+\newcommand\N{{\mathbb N}} % natural numbers
+\newcommand\Z{{\mathbb Z}} % rational integers
+\newcommand\F{{\mathbb F}} % finite field
+\newcommand\Q{{\mathbb Q}} % rational numbers
+\newcommand\R{{\mathbb R}} % real numbers
+\newcommand\C{{\mathbb C}} % complex numbers
+\renewcommand\P{{\mathbb P}} % projective spaces
+
+\newcommand\D{{\mathcal D}} % differential operators
+\newcommand\E{{\mathcal E}} % pseudo diff. op.
+\renewcommand\O{{\mathcal O}} % structure sheaf
+
+\newcommand\ord{\mathop{\mathrm{ord}}\nolimits}
+
+\newcommand\Hom{\mathop{\mathrm{Hom}}\nolimits}
+\newcommand\End{\mathop{\mathrm{End}}\nolimits}
+\newcommand\Aut{\mathop{\mathrm{Aut}}\nolimits}
+\newcommand\Der{\mathop{\mathrm{Der}}\nolimits}
+
+\newcommand\Ker{\mathop{\mathrm{Ker}}\nolimits}
+\newcommand\Coker{\mathop{\mathrm{Coker}}\nolimits}
+\newcommand\Image{\mathop{\mathrm{Im}}\nolimits}
+\newcommand\Coimage{\mathop{\mathrm{Coim}}\nolimits}
+
+\newcommand\eps{\varepsilon}
+\renewcommand\setminus{\smallsetminus}
+
+\newcommand\id{\mathop{\mathrm{id}}\nolimits}
+\newcommand\injto{\hookrightarrow}
+\newcommand\isom{\cong}
+\newcommand\isomto{\overset\sim\longrightarrow}
+\newcommand\onto{\twoheadrightarrow}
+
+\newcommand\indlim{\mathop{\mathrm{ind}\,\mathrm{lim}}}
+\renewcommand\projlim{\mathop{\mathrm{proj}\,\mathrm{lim}}}
+
+\renewcommand\d{\partial}
+\newcommand\od[1]{\frac{d}{d #1}}
+\newcommand\odfrac[2]{\frac{d #1}{d #2}}
+\newcommand\pd[1]{\frac{\partial}{\partial #1}}
+\newcommand\pdfrac[2]{\frac{\partial #1}{\partial #2}}
+
+\newcommand\lie{\mathrm} % Lie algebra (example: \lie{sl}_n)
+%\newcommand\lie{\mathfrak} % Lie algebra (example: \lie{sl}_n)
+\newcommand\Ad{\mathop{\mathrm{Ad}}\nolimits}
+\newcommand\ad{\mathop{\mathrm{ad}}\nolimits}
+
+\renewcommand\o{\otimes} % tensor product
+\newcommand\bra{\langle}
+\newcommand\ket{\rangle}
+\newcommand\trace{\mathop{\mathrm{tr}}\nolimits}
+%\newcommand\trace{\mathop{\mathrm{trace}}\nolimits}
+%\newcommand\transpose[1]{\,{\vphantom{#1}}^t\!#1}
+\newcommand\transpose[1]{\,{\vphantom{#1}}^t#1}
+\newcommand\tp[1]{\transpose{#1}} 
+\newcommand\norm[1]{\left|\left|#1\right|\right|}
+\newcommand\diag{\mathop{\mathrm{diag}}\nolimits}
+
+\newcommand\cc[1]{\compconj{#1}}  % complex conjugation
+\newcommand\Repart{\mathop{\mathrm{Re}}\nolimits} % real part
+\newcommand\Impart{\mathop{\mathrm{Im}}\nolimits} % imaginary part
+
+\newcommand\bigzerol{\smash{\hbox{\large 0}}}             % 左下の大きなゼロ
+\newcommand\bigzerou{\smash{\lower.3ex\hbox{\large 0}}}   % 右上の大きなゼロ
+\newcommand\bigstarl{\smash{\hbox{\Large $*$}}}           % 左下の大きな星
+\newcommand\bigstaru{\smash{\lower.3ex\hbox{\Large $*$}}} % 右上の大きな星
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\cA{{\mathcal A}}
+\newcommand\cB{{\mathcal B}}
+\newcommand\cC{{\mathcal C}}
+\newcommand\cD{{\mathcal D}}
+\newcommand\cE{{\mathcal E}}
+\newcommand\cF{{\mathcal F}}
+\newcommand\cG{{\mathcal G}}
+\newcommand\cH{{\mathcal H}}
+\newcommand\cI{{\mathcal I}}
+\newcommand\cJ{{\mathcal J}}
+\newcommand\cK{{\mathcal K}}
+\newcommand\cL{{\mathcal L}}
+\newcommand\cM{{\mathcal M}}
+\newcommand\cN{{\mathcal N}}
+\newcommand\cO{{\mathcal O}}
+\newcommand\cP{{\mathcal P}}
+\newcommand\cQ{{\mathcal Q}}
+\newcommand\cR{{\mathcal R}}
+\newcommand\cS{{\mathcal S}}
+\newcommand\cT{{\mathcal T}}
+\newcommand\cU{{\mathcal U}}
+\newcommand\cV{{\mathcal V}}
+\newcommand\cW{{\mathcal W}}
+\newcommand\cX{{\mathcal X}}
+\newcommand\cY{{\mathcal Y}}
+\newcommand\cZ{{\mathcal Z}}
+
+\newcommand\bA{{\mathbb A}}
+\newcommand\bB{{\mathbb B}}
+\newcommand\bC{{\mathbb C}}
+\newcommand\bD{{\mathbb D}}
+\newcommand\bE{{\mathbb E}}
+\newcommand\bF{{\mathbb F}}
+\newcommand\bG{{\mathbb G}}
+\newcommand\bH{{\mathbb H}}
+\newcommand\bI{{\mathbb I}}
+\newcommand\bJ{{\mathbb J}}
+\newcommand\bK{{\mathbb K}}
+\newcommand\bL{{\mathbb L}}
+\newcommand\bM{{\mathbb M}}
+\newcommand\bN{{\mathbb N}}
+\newcommand\bO{{\mathbb O}}
+\newcommand\bP{{\mathbb P}}
+\newcommand\bQ{{\mathbb Q}}
+\newcommand\bR{{\mathbb R}}
+\newcommand\bS{{\mathbb S}}
+\newcommand\bT{{\mathbb T}}
+\newcommand\bU{{\mathbb U}}
+\newcommand\bV{{\mathbb V}}
+\newcommand\bW{{\mathbb W}}
+\newcommand\bX{{\mathbb X}}
+\newcommand\bY{{\mathbb Y}}
+\newcommand\bZ{{\mathbb Z}}
+
+\newcommand\frakA{{\mathfrak A}}
+\newcommand\frakB{{\mathfrak B}}
+\newcommand\frakC{{\mathfrak C}}
+\newcommand\frakD{{\mathfrak D}}
+\newcommand\frakE{{\mathfrak E}}
+\newcommand\frakF{{\mathfrak F}}
+\newcommand\frakG{{\mathfrak G}}
+\newcommand\frakH{{\mathfrak H}}
+\newcommand\frakI{{\mathfrak I}}
+\newcommand\frakJ{{\mathfrak J}}
+\newcommand\frakK{{\mathfrak K}}
+\newcommand\frakL{{\mathfrak L}}
+\newcommand\frakM{{\mathfrak M}}
+\newcommand\frakN{{\mathfrak N}}
+\newcommand\frakO{{\mathfrak O}}
+\newcommand\frakP{{\mathfrak P}}
+\newcommand\frakQ{{\mathfrak Q}}
+\newcommand\frakR{{\mathfrak R}}
+\newcommand\frakS{{\mathfrak S}}
+\newcommand\frakT{{\mathfrak T}}
+\newcommand\frakU{{\mathfrak U}}
+\newcommand\frakV{{\mathfrak V}}
+\newcommand\frakW{{\mathfrak W}}
+\newcommand\frakX{{\mathfrak X}}
+\newcommand\frakY{{\mathfrak Y}}
+\newcommand\frakZ{{\mathfrak Z}}
+
+\newcommand\fraka{{\mathfrak a}}
+\newcommand\frakb{{\mathfrak b}}
+\newcommand\frakc{{\mathfrak c}}
+\newcommand\frakd{{\mathfrak d}}
+\newcommand\frake{{\mathfrak e}}
+\newcommand\frakf{{\mathfrak f}}
+\newcommand\frakg{{\mathfrak g}}
+\newcommand\frakh{{\mathfrak h}}
+\newcommand\fraki{{\mathfrak i}}
+\newcommand\frakj{{\mathfrak j}}
+\newcommand\frakk{{\mathfrak k}}
+\newcommand\frakl{{\mathfrak l}}
+\newcommand\frakm{{\mathfrak m}}
+\newcommand\frakn{{\mathfrak n}}
+\newcommand\frako{{\mathfrak o}}
+\newcommand\frakp{{\mathfrak p}}
+\newcommand\frakq{{\mathfrak q}}
+\newcommand\frakr{{\mathfrak r}}
+\newcommand\fraks{{\mathfrak s}}
+\newcommand\frakt{{\mathfrak t}}
+\newcommand\fraku{{\mathfrak u}}
+\newcommand\frakv{{\mathfrak v}}
+\newcommand\frakw{{\mathfrak w}}
+\newcommand\frakx{{\mathfrak x}}
+\newcommand\fraky{{\mathfrak y}}
+\newcommand\frakz{{\mathfrak z}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% theorems
+%
+\newtheorem{theorem}{定理}
+\newtheorem{prop}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{cor}[theorem]{系}
+\newtheorem{example}[theorem]{例}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{rem}[theorem]{注意}
+\newtheorem{guide}[theorem]{参考}
+\newtheorem{summary}[theorem]{要約}
+\newtheorem{problem}[theorem]{問題}
+\newtheorem{conjecture}[theorem]{予想}
+
+\numberwithin{theorem}{section}
+\numberwithin{equation}{section}
+
+\newcommand\secref[1]{第\ref{#1}節}
+
+\newcommand\theoremref[1]{定理\ref{#1}}
+\newcommand\propref[1]{命題\ref{#1}}
+\newcommand\lemmaref[1]{補題\ref{#1}}
+\newcommand\corref[1]{系\ref{#1}}
+\newcommand\exampleref[1]{例\ref{#1}}
+\newcommand\definitionref[1]{定義\ref{#1}}
+\newcommand\remref[1]{注意\ref{#1}}
+\newcommand\guideref[1]{参考\ref{#1}}
+\newcommand\summaryref[1]{要約\ref{#1}}
+\newcommand\problemref[1]{問題\ref{#1}}
+\newcommand\figureref[1]{図\ref{#1}}
+\newcommand\tableref[1]{表\ref{#1}}
+
+%
+% 定理環境の中で斜体を使わない
+%
+\makeatletter
+\def\@begintheorem#1#2{\trivlist
+   \item[\hskip \labelsep{\bfseries #1\ #2}]\rmfamily}
+\def\@opargbegintheorem#1#2#3{\trivlist
+      \item[\hskip \labelsep{\bfseries #1\ #2\ (#3)}]\rmfamily}
+\makeatother
+
+%
+% proof
+%
+\makeatletter
+\newenvironment{proof}[1][\proofname]{\par
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries #1}\@addpunct{\bfseries.}]\ignorespaces
+}{%
+  \endtrivlist
+}
+%\newcommand{\proofname}{Proof}
+\newcommand{\proofname}{証明}
+\makeatother
+
+%
+% \qed
+%
+\makeatletter
+\def\qedsymbol{\RIfM@\bgroup\else$\bgroup\aftergroup$\fi
+  \vcenter{\hrule\hbox{\vrule\@height.8em\kern.6em\vrule}\hrule}\egroup}
+\def\qed{\RIfM@\else\unskip\nobreak\fi\quad\qedsymbol}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,80 @@
+\contentsline {section}{\numberline {1}行列の指数函数}{3}
+\contentsline {subsection}{\numberline {1.1}行列の指数函数の基本性質}{4}
+\contentsline {subsection}{\numberline {1.2}簡単に計算できる行列の指数函数の例}{4}
+\contentsline {subsection}{\numberline {1.3}定数係数線形常微分方程式と定数係数線形差分方程式への応用}{5}
+\contentsline {section}{\numberline {2}$2$ 次正方行列}{7}
+\contentsline {subsection}{\numberline {2.1}線形代数の復習}{8}
+\contentsline {subsection}{\numberline {2.2}2次正方行列の Jordan 標準形と指数函数の計算の仕方}{10}
+\contentsline {subsection}{\numberline {2.3}2次正方行列の Jordan 標準形の計算と応用}{11}
+\contentsline {section}{\numberline {3}$3$ 次正方行列}{13}
+\contentsline {subsection}{\numberline {3.1}$3$ 次以上の正方行列の特性多項式}{13}
+\contentsline {subsection}{\numberline {3.2}$3$ 次正方行列の Jordan 標準形の求め方}{14}
+\contentsline {section}{\numberline {4}内積とノルム}{17}
+\contentsline {subsection}{\numberline {4.1}内積とノルムの基本性質}{17}
+\contentsline {subsection}{\numberline {4.2}Schmidt の正規直交化法と岩沢分解}{22}
+\contentsline {subsection}{\numberline {4.3}Cauchy-Schwarz の不等式について}{25}
+\contentsline {section}{\numberline {5}正規行列}{31}
+\contentsline {subsection}{\numberline {5.1}正規行列, Hermite 行列, 反 Hermite 行列, ユニタリー行列}{31}
+\contentsline {subsection}{\numberline {5.2}正規行列の対角化 (Toeplitz の定理)}{32}
+\contentsline {subsection}{\numberline {5.3}実正規行列の標準形}{34}
+\contentsline {section}{\numberline {6}Cayley-Hamilton の定理}{36}
+\contentsline {subsection}{\numberline {6.1}Cayley-Hamilton の定理の直接的証明}{36}
+\contentsline {subsection}{\numberline {6.2}行列係数多項式の剰余定理を用いた証明}{37}
+\contentsline {subsection}{\numberline {6.3}正方行列の三角化可能性を用いた証明}{39}
+\contentsline {section}{\numberline {7}実対称行列}{40}
+\contentsline {subsection}{\numberline {7.1}実対称行列, 実交代行列, 直交行列の定義}{40}
+\contentsline {subsection}{\numberline {7.2}実対称行列の対角化可能性}{41}
+\contentsline {subsection}{\numberline {7.3}実対称行列の対角化と固有値問題}{42}
+\contentsline {subsection}{\numberline {7.4}Hadamard の不等式}{46}
+\contentsline {section}{\numberline {8}実二次形式}{49}
+\contentsline {subsection}{\numberline {8.1}実二次形式の定義}{49}
+\contentsline {subsection}{\numberline {8.2}実二次形式の分類}{50}
+\contentsline {subsection}{\numberline {8.3}$n$ 次元実 Euclid 空間の直交座標系}{53}
+\contentsline {subsection}{\numberline {8.4}実二次函数と実二次超曲面の分類}{55}
+\contentsline {subsection}{\numberline {8.5}射影空間の中の二次超曲面}{60}
+\contentsline {subsection}{\numberline {8.6}定符号性と半定符号性}{65}
+\contentsline {subsection}{\numberline {8.7}小行列式に関する準備}{66}
+\contentsline {subsection}{\numberline {8.8}主小行列式を用いた符号数の計算の仕方}{69}
+\contentsline {subsection}{\numberline {8.9}逆の二次形式}{73}
+\contentsline {section}{\numberline {9}直交行列}{74}
+\contentsline {subsection}{\numberline {9.1}直交群と特殊直交群の定義}{74}
+\contentsline {subsection}{\numberline {9.2}2次直交行列の世界}{76}
+\contentsline {subsection}{\numberline {9.3}3次直交行列の世界}{78}
+\contentsline {subsection}{\numberline {9.4}Hamilton の四元数の世界}{80}
+\contentsline {subsection}{\numberline {9.5}$n$ 次直交行列の世界}{87}
+\contentsline {subsection}{\numberline {9.6}鏡映変換}{89}
+\contentsline {section}{\numberline {10}体上の1変数多項式環における Euclid の互除法}{91}
+\contentsline {subsection}{\numberline {10.1}体について}{91}
+\contentsline {subsection}{\numberline {10.2}Euclid の互除法}{93}
+\contentsline {subsection}{\numberline {10.3}Lagrange の補間公式}{98}
+\contentsline {subsection}{\numberline {10.4}1変数有理函数の部分分数展開}{102}
+\contentsline {section}{\numberline {11}一般固有空間分解と Jordan 標準形}{104}
+\contentsline {subsection}{\numberline {11.1}巾零行列と半単純行列}{106}
+\contentsline {subsection}{\numberline {11.2}抽象ベクトル空間について}{110}
+\contentsline {subsection}{\numberline {11.3}固有空間分解}{116}
+\contentsline {subsection}{\numberline {11.4}最小多項式}{122}
+\contentsline {subsection}{\numberline {11.5}Jordan 分解と一般固有空間分解}{127}
+\contentsline {subsection}{\numberline {11.6}巾零行列の標準形と Jordan 標準形}{132}
+\contentsline {section}{\numberline {12}行列方程式 $AX-XB=C$}{140}
+\contentsline {section}{\numberline {13}量子調和振動子と Hermite の多項式}{144}
+\contentsline {section}{\numberline {14}単因子の計算と Jordan 標準形}{147}
+\contentsline {subsection}{\numberline {14.1}一変数多項式環上の行列の単因子の計算}{148}
+\contentsline {subsection}{\numberline {14.2}単因子に基いた Jordan 標準形の計算}{150}
+\contentsline {section}{\numberline {15}コンパニオン行列の Jordan 標準形}{156}
+\contentsline {subsection}{\numberline {15.1}{$(\lambda -\alpha )^n$} に対応するコンパニオン行列の Jordan 標準形}{156}
+\contentsline {subsection}{\numberline {15.2}一般のコンパニオン行列の Jordan 標準形}{159}
+\contentsline {section}{\numberline {16}体上の1変数多項式環上の加群}{164}
+\contentsline {subsection}{\numberline {16.1}可換環とイデアルと単項イデアル整域}{165}
+\contentsline {subsection}{\numberline {16.2}可換環上の加群}{170}
+\contentsline {subsection}{\numberline {16.3}商加群と加群の準同型定理}{173}
+\contentsline {subsection}{\numberline {16.4}剰余環と環の準同型定理}{177}
+\contentsline {subsection}{\numberline {16.5}単元と素元と既約元}{182}
+\contentsline {subsection}{\numberline {16.6}行列の基本変形}{189}
+\contentsline {subsection}{\numberline {16.7}単因子と行列式因子}{196}
+\contentsline {subsection}{\numberline {16.8}有限生成加群}{199}
+\contentsline {subsection}{\numberline {16.9}Jordan 標準形再論}{206}
+\contentsline {section}{\numberline {A}数学語について}{212}
+\contentsline {subsection}{\numberline {A.1}存在と一意性}{212}
+\contentsline {subsection}{\numberline {A.2}選択公理と Zorn の補題}{212}
+\contentsline {subsection}{\numberline {A.3}数学的帰納法}{214}
+\contentsline {section}{\numberline {B}簡単に計算できる {$A+B$} の指数函数の例}{216}

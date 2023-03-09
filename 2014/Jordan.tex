@@ -1,0 +1,5259 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\STUDENT{} % \def すると計算問題の解答を印刷しなくなる.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 線形代数学演習---行列の標準形
+% 
+% 黒木 玄 (東北大学理学部数学教室, kuroki@math.tohoku.ac.jp)
+%
+% この演習問題集は2003年度における東北大学理学部数学科2年生前期の
+% 代数学序論B演習のために作成されました. コメントは歓迎しますが,
+% 回答できなかったり, 時間の都合で無視してしまわざるを得ない場合は
+% お許し下さい.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,twoside]{jarticle}
+%\documentclass[12pt]{jarticle}
+\usepackage{amsmath,amssymb,amscd}
+\usepackage{enshu}
+%\usepackage{showkeys}
+\allowdisplaybreaks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifx\STUDENT\undefined
+%
+% 教師専用
+%
+\newcommand\commentout[1]{#1}
+\setcounter{page}{1}       % この数から始まる
+\setcounter{section}{0}    % この数の次から始まる
+\setcounter{theorem}{0}    % この数の次から始まる
+\setcounter{question}{0}   % この数の次から始まる
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\else
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 生徒専用
+%
+\newcommand\commentout[1]{}
+\setcounter{page}{1}       % この数から始まる
+\setcounter{section}{0}    % この数の次から始まる
+\setcounter{theorem}{0}    % この数の次から始まる
+\setcounter{question}{0}   % この数の次から始まる
+\setcounter{footnote}{0}   % この数の次から始まる
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\bf 行列のJordan標準形}
+%  \thanks{この演習問題集は2003年度における東北大学理学部数学科2年生前期の
+%    代数学序論B演習のために作成された.}
+%  \ifx\STUDENT\undefined\\{\normalsize 教師用\quad(計算問題の略解付き)}\fi}
+%  \ifx\STUDENT\undefined\\{\normalsize 計算問題の略解付き}\fi}
+
+\author{黒木 玄 \quad (東北大学大学院理学研究科数学専攻)}
+
+%\date{最終更新2003年11月21日 \quad (作成2003年5月29日)}
+\date{2010年5月18日}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{行列の指数函数}
+\label{sec:exp}
+
+複素 $n$ 次正方行列 $A$ の指数函数 $\exp A = e^A$ を次のように定める:
+\begin{equation*}
+  \exp A = e^A 
+  = \sum_{k=0}^\infty \frac{1}{k!} A^k
+  = E + A + \frac{1}{2}A^2 + \frac{1}{3!}A^3 + \frac{1}{4!}A^4 + \cdots.
+\end{equation*}
+ここで $E$ は単位行列である.
+この演習では, この定義の無限級数が複素正方行列 $A$ に関して広義一様絶対収束
+するという事実や $A$ の成分に関する偏微分を項別微分によって計算できるという
+事実などを証明抜きで自由に用いて良い.  無限級数の収束性などについては気にせ
+ずに形式的な計算を自由に行なって良い.
+
+\bigskip
+
+{\Large この演習の主要な目標の一つは
+具体的に与えられた正方行列 $A$ に対して $e^{At}$ を
+計算できるようになることである.}
+
+\bigskip
+
+他にも様々な目標があるが, この演習を受講する人はこの目標を常に頭の片隅に置い
+ておくことが望ましい.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{行列の指数函数の基本性質}
+\label{sec:sec-exp-properties}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $A$ は複素正方行列であるとする. 
+  このとき, 複素数 $t$ の行列値函数 $e^{At}$ は次を満たしている:
+  \begin{equation*}
+    \od{t}e^{At} = A e^{At} = e^{At} A,
+    \qquad e^{A0} = E.
+    \qed
+  \end{equation*}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $A$, $P$ は複素 $n$ 次正方行列であり, $P$ は逆行列を持つと仮定する.
+  このとき,
+  \begin{equation*}
+    e^{PAP^{-1}} = P e^A P^{-1}.
+    \qed
+  \end{equation*}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:exp(A+B)}
+  2つの複素 $n$ 次正方行列 $A$, $B$ が互いに可換%
+  \footnote{$A$ と $B$ が{\bf 可換 (commutative)} であるとは $AB = BA$ が成
+    立することである.}%
+  ならば,
+  \begin{equation*}
+    e^{A+B} = e^A e^B = e^B e^A.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: $AB=BA$ であれば次の二項定理を利用できる:
+\begin{equation*}
+  (A + B)^k = \sum_{i=0}^k \binom{k}{i} A^i B^{k-i}.
+\end{equation*}
+ここで,
+\begin{equation*}
+  \binom{k}{i} = \frac{k!}{i!(k-i)!}.
+\qed
+\end{equation*}
+
+\medskip
+\noindent 
+注意: 可換性の仮定は本質的である.  その条件を外すとこの問題の結論は一般に成
+立しなくなる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  \(
+    A =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & -1 \\
+    \end{bmatrix}
+  \) と %
+  \(
+    B =
+    \begin{bmatrix}
+      0 & 1 \\
+      0 & 0 \\
+    \end{bmatrix}
+  \) に対して $e^{At+Bs}\ne e^{At} e^{Bs} \ne e^{Bs} e^{At}$.
+  \qed
+\end{question}
+
+\noindent
+ヒント:   \(
+  e^{At} =
+  \begin{bmatrix}
+    e^t & 0 \\
+    0 & e^{-t} \\
+  \end{bmatrix}
+\), \(
+  e^{Bs} =
+  \begin{bmatrix}
+    1 & s \\
+    0 & 1 \\
+  \end{bmatrix}
+\), \(
+  e^{At+Bs} =
+  \begin{bmatrix}
+    e^t & s t^{-1} \sinh t \\
+    0 & e^{-t} \\
+  \end{bmatrix}
+\).
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{簡単に計算できる行列の指数函数の例}
+\label{sec:sec-exp-easy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  複素正方行列 $A$, $B$, $C$ を次のように定義する:
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      \alpha & 0 \\
+      0 & \beta \\
+    \end{bmatrix},
+    \quad
+    B =
+    \begin{bmatrix}
+      \alpha & 1 \\
+      0 & \alpha \\
+    \end{bmatrix},
+    \quad
+    C =
+    \begin{bmatrix}
+      0 & -1 \\
+      1 &  0 \\
+    \end{bmatrix}.
+  \end{equation*}
+  ここで $\alpha,\beta\in\C$ である. 
+  $e^{At}$, $e^{Bt}$, $e^{Ct}$ を計算せよ. 
+  $e^{C(t+s)} = e^{Ct}e^{Cs}$ から三角函数の加法公式を導け.
+  \qed
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $A$ は複素 $m$ 次正方行列であり, $B$ は複素 $n$ 次正方行列であるとし, %
+  $m+n$ 次正方行列 $X$ を %
+  \(
+    X =
+    \begin{bmatrix}
+      A & 0 \\
+      0 & B \\
+    \end{bmatrix}
+  \)
+  と定める. このとき, %
+  \(
+    e^X =
+    \begin{bmatrix}
+      e^A & 0 \\
+      0 & e^B \\
+    \end{bmatrix}.
+    \qed
+  \)
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:exp-Jordan}
+  複素数 $\alpha$ に対して $k$ 次正方行列 $J = J(k,\alpha)$ を次のように定め
+  る:
+  \begin{equation*}
+    J = J(k,\alpha) = 
+    \begin{bmatrix}
+    \alpha   & 1      &        & \bigzerou \\
+             & \alpha & \ddots &   \\
+             &        & \ddots & 1 \\
+    \bigzerol &     &        & \alpha
+    \end{bmatrix}
+    \quad (\text{$k$ 次正方行列}).
+  \end{equation*}
+  この形の行列を {\bf Jordan ブロック}と呼ぶ.
+  $e^{Jt}$ を計算せよ. \qed
+\end{question}
+
+\noindent
+ヒント: 対角成分の一つ右上に $1$ が並び他の成分が $0$ の $n$ 次
+正方行列を $N$ と書くと, $J = \alpha E + N$ である. 
+$\alpha E$ と $N$ は互いに可換なので, \qref{q:exp(A+B)} より,
+\begin{equation*}
+  e^{Jt} = e^{\alpha t E} e^{tN} = e^{\alpha t} e^{tN}.
+\end{equation*}
+よって, $e^{tN}$ を計算すれば良い.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{定数係数線形常微分方程式と定数係数線形差分方程式への応用}
+\label{sec:sec-exp-app}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bigskip
+
+函数 $f$ に対して, 
+\begin{equation*}
+  a_n(x)f^{(n)}+a_{n-1}(x)f^{(n-1)}+\cdots+a_2(x)f''+a_1(x)f'+a_0(x)f
+\end{equation*}
+を対応させる微分作用素を
+\begin{equation*}
+  a_n(x)\partial^n+\cdots+a_2(x)\partial^2+a_1(x)\partial+a_0(x)
+\end{equation*}
+と書くことにする. 例えば, 
+\begin{align*}
+  & \partial f = df/dx = f', \\
+  & (\partial^2 + a(x)) f = f'' + a(x)f, \\
+  & (\partial + a(x))(\partial + b(x))f = (\partial + a(x))(f'+b(x)f) \\
+  & \quad
+    = f'' +(b(x)f)' + a(x)(f'+b(x)f) 
+    = f'' + (a(x)+b(x))f' + (b'(x) + a(x)b(x)) f.
+\end{align*}
+
+\begin{question}
+  次の線形常微分方程式の解空間を求めよ:
+  \begin{equation*}
+    (\partial - \alpha_1)^{k_1} \cdots (\partial - \alpha_m)^{k_m} u = 0.
+  \end{equation*}
+  ここで, $\alpha_1,\ldots,\alpha_m$ は互いに異なる複素数であり, 
+  $k_1,\ldots,k_m$ は正の整数であるとする.
+  \qed
+\end{question}
+
+\noindent ヒント: 公式 %
+\( %
+  \partial (e^{\alpha x} f) = e^{\alpha x} (\partial + \alpha) f
+\) %
+より,
+\( %
+  (\partial - \alpha)^k(e^{\alpha x} f)
+  = e^{\alpha x} \partial^k f
+\) %
+が成立することがわかる. これより, 線形常微分方程式
+\begin{equation*}
+  (\partial - \alpha)^k u = 0
+  \tag{$*$}
+\end{equation*}
+の任意の解は
+\begin{equation*}
+  u = (a_0 + a_1 x + \cdots + a_{k-1} x^{k-1}) e^{\alpha x},
+  \qquad
+  \text{$a_i$ は定数}
+\end{equation*}
+と表わされることがわかる. なお, 上の問題を解くために, 
+問題の方程式の解の全体が自然に $(k_1 + \cdots + k_m)$ 次元のベクトル空間をな
+すという結果を用いて良い. 
+\qed
+
+\medskip
+\noindent
+参考: $v_0,v_1,\ldots,v_{k-1}$ を
+\( %
+  v_j = (\partial - \alpha)^j u
+  \quad
+  (j=0,1,\ldots,k-1)
+\) %
+と定め, 
+\begin{equation*}
+  v =
+  \begin{bmatrix}
+    v_0 \\ \vdots \\ v_{k-1}
+  \end{bmatrix},
+  \quad
+  J =
+  \begin{bmatrix}
+    \alpha   & 1      &        & \bigzerou \\
+             & \alpha & \ddots &   \\
+             &        & \ddots & 1 \\
+    \bigzerol &     &        & \alpha
+  \end{bmatrix}
+  \quad (\text{$k$ 次正方行列})
+\end{equation*}
+と置くと, 方程式 ($*$) は方程式 $\partial v = J v$ に変換される.
+$J$ が Jordan ブロックの形になっていることに注意せよ.
+線形常微分方程式 $\partial v = J v$ の一般解は
+\begin{equation*}
+  v = e^{Jx}v_0, \qquad \text{$v_0$ は定数ベクトル}
+\end{equation*}
+と書ける.  この結果に問題 \qref{q:exp-Jordan} を適用しても上のヒントの結論が
+得られる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bigskip
+
+整数 $x\in\Z$ の函数 $f(x)$ に対して, 整数 $x$ の函数
+\begin{equation*}
+  x\mapsto
+  a_n(x)f(x+n)+a_{n-1}(x)f(x+n-1)+\cdots+a_1(x)f(x+1)+a_0(x)f(x)
+\end{equation*}
+を対応させる差分作用素を
+\begin{equation*}
+  a_n(x)\sigma^n+a_{n-1}(x)\sigma^{n-1}
+  +\cdots+a_2(x)\sigma^2+a_1(x)\sigma+a_0(x)
+\end{equation*}
+と書くことにする. 例えば, 
+\begin{align*}
+  & \sigma f(x) = f(x+1), \\
+  & (\sigma^2 + a(x))f(x) = f(x+1) + a(x)f(x), \\
+  & (\sigma + a(x))(\sigma + b(x))f(x) = (\sigma + a(x))(f(x+1)+b(x)f(x)) \\
+  & \quad
+    = f(x+2) + b(x+1)f(x+1) + a(x)(f(x+1)+b(x)f(x)) \\
+  & \quad
+    = f(x+2) + (a(x)+b(x+1))f(x+1) + (b(x+1) + a(x)b(x))f(x).
+\end{align*}
+
+\begin{question}
+  次の線形差分方程式の解空間を求めよ:
+  \begin{equation*}
+    (\sigma - \alpha_1)^{k_1} \cdots (\sigma - \alpha_m)^{k_m} u = 0.
+  \end{equation*}
+  ここで, $\alpha_1,\ldots,\alpha_m$ は $0$ でない互いに異なる複素数で
+  あり, $k_1,\ldots,k_m$ は正の整数であるとする.
+  \qed
+\end{question}
+
+\noindent ヒント: 公式 %
+\( %
+  (\sigma-\alpha)(\alpha^x f(x)) = \alpha^{x+1}(\sigma-1)f(x)
+\) %
+より,
+\( %
+  (\sigma - \alpha)^k(\alpha^xf(x))
+  = \alpha^{x+k}(\sigma-1)^k f(x)
+\) %
+が成立することがわかる. これより, $\alpha\ne0$ のとき線形差分方程式
+\begin{equation*}
+  (\sigma - \alpha)^k u = 0
+  \tag{$*$}
+\end{equation*}
+の任意の解は
+\begin{equation*}
+  u(x) = (a_0 + a_1 x + a_2 x^{[2]}+\cdots + a_{k-1} x^{[k-1]}) \alpha^x,
+  \qquad
+  \text{$a_i$ は定数}
+\end{equation*}
+と表わされることがわかる. ここで,
+\begin{equation*}
+  x^{[i]} = x(x-1)\cdots(x-i+1)
+\end{equation*}
+である. $x^{[i]}$ は $(\sigma - 1)x^{[i]}=ix^{[i-1]}$ を満たしている.
+\qed
+
+\medskip
+\noindent
+参考: $v_0,v_1,\ldots,v_{k-1}$ を
+\( %
+  v_j = (\sigma - \alpha)^j u
+  \quad
+  (j=0,1,\ldots,k-1)
+\) %
+と定め, 
+\begin{equation*}
+  v =
+  \begin{bmatrix}
+    v_0 \\ \vdots \\ v_{k-1}
+  \end{bmatrix},
+  \quad
+  J =
+  \begin{bmatrix}
+    \alpha   & 1      &        & \bigzerou \\
+             & \alpha & \ddots &   \\
+             &        & \ddots & 1 \\
+    \bigzerol &     &        & \alpha
+  \end{bmatrix}
+  \quad (\text{$k$ 次正方行列})
+\end{equation*}
+と置くと, 方程式 ($*$) は方程式 $\sigma v = J v$ に変換される.
+$J$ が Jordan ブロックの形になっていることに注意せよ.
+線形差分方程式 $\sigma v = J v$ の一般解は次のようになる:
+\begin{equation*}
+  v = J^x v_0, \qquad \text{$v_0$ は定数ベクトル}
+\end{equation*}
+と書ける.  この結果を用いて上のヒントの結論を導くこともできる. 
+
+対角成分の一つ右上に $1$ が並び他の成分が $0$ の $n$ 次
+正方行列を $N$ と書くと, $J = \alpha E + N$ である. 
+$\alpha E$ と $N$ は互いに可換なので, 
+$x$ が $0$ 以上の整数のとき二項定理が適用できる. $N^k=0$ であるから,
+\begin{equation*}
+  J^x 
+  = (\alpha E + N)^x 
+  = \sum_{i=0}^{k-1} \binom{x}{i} \alpha^{x-i}N^i.
+\end{equation*}
+ここで,
+\begin{equation*}
+  \binom{x}{i} = \frac{x(x-1)\cdots(x-i+1)}{i!} = \frac{x^{[i]}}{i!}.
+\end{equation*}
+これは $x$ が負の整数であっても定義されていることに注意せよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  整数 $x$ の函数 $u$ に関する次の線形差分方程式の解空間を求めよ:
+  \begin{equation*}
+    u(x+2) - 5 u(x+1) + 6 u(x) = 0.
+  \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: この問題の方程式は $(\sigma-2)(\sigma-3)u = 0$ と書き直せる. 
+よって, 解は $u(x) =  a 2^x + b 3^x$ の形をしている.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  整数 $x$ の函数 $u$ に関する次の線形差分方程式の解空間を求めよ:
+  \begin{equation*}
+    u(x+2) - 4 u(x+1) + 4 u(x) = 0.
+  \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: この問題の方程式は $(\sigma-2)^2 u = 0$ と書き直せる. よって,
+解は $u(x) =  2^x(a + bx)$ の形をしている.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{$2$ 次正方行列}
+\label{sec:2x2}
+
+この節では, $2$ 次正方行列の行列式, 固有値, 固有ベクトル, ジョルダン標準形
+(Jordan normal form) などを扱う. 
+一般の $n$ 次正方行列の理論をやる前に, $n=2$ の場合をやっておくことはイメー
+ジをつかむために役に立つ.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{線形代数の復習}
+
+複素 $n$ 次正方行列 $A$ と複素数 $\alpha$ に
+対して, $0$ でない縦ベクトル $u$ で
+\begin{equation*}
+  A u = \alpha u
+\end{equation*}
+を満たすものが存在するとき,  $\alpha$ を $A$ の{\bf 固有値 (eigen value)}と
+呼び, $u$ を $A$ の{\bf 固有ベクトル (eigen vector)}と呼ぶ.
+行列 $A$ を与えてその固有値と固有ベクトルをすべて求める問題を固有値問題と呼ぶ.
+固有値 $\alpha$ に対して,
+\begin{equation*}
+  \Ker(A - \alpha E)
+  = \{\, u\in\C^n \mid Au = \alpha u \,\}
+\end{equation*}
+を $\alpha$ に対応する{\bf 固有空間 (eigen space)}と呼ぶ.
+
+複素 $n$ 次正方行列 $A$ と複素数 $\alpha$ に $0$ でない縦ベクトル $u$ が
+ある $k=1,2,3,\ldots$ に関して
+\begin{equation*}
+  (A - \alpha E)^k u = 0
+\end{equation*}
+を満たしているとき, $u$ を $A$ の{\bf 一般固有ベクトル}と呼ぶ.
+$(A - \alpha E)^k u = 0$ となる最小の $k$ を取るとき,
+$k=1$ ならば $u$ は固有ベクトルになり,
+$k>1$ の場合には $v = (A - \alpha E)^{k-1}u$ と置けば $v$ は固有値 $\alpha$ 
+に対する固有ベクトルになる.  よって $\alpha$ は $A$ の固有値になる. 
+行列 $A$ を与えてその固有値と一般固有ベクトルをすべて求める問題を
+一般固有値問題と呼ぶ.  固有値 $\alpha$ に対して, 
+\begin{equation*}
+  W(A,\alpha) 
+  = \{\, u\in\C^n \mid (A - \alpha E)^k u = 0 \ (\exists k = 1,2,3,\ldots)\,\}
+\end{equation*}
+を $\alpha$ に対応する{\bf 一般固有空間 (generalized eigen space)}と呼ぶ.
+
+複素 $n$ 次正方行列 $A$ に対して, 
+その{\bf トレース (trace)}, {\bf 行列式 (determinant)} を
+それぞれ $\trace A$, $\det A = |A|$ と書くことにし, 
+$A$ の{\bf 特性多項式 (characteristic polynomial)} $p_A(\lambda)$ を
+次のように定める:
+\begin{equation*}
+  p_A(\lambda) = \det(\lambda E - A).
+\end{equation*}
+ここで, $E$ は $n$ 次単位行列である. 
+このとき $\lambda$ に関する $n$ 次方程式 $p_A(\lambda)=0$ を $A$ の
+{\bf 特性方程式 (characteristic equation)} と呼ぶ. 
+%たとえば $2$ 次正方行列
+%\begin{equation*}
+%  A = 
+%  \begin{bmatrix}
+%    a & b \\
+%    c & d \\
+%  \end{bmatrix}
+%\end{equation*}
+%に対して,
+%\begin{equation*}
+%  \trace A = a + d,
+%  \qquad
+%  \det A = |A| = ad - bc.
+%\end{equation*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:char-poly-2.1}
+  複素 $2$ 次正方行列 $A$ の特性多項式 $p_A(\lambda)$ について以下が成立する
+  ことを直接的な計算によって証明せよ: 
+  \begin{enumerate}
+  \item[(1)] \( p_A(\lambda) = \lambda^2 - \trace(A)\lambda + \det(A) \).
+  \item[(2)] \( p_A(A) = 0 \) \quad ($2$ 次正方行列の Cayley-Hamilton の定理).
+  \qed
+  \end{enumerate}
+\end{question}
+
+\noindent 
+参考: この結果は受験数学の勉強でおなじみであろう.
+忘れた人は復習して欲しい.  また, Cayley-Hamilton の定理も全く同じ形で成
+立する. 以下の問題の結論のほとんどが一般の $n$ 次正方行列に対して適切に
+一般化される. なお, Cayley-Hamilton の定理の証明として,
+\begin{equation*}
+ p_A(A) = \det(AE - A) = \det(A - A) = \det 0 = 0
+\end{equation*}
+は{\bf 誤り}である. 
+
+どこがまずいかを理解するためには記号に騙されないようにしなければいけない.
+$p_A(A)$ は行列である.  $AE - A$ も行列である.  
+しかし $\det(AE-A)$ は数である.  
+$p_A(A)=\det(AE-A)$ という計算は左辺が行列で右辺が数なのでナンセンスである.
+
+しかし, 実は上のナンセンスな計算にかなり近い考え方で 
+Cayley-Hamilton の定理を証明することができる
+(佐武 \cite{satake} 137頁, 杉浦 \cite{sugiura} 65--66頁).
+\secref{sec:Cayley-Hamilton} の前半でその方法を紹介する.
+
+ついでに述べておけば, 「$\det 0$」の $0$ は行列のゼロであるが, 
+その次の「$= 0$」の $0$ は数のゼロである.
+この2つの「$0$」は同じ記号で書かれているが意味が違うことに注意しなければいけ
+ない.  この演習ではベクトルのゼロも単に「$0$」と書く.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  2つの縦ベクトル %
+  $u=\tp{[a\ c]}$, $v=\tp{[b\ d]}$ に対して%
+  \footnote{$\tp{[\ ]}$ は転置を意味している.}, 2次正方行列 $A$ を
+  \begin{equation*}
+    A := [u\ v] = \begin{bmatrix} a & b \\ c & d \end{bmatrix}
+  \end{equation*}
+  と定める. このとき, 以下の条件は互いに同値であることを直接証明せよ:
+  \begin{enumerate}
+  \item[(a)] $A$ の逆行列が存在する.
+  \item[(b)] $\det(A) \ne 0$.
+  \item[(c)] 任意の $\xi,\eta\in\C$ に対して, %
+    $\xi u + \eta v = 0$ ならば $\xi = \eta = 0$.
+  \qed
+  \end{enumerate}
+\end{question}
+
+\noindent 
+解説: このように $u$ と $v$ が一次独立であるという条件 (c) と
+条件 (a), (b) は同値なのである. もちろん, 同様の結果が $n$ 次正方行列に対し
+ても成立する. 一般の場合を証明するには線形代数の一般論を展開することが自然で
+あるが, $n=2$ の特殊な場合は直接計算のみで証明することも易しいので, 
+一度は経験しておくべきである.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:det-nxn}
+  $A$ は $n$ 次正方行列であるとする. このとき以下の条件は互いに同値である:
+  \begin{enumerate}
+  \item[(a)] $A$ の逆行列が存在する.
+  \item[(b)] $\det A \ne 0$.
+  \item[(c)] $A$ の $n$ 本の列ベクトルは一次独立である.
+  \item[(d)] $A$ の $n$ 本の行ベクトルは一次独立である.
+  \item[(e)] 任意のゼロでない縦ベクトル $u$ に対して $Au\ne0$.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent 
+ヒント: 線形代数の任意の教科書を参照せよ. なお, 
+この問題の結論はその証明を復習した後では証明抜きで自由に用いて良い.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $A$ は複素 $n$ 次正方行列であり, $p_A(\lambda)$ はその特性多項式であるとす
+  る.  このとき, 複素数 $\alpha$ が $A$ の固有値であるための必要十分条件
+  は $p_A(\alpha)=0$ が成立することである. 
+  \qed
+\end{question}
+
+\noindent 
+ヒント: 問題 \qref{q:det-nxn} を $A - \alpha E$ に適用せよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  任意の $a,b,c\in\C$ に対して, $a\ne0$ならば, 
+  ある $\alpha,\beta\in\C$ で次を満たすものが存在することを厳密に証明せよ:
+  \begin{equation*}
+    a \lambda^2 + b \lambda + c 
+    = a(\lambda - \alpha)(\lambda - \beta).
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent 
+参考: これは $2$ 方程式に関する結果だが, 
+同様のことが任意の複素係数 $n$ 次代数方程式に対して成立する(代数学の基本定理). 
+これ以後この演習では代数学の基本定理を証明抜きで自由に用いて良いことにする. 
+(代数学の基本定理には様々な証明の仕方がある. おそらく複素函数論の授業で証明
+の仕方の一つを習うことになるだろう.)
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{2次正方行列の Jordan 標準形と指数函数の計算の仕方}
+\label{sec:2x2-Jordan}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-2.1}
+  複素 $2$ 次正方行列 $A$ の特性方程式 $p_A(\lambda)=0$ の解
+  を $\alpha$, $\beta$ と書くことにする. 
+  $\alpha \ne \beta$ であるとき, 以下が成立する:
+  \begin{enumerate}
+  \item[(1)] $A \ne \alpha E$ かつ $A \ne \beta E$.
+  \item[(2)] 行列 $A - \beta E$ の $0$ でない列ベクトルの1つを $u$ と書き%
+    \footnote{行列 $X=\begin{bmatrix}a&b\\c&d\end{bmatrix}$ に対して, 
+      ベクトル $\begin{bmatrix}a\\c\end{bmatrix}$,
+      $\begin{bmatrix}b\\d\end{bmatrix}$ を $X$ の列ベクトルと呼ぶ.
+      $X \ne 0$ ならば列ベクトルの少なくともいずれか片方は $0$ ではない.}, %
+    行列 $A - \alpha E$ の $0$ でない列ベクトルの1つを $v$ と書くことにする. 
+    このとき次が成立する:
+    \begin{equation*}
+      Au = \alpha u,  \qquad  Av = \beta v.
+    \end{equation*}
+    (ヒント: $Au=\alpha u$ と $(A-\alpha E)u=$ は同値である.
+    この考え方は今後自由に使われる. 
+    Cayley-Hamilton の定理より $(A-\alpha E)(A-\beta E)=0$ であるが, 
+    その等式を $A-\alpha E$ が $A-\beta E$ の2本の列ベクトルに作用する式とみ
+    なしてみよ.  この考え方も今後頻繁に用いられる.)
+  \item[(3)] $2$ 次正方行列 $P$ を $P := [u\ v]$ と定めると%
+    \footnote{縦ベクトル $u=\begin{bmatrix}a\\c\end{bmatrix}$, 
+      $v=\begin{bmatrix}b\\d\end{bmatrix}$ に対して, 
+      $[u\ v] = \begin{bmatrix}a&b\\c&d\end{bmatrix}$ であると考えよ.}, %
+    $P$ は逆行列を持つ. 
+  \item[(4)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P = \begin{bmatrix}\alpha & 0\\0 & \beta\end{bmatrix}.
+    \end{equation*}
+  \item[(5)] 任意の $k=1,2,3,\ldots$ に対して,
+    \begin{equation*}
+      A^k = P \begin{bmatrix}\alpha^k & 0\\0 & \beta^k\end{bmatrix} P^{-1}.
+    \end{equation*}
+  \item[(6)] 任意の $t\in\C$ に対して,
+    \begin{equation*}
+      e^{At} =
+      P
+      \begin{bmatrix}
+        e^{\alpha t} & 0 \\
+        0 & e^{\alpha t} \\
+      \end{bmatrix}
+      P^{-1}.
+    \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-2.2}
+  2次正方行列 $A$ の特性方程式 $p_A(\lambda)=0$ が
+  重解 $\alpha$ を持ち,  $A \ne \alpha E$ であると仮定する.
+  このとき, 以下が成立する:
+  \begin{enumerate}
+  \item[(1)] 行列 $A - \alpha E$ の $0$ でない列ベクトルの1つを $u$ と書くこと
+    にする. このとき, $Au = \alpha u$ が成立する. 
+    (ヒント: $(A-\alpha E)(A-\alpha E)=0$.)
+  \item[(2)] ある縦ベクトル $v$ で $(A - \alpha E)v=u$ を満たすものが存在する.
+    (ヒント: $u$ が $A - \alpha E$ の
+    左側の列ベクトルならば $v=\tp{[1\ 0]}$ とし, 
+    右側の列ベクトルならば $v=\tp{[0\ 1]}$ とすれば良い.)
+  \item[(3)] $P := [u\ v]$ と置くと $P$ は逆行列を持つ.
+    (ヒント: $u$ と $v$ の一次結合に $A - \alpha E$ を作用させてみよ.)
+  \item[(4)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P = \begin{bmatrix}\alpha & 1\\0 & \alpha\end{bmatrix}.
+    \end{equation*}
+  \item[(5)] 任意の $k=1,2,3,\ldots$ に対して,
+    \begin{equation*}
+      A^k = 
+      P
+      \begin{bmatrix} \alpha^k & k\alpha^{k-1} \\ 0 & \alpha^k \end{bmatrix}
+      P^{-1}. 
+    \end{equation*}
+  \item[(6)] 任意の $t\in\C$ に対して,
+    \begin{equation*}
+      e^{At} =
+      P
+      \begin{bmatrix}
+        e^{\alpha t} & t e^{\alpha t} \\
+        0            &   e^{\alpha t} \\
+      \end{bmatrix}
+      P^{-1}.
+    \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+以上によって, 複素 $2$ 次正方行列 $A$ に対して, 正則行列 $P$ をうまくとって,
+$P^{-1}AP$ を次のどちらかの形にできることがわかった:
+\begin{equation*}
+  \begin{bmatrix} \alpha & 0 \\ 0 & \beta \\ \end{bmatrix},
+  \qquad
+  \begin{bmatrix} \alpha & 1 \\ 0 & \alpha \\ \end{bmatrix}.
+\end{equation*}
+この結果は任意の複素 $n$ 次正方行列 (より一般には代数閉体上の $n$ 次正方行列) 
+に拡張される (Jordan標準型の理論).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{2次正方行列の Jordan 標準形の計算と応用}
+\label{sec:2x2-calc-app}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:[0,4;-1,4]]}
+  行列 %
+  \(
+    A =
+    \begin{bmatrix}
+       0 & 4 \\
+      -1 & 4 \\
+    \end{bmatrix}
+  \) の固有値と固有ベクトルをすべて求めよ. \qed
+\end{question}
+
+\commentout{
+\noindent
+略解: $p_A(\lambda)=(\lambda-2)^2$ かつ $A\ne 2E$. 
+よって固有値は $2$ だけ. 固有ベクトルとして $A - 2E$ の列ベクトルが取れる.
+\qed
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:k-jou}
+  以下の行列の $k$ 乗を求めよ ($k=1,2,3,\ldots$):
+  \begin{equation*}
+    \text{(1)}\quad
+    \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix},
+    \qquad
+    \text{(2)}\quad
+    \begin{bmatrix} 1 & 3 \\ 1 & -1 \end{bmatrix},
+    \qquad
+    \text{(3)}\quad
+    \begin{bmatrix} 1 & - 1 \\ 1 & 3 \end{bmatrix},
+    \qquad
+    \text{(4)}\quad
+    \begin{bmatrix} 5 & 1 \\ -1 & 3 \end{bmatrix}.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent 
+ヒント: 問題 \qref{q:char-poly-2.1}, \qref{q:normal-form-2.1}, 
+\qref{q:normal-form-2.2} の結果を使うことを考えよ.
+\qed
+
+\commentout{
+\medskip
+\noindent
+略解:
+\begin{enumerate}
+\item[(1)] 
+  \( %
+    \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}^2
+    = 5 \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
+  \) %
+  より, %
+  \( %
+    \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}^k
+    = 5^{k-1} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
+  \). %
+\item[(2)] 
+  \( %
+    \begin{bmatrix} 1 & 3 \\ 1 & -1 \end{bmatrix}^2 = 4E
+  \) %
+  を用いて $k$ の偶奇で場合分けするか, 問題 \qref{q:normal-form-2.1} の
+  結果を用いて,
+  {\small
+  \begin{equation*}
+      \begin{bmatrix} 1 & 3 \\ 1 & -1 \end{bmatrix}^k
+    = \begin{bmatrix} 3 & -1 \\ 1 & 1 \end{bmatrix}
+      \begin{bmatrix} 2^k & 0 \\ 0 & (-2)^k \end{bmatrix}
+      \frac{1}{4}
+      \begin{bmatrix} 1 & 1 \\ -1 & 3 \end{bmatrix}
+    = \frac{1}{4}
+      \begin{bmatrix}
+        3\cdot 2^k + (-2)^k & 3\cdot 2^k - 3\cdot(-2)^k \\
+               2^k - (-2)^k &        2^k + 3\cdot(-2)^k
+      \end{bmatrix}.
+  \end{equation*}
+  }
+\item[(3)] 問題 \qref{q:normal-form-2.2} の結果を用いて,
+  \begin{equation*}
+      \begin{bmatrix} 1 & -1 \\ 1 & 3 \end{bmatrix}^k
+    = \begin{bmatrix} -1 & 1 \\ 1 & 0 \end{bmatrix}
+      \begin{bmatrix} 2^k & k\cdot 2^{k-1} \\ 0 & 2^k \end{bmatrix}
+      \begin{bmatrix} 0 & 1 \\ 1 & 1 \end{bmatrix}
+    = \begin{bmatrix}
+        2^k - k\cdot 2^{k-1} & -k\cdot 2^{k-1} \\
+        k\cdot 2^{k-1}       & 2^k + k\cdot 2^{k-1}
+      \end{bmatrix}.
+  \end{equation*}
+\item[(4)] 問題 \qref{q:normal-form-2.2} の結果を用いて,
+  \begin{equation*}
+      \begin{bmatrix} 5 & 1 \\ -1 & 3 \end{bmatrix}^k
+    = \begin{bmatrix} 1 & 0 \\ -1 & 1 \end{bmatrix}
+      \begin{bmatrix} 4^k & k\cdot 4^{k-1} \\ 0 & 4^k \end{bmatrix}
+      \begin{bmatrix} 1 & 0 \\ 1 & 1 \end{bmatrix}
+    = \begin{bmatrix}
+        4^k + k\cdot 4^{k-1} & k\cdot 4^{k-1} \\
+        - k\cdot 4^{k-1}     & 4^k - k\cdot 4^{k-1}
+      \end{bmatrix}.
+  \end{equation*}
+\end{enumerate}
+以上の式が実際に正しいことを $k=1,2,3$ の場合に確かめてみよ.
+\qed
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:shokichimondaiwotoke}
+  次の微分方程式の初期値問題を解け:
+  \begin{alignat*}{3}
+    \ddot x & = - 2 x +   y, &
+    x(0) & = - 1, &
+    \dot x(0) & = 1, 
+    \\
+    \ddot y & =     x - 2 y, &
+    \qquad y(0) & = 1, &
+    \qquad \dot y(0) & = 1.
+  \end{alignat*}
+  ここで, $\dot x$, $\ddot x$, etc は $t$ による導函数 $dx/dt$,
+  $d^2x/dt^2$, etc を表わしているものとする.  \qed
+\end{question}
+
+\noindent
+ヒント: 縦ベクトル値函数 $u$ を % 
+$u=\tp{[x\ y]}$ と定め, 行列 $A$ を %
+$A=\begin{bmatrix}-2&1\\1&-2\end{bmatrix}$ と定め, 縦ベクトル $u_0$, $u_1$ 
+を $u_0=\tp{[-1\ 1]}$, $u_1=\tp{[1\ 1]}$ と定めると, 
+問題の方程式は次のように書き直される:
+\begin{equation*}
+  \ddot u = Au, \qquad u(0)=u_0, \qquad \dot u(0)=u_1.
+\end{equation*}
+このとき, 可逆行列 $P$ を用いて, $u=Pv$ と置くと, この方程式は次のように変
+形される:
+\begin{equation*}
+  \ddot v = P^{-1}APv, \qquad v(0)=P^{-1}u_0, \qquad \dot v(0)=P^{-1}u_1.
+\end{equation*}
+問題 \qref{q:normal-form-2.1} の方法を使うと, 適当な $P$ を見付けて %
+$P^{-1}AP$ を実対角行列にできることがわかる. (実は, $P$ として直交行列がと
+れることもわかる.) その対角成分は負であるので, 問題は次の形の微分方程式を解
+くことに帰着されることがわかる:
+\begin{equation*}
+  \ddot z = - \alpha^2 z, \qquad z(0)=a, \qquad \dot z(0)= \alpha b
+  \qquad (\alpha > 0).
+\end{equation*}
+この方程式の解は
+\( %
+  z = a \cos \alpha t + b \sin \alpha t
+\) %
+である.
+\qed
+
+\commentout{
+\medskip
+\noindent
+略解: 
+\( \displaystyle %
+  P = \frac{1}{\sqrt{2}}
+  \begin{bmatrix}
+    1 & -1 \\
+    1 & 1 
+  \end{bmatrix}
+\) %
+と置くと, $P$ は直交行列(すなわち $P^{-1}=\tp{P}$)でかつ,
+\( %
+  P^{-1}AP =
+  \begin{bmatrix}
+    -1 &  0 \\
+     0 & -3 
+  \end{bmatrix}
+\). %
+よって,
+\( %
+  \begin{bmatrix} x \\ y \end{bmatrix} 
+  = P \begin{bmatrix} X \\ Y \end{bmatrix} 
+\) %
+と置くと, 問題の方程式は次の方程式に変換される:
+\begin{align*}
+  & \ddot X = - X, \qquad X(0) = 0, \qquad \dot X(0) = \sqrt{2},
+  \\
+  & \ddot Y = - Y, \qquad Y(0) = \sqrt{2}, \qquad \dot Y(0) = 0.
+\end{align*}
+これを解くと,
+\begin{equation*}
+  X = \sqrt{2} \sin t, \qquad Y = \sqrt{2} \cos \sqrt{3} t.
+\end{equation*}
+よって, $x$, $y$ は
+\begin{equation*}
+  x = \sin t - \cos\sqrt{3}t, 
+  \qquad
+  y = \sin t + \cos\sqrt{3}t.
+\end{equation*}
+となる. 
+\qed
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{$3$ 次正方行列}
+\label{sec:3x3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{$3$ 次以上の正方行列の特性多項式}
+\label{sec:char-polyn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $A$ は $n$ 次正方行列であり, $\alpha$ はその固有値であり, 
+  $u$ は対応する固有ベクトルであるとする. 
+  このとき, 文字 $\lambda$ の任意の多項式 $f(\lambda)$ に
+  対して $f(A)u=f(\alpha)u$ が成立する. 
+  \qed
+\end{question}
+
+\noindent 
+ヒント: たとえば $f(\lambda)=\lambda^k$ のとき $f(A)u = A^k u = \alpha^k u$.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:char-poly-3.1}
+  複素 $3$ 次正方行列 $A=[a_{ij}]$ の特性多項式 $p_A(\lambda)$ に対して以下
+  が成立することを直接的な計算によって証明せよ: 
+  \begin{enumerate}
+  \item[(1)] 
+    $p_A(\lambda) = \lambda^3 - \trace(A)\lambda^2 + b\lambda - \det(A)$.
+    ここで,
+    \begin{align*}
+      &
+      \trace(A) = a_{11} + a_{22} + a_{33}, 
+      \\ &
+      b = 
+      \begin{vmatrix}
+        a_{11} & a_{12} \\
+        a_{21} & a_{22} \\
+      \end{vmatrix}
+      +
+      \begin{vmatrix}
+        a_{11} & a_{13} \\
+        a_{31} & a_{33} \\
+      \end{vmatrix}
+      +
+      \begin{vmatrix}
+        a_{22} & a_{23} \\
+        a_{32} & a_{33} \\
+      \end{vmatrix},
+      \\ &
+      \det(A) =
+        a_{11}a_{22}a_{33}
+      + a_{12}a_{23}a_{31}
+      + a_{13}a_{21}a_{32}
+      - a_{11}a_{23}a_{32}
+      - a_{13}a_{22}a_{31}
+      - a_{12}a_{21}a_{33}.
+    \end{align*}
+  \item[(2)] \( p_A(A) = 0 \) \quad ($3$ 次正方行列の Cayley-Hamilton の定理).
+  \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  複素 $n$ 次正方行列 $A=[a_{ij}]$ の特性多項式を
+  \begin{equation*}
+    p_A(\lambda) 
+    = \lambda^n - s_1 \lambda^{n-1} + s_2 \lambda^{t-2} + \cdots + (-1)^n s_n
+  \end{equation*}
+  と書くとき,
+  \begin{equation*}
+    s_k = \sum_{1\le i_1<\cdots<i_k\le n}
+    \begin{vmatrix}
+      a_{i_1i_1} & \cdots & a_{i_1i_k} \\
+      \vdots     &        & \vdots \\
+      a_{i_ki_1} & \cdots & a_{i_ki_k} \\
+    \end{vmatrix}.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent 
+解説: この問題の結論は上の問題 \qref{q:char-poly-3.1} (1) の一般化になってい
+る.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{$3$ 次正方行列の Jordan 標準形の求め方}
+\label{sec:3x3-Jordan}
+
+以下の問題 %
+$\text{\qref{q:normal-form-3.1}},\ldots,\text{\qref{q:normal-form-3.5}}$ を
+解く前に \qref{q:jordan-3x3-1} を先に解いて感じをつかんでおいた方が良いかも
+しれない. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-3.1}
+  複素 $3$ 次正方行列 $A$ が
+  互いに異なる3つの固有値 $\alpha$, $\beta$, $\gamma$ を持つとき, 
+  以下が成立する:
+  \begin{enumerate}
+  \item[(1)] 
+    $(A - \alpha E)(A - \beta E) \ne 0$ 
+    かつ $(A - \alpha E)(A - \gamma E) \ne 0$ 
+    かつ $(A - \beta E)(A - \gamma E) \ne 0$.
+    (ヒント: $\gamma$ に対応する固有ベクトルに $(A - \alpha E)(A - \beta E)$ 
+    を作用させると $0$ にならないことがわかる.)
+  \item[(2)] 
+    $(A - \beta E)(A - \gamma E)$ の $0$ でない列ベクトルの1つを $u$ と書き,
+    $(A - \alpha E)(A - \gamma E)$ の $0$ でない列ベクトルの1つを $v$ と書き,
+    $(A - \alpha E)(A - \beta E)$ の $0$ でない列ベクトルの1つを $w$ と書く
+    ことにする.  このとき次が成立する:
+    \begin{equation*}
+      Au = \alpha u,  \quad  Av = \beta v, \quad Aw = \gamma w.
+    \end{equation*}
+    (ヒント: $(A-\alpha E)(A-\beta E)(A-\gamma E)=0$)
+  \item[(3)] $3$ 次正方行列 $P$ を $P := [u\ v\ w]$ と定めると $P$ は逆行列
+    を持つ. 
+  \item[(4)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P 
+      = 
+      \begin{bmatrix}
+        \alpha & 0 & 0 \\
+        0 & \beta & 0 \\
+        0 & 0 & \gamma \\
+      \end{bmatrix}.
+      \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-3.2}
+  複素 $3$ 次正方行列 $A$ の特性多項式 $p_A(\lambda)$ は
+  \begin{equation*}
+    p_A(\lambda) = (\lambda - \alpha)^2 (\lambda - \gamma),
+    \qquad \alpha \ne \gamma
+  \end{equation*}
+  という形をしており,
+  \begin{equation*}
+    (A - \alpha E)(A - \gamma E)\ne 0
+  \end{equation*}
+  が成立していると仮定する.  このとき, 以下が成立する:
+  \begin{enumerate}
+  \item[(1)] $(A - \alpha E)^2 \ne 0$.
+    (ヒント: $\gamma$ に対応する固有ベクトルに $(A - \alpha E)^2$ 
+    を作用させると $0$ にならないことがわかる.)
+  \item[(2)] 
+    $(A - \alpha E)(A - \gamma E)$ の $0$ でない列ベクトルの1つを $u$ と書き,
+    $(A - \alpha E)^2$ の $0$ でない列ベクトルの1つを $w$ と書くことにする. 
+    このとき次が成立する:
+    \begin{equation*}
+      Au = \alpha u,  \qquad Aw = \gamma w.
+    \end{equation*}
+  \item[(3)] $A - \gamma E$ の $0$ でない列ベクトル $v$ 
+    で $u = (A - \alpha E)v$ を満たすものが存在する.
+  \item[(4)] $3$ 次正方行列 $P$ を $P := [u\ v\ w]$ と定めると $P$ は逆行列
+    を持つ. 
+  \item[(5)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P 
+      = 
+      \begin{bmatrix}
+        \alpha & 1 & 0 \\
+        0 & \alpha & 0 \\
+        0 & 0 & \gamma \\
+      \end{bmatrix}.
+      \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-3.3}
+  複素 $3$ 次正方行列 $A$ の特性多項式 $p_A(\lambda)$ は
+  \begin{equation*}
+    p_A(\lambda) = (\lambda - \alpha)^2 (\lambda - \gamma),
+    \qquad \alpha \ne \gamma
+  \end{equation*}
+  という形をしており,
+  \begin{equation*}
+    (A - \alpha E)(A - \gamma E) = 0
+  \end{equation*}
+  が成立していると仮定する.  このとき, 以下が成立する:
+  \begin{enumerate}
+  \item[(1)] $A - \alpha E$ の $0$ でない列ベクトル $w$ を取れる.
+  \item[(2)] $A - \gamma E$ の2つの列ベクトル $u$, $v$ で一次独立なものを取
+    れる.
+    (ヒント: もしもそうでないならば $\rank(A - \gamma E) = 1$ となる.
+    したがって $\gamma$ に対応する固有空間の次元
+    は $3-\rank(A - \gamma E)=2$ になる.  そのとき, 
+    特性多項式 $p_A(\lambda)$ は $(\lambda-\gamma)^2$ で割り切れる
+    ので最初の仮定に反する.)
+  \item[(3)] $3$ 次正方行列 $P$ を $P := [u\ v\ w]$ と定めると $P$ は逆行列
+    を持つ. 
+  \item[(4)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P 
+      = 
+      \begin{bmatrix}
+        \alpha & 0 & 0 \\
+        0 & \alpha & 0 \\
+        0 & 0 & \gamma \\
+      \end{bmatrix}.
+      \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-3.4}
+  複素 $3$ 次正方行列 $A$ の特性多項式 $p_A(\lambda)$ は
+  \begin{equation*}
+    p_A(\lambda) = (\lambda - \alpha)^3
+  \end{equation*}
+  という形をしており,
+  \begin{equation*}
+    (A - \alpha E)^2 \ne 0
+  \end{equation*}
+  が成立していると仮定する.  このとき, 以下が成立する:
+  \begin{enumerate}
+  \item[(1)] $(A - \alpha E)^2$ の $0$ でない列ベクトルの1つを $u$ とすると, 
+    ある縦ベクトル $w$ で $u = (A - \alpha E)^2 w$ を満たすものが
+    存在する.  $v = (A - \alpha E)w$ と置く.
+  \item[(2)] $3$ 次正方行列 $P$ を $P := [u\ v\ w]$ と定めると $P$ は逆行列
+    を持つ. 
+  \item[(3)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P 
+      = 
+      \begin{bmatrix}
+        \alpha & 1 & 0 \\
+        0 & \alpha & 1 \\
+        0 & 0 & \alpha \\
+      \end{bmatrix}.
+      \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}\label{q:normal-form-3.5}
+  複素 $3$ 次正方行列 $A$ の特性多項式 $p_A(\lambda)$ は
+  \begin{equation*}
+    p_A(\lambda) = (\lambda - \alpha)^3
+  \end{equation*}
+  という形をしており,
+  \begin{equation*}
+    A \ne \alpha E, \qquad (A - \alpha E)^2 = 0
+  \end{equation*}
+  が成立していると仮定する.  このとき, 以下が成立する:
+  \begin{enumerate}
+  \item[(1)] $A - \alpha E$ の $0$ でない列ベクトルの1つを $u$ とする.
+    ある縦ベクトル $v$ で $(A - \alpha E)v = u$ を満たすものが存在する.
+  \item[(2)] $u$ と一次独立な縦ベクトル $w$ で $Aw=\alpha w$ を満たすものが
+    存在する.  (ヒント: もしもそうでなければ $3 - \rank(A - \alpha) = 1$ で
+    ある.  しかし, $(A - \alpha E)^2 = 0$ より %
+    $2(3 - \rank(A - \alpha E)) \ge 3$ であるから, 矛盾する.)
+  \item[(3)] $3$ 次正方行列 $P$ を $P := [u\ v\ w]$ と定めると $P$ は逆行列
+    を持つ. 
+  \item[(4)] 次が成立する:
+    \begin{equation*}
+      P^{-1} A P 
+      = 
+      \begin{bmatrix}
+        \alpha & 1 & 0 \\
+        0 & \alpha & 0 \\
+        0 & 0 & \alpha \\
+      \end{bmatrix}.
+      \qed
+    \end{equation*}
+  \end{enumerate}
+\end{question}
+
+以上によって, 複素 $3$ 次正方行列 $A$ に対して, 正則行列 $P$ をうまくとって,
+$P^{-1}AP$ を次のどれかの形にできることがわかった:
+\begin{equation*}
+  \begin{bmatrix}
+    \alpha & 0 & 0 \\
+    0 & \beta  & 0 \\
+    0 & 0 & \gamma \\
+  \end{bmatrix},
+  \qquad
+  \begin{bmatrix}
+    \alpha & 1 & 0 \\
+    0 & \alpha & 0 \\
+    0 & 0 & \gamma \\
+  \end{bmatrix},
+  \qquad
+  \begin{bmatrix}
+    \alpha & 1 & 0 \\
+    0 & \alpha & 1 \\
+    0 & 0 & \alpha \\
+  \end{bmatrix}.
+\end{equation*}
+すなわち, 複素 $3$ 次正方行列は上の形の行列のどれかに相似である.  この形の行
+列を {\bf Jordan 標準形}と呼ぶ.
+
+この結果は任意の複素 $n$ 次正方行列 (より一般には代数閉体上の $n$ 次正方行列)
+に対して拡張される(Jordan標準型の理論).  以上の $n=3$ の場合でもまだわかり難
+いかもしれないが, 任意の複素 $n$ 次正方行列 $A$ は問題 \qref{q:exp-Jordan} 
+の $J = J(k,\alpha)$ の形の行列を対角線に並べた行列と相似になることを証明で
+きる.  $A$ と相似な $J$ の形の行列を対角線に並べた行列を $A$ の{\bf Jordan 
+標準形} と呼ぶ.  $J$ の形の行列を並べる順序だけが違う Jordan 標準形は同じも
+のだとみなす.  二つの複素 $n$ 次正方行列 (より一般には代数閉体上の二つの $n$ 
+次正方行列) が互いに相似であるための必要十分条件は同じ Jordan 標準形を持つこ
+とであることが講義の方で証明されることになる.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:jordan-3x3-1}
+  以下の行列の Jordan 標準形と標準形に相似変換する行列を求めよ:
+  \begin{equation*}
+    \text{(1)}\quad
+    A =
+    \begin{bmatrix}
+      -1 &  0 &  0 \\
+      -5 &  2 &  3 \\
+      -1 &  0 & -1 \\
+    \end{bmatrix},
+    \qquad
+    \text{(2)}\quad
+    B =
+    \begin{bmatrix}
+      3 & 0 & -1 \\
+      1 & 4 & -7 \\
+      0 & 1 & -1 \\
+    \end{bmatrix}.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: (1) $p_A(\lambda)=(\lambda+1)^2(\lambda-2)$ で
+かつ $(A+E)(A-2E)\ne 0$ なので問題 \qref{q:normal-form-3.2} を使えば良い. 
+(2) $p_B(\lambda)=(\lambda-2)^3$ でかつ $(A-2E)^2\ne0$ なので
+問題 \qref{q:normal-form-3.4} を使えば良い.
+
+\commentout{
+\medskip\noindent
+略解: 計算結果は次のようになる:
+\begin{align*}
+  &
+  \text{(1)} \quad
+  A = PJP^{-1},
+  \quad
+  P =
+  \begin{bmatrix}
+     0 &  1 &  0 \\
+     1 &  1 & -1 \\
+    -1 &  1 &  0 \\
+  \end{bmatrix},
+  \quad
+  J = 
+  \begin{bmatrix}
+    -1 &  1 &  0 \\
+     0 & -1 &  0 \\
+     0 &  0 &  2 \\
+  \end{bmatrix},
+  \\ &
+  \text{(2)} \quad
+  B = QKQ^{-1},
+  \quad
+  Q =
+  \begin{bmatrix}
+    1 & 1 & 1 \\
+    3 & 1 & 0 \\
+    1 & 0 & 0 \\
+  \end{bmatrix},
+  \quad
+  K = 
+  \begin{bmatrix}
+    2 & 1 & 0 \\
+    0 & 2 & 1 \\
+    0 & 0 & 2 \\
+  \end{bmatrix}.
+  \qed
+\end{align*}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{一般固有空間分解と Jordan 標準形}
+\label{sec:Jordan-nilpotent}
+
+この節では佐武 \cite{satake} の方針にしたがって Jordan 標準形の存在の証明の
+解説を演習問題の羅列によって行なうことにする%
+\footnote{Jordan 標準形の存在の証明には少なくとも3通りの方法がある. 
+
+  1つ目は行列の Jordan 分解 (互いに可換な半単純行列と巾零行列の和への分解)
+  と巾零行列の標準形の存在を直接証明するという方法である.  
+  この1つ目の方法は佐武 \cite{satake} 第IV章や杉浦 \cite{sugiura} 第1章など
+  で解説されている. 
+
+  2つ目は行列の有理標準形を経由する方法である.
+  有理標準形とは問題 \qref{q:minimal-polyn-10} で定義されている
+  コンパニオン行列 $C_1,\dots,C_t$ を対角線に並べた形に行列で
+  もとの行列と相似でかつ $p_{C_1}\mid\cdots\mid p_{C_t}$ を満たすもの
+  のことである.  もとの行列から四則演算のみを用いて有理標準形は計算される.
+  この2つ目の方法は韓・伊理 \cite{kan-iri} の第3.2節で解説されている.
+
+  3つ目は単因子論を使う方法である.  単因子論は本質的に1変数多項式環上の有限
+  生成加群の構造論に同値なので, この方法は環と加群の理論の応用であるとみなせ
+  る.  この3つ目の方法の解説は堀田 \cite{10wa} の第3章と第4章が良い.
+  堀田 \cite{gun-kagun} も参照せよ.
+
+  3つのどれも数学的に重要である.
+  しかし本質的に2つ目の方法と3つ目の方法は同類だとみなすことができる.
+  }.
+その方針は以下の通りである:
+\begin{enumerate}
+\item まず正方行列の Jordan 分解 (互いに可換な半単純行列と巾零行列の和への分
+  解) の存在を証明する.
+\item それと同時に一般固有分解が証明される.  
+  よって Jordan 標準形を求める問題は巾零行列の標準形を求める問題に帰着される.
+\item 巾零行列の標準形の存在を証明する.
+\item Jordan 標準形の一意性を証明する.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+次の計算問題が解けるようになることを第一の目標にせよ.  計算ができるようにな
+ったら Jordan 標準形の存在と一意性の証明の理解に挑戦せよ.
+
+\begin{question}
+\label{q:Jordan-normal-form-example}
+  以下の実正方行列 $A_i$ の Jordan 標準形 $J_i$ と $P_i^{-1}A_iP_i=J_i$ 
+  を満たす正則行列 $P_i$ の例と最小多項式 $\varphi_i(\lambda)$ を求めよ:
+  {\small
+  \begin{align*}
+    &
+    A_1 =
+    \begin{bmatrix}
+      -25 &   6 &  -7 &  21 \\
+        9 &  -2 &   2 &  -5 \\
+       21 &  -4 &   4 & -17 \\
+      -23 &   6 &  -7 &  19 \\
+    \end{bmatrix},
+    \quad
+    A_2 =
+    \begin{bmatrix}
+      -17 &  12 &   0 & -12 \\
+        0 &   7 &  -8 & -24 \\
+      -72 &  36 &  17 &   0 \\
+       24 & -10 &  -8 &  -7 \\
+    \end{bmatrix},
+    \quad
+    A_3 =
+    \begin{bmatrix}
+      12 &  -8 &  11 &   3 \\
+       9 &  -8 &   9 &   0 \\
+      -5 &   2 &  -4 &  -3 \\
+      -8 &   5 &  -8 &  -2 \\
+    \end{bmatrix},
+    \\[\medskipamount] &
+    A_4 =
+    \begin{bmatrix}
+       -4 &  -6 &   5 &   5 \\
+       -4 &   7 &  -9 & -11 \\
+      -24 &  -9 &   1 &  -3 \\
+       16 &  12 &  -7 &  -6 \\
+    \end{bmatrix},
+    \quad
+    A_5 =
+    \begin{bmatrix}
+      -5 &  8 & -6 &  4 \\
+      -3 &  5 & -5 &  4 \\
+      -2 &  4 & -5 &  4 \\
+      -1 &  2 & -2 &  1 \\
+    \end{bmatrix},
+    \quad
+    A_6 =
+    \begin{bmatrix}
+      -12 &   2 &  -3 &   9 \\
+       22 &  -5 &   6 & -18 \\
+       22 &  -4 &   5 & -18 \\
+      -11 &   2 &  -3 &   8 \\
+    \end{bmatrix}.
+  \end{align*}
+  }Jordan 標準形と最小多項式の定義についてはそれぞれ
+  \secref{sec:Jordan-normal-form}と\secref{sec:minimal-polynomial}を参照せよ. 
+  \qed
+\end{question}
+
+\noindent
+ヒント: 固有値がすべて整数になるように問題を作ってある. 
+がんばって計算しましょう. 
+\qed
+
+\commentout{
+\medskip
+\noindent
+略解: 以下のように $J_i$, $P_i$ を定めると $P_i^{-1}A_iP_i=J_i$ である:
+{\small
+\begin{alignat*}{3}
+  &
+  J_1 =
+  \begin{bmatrix}
+    -2 &  1 &  0 &  0 \\
+     0 & -2 &  1 &  0 \\
+     0 &  0 & -2 &  0 \\
+     0 &  0 &  0 &  2 \\
+  \end{bmatrix},
+  & \quad &
+  J_2 =
+  \begin{bmatrix}
+    -1 &  0 &  0 &  0 \\
+     0 & -1 &  0 &  0 \\
+     0 &  0 &  1 &  0 \\
+     0 &  0 &  0 &  1 \\
+  \end{bmatrix},
+  & \quad &
+  J_3 =
+  \begin{bmatrix}
+    -2 &  1 &  0 &  0 \\
+     0 & -2 &  0 &  0 \\
+     0 &  0 &  1 &  0 \\
+     0 &  0 &  0 &  1 \\
+  \end{bmatrix},
+  \\ &
+  P_1 =
+  \begin{bmatrix}
+     1 &  0 &  0 &  1 \\
+    -2 & -1 &  0 &  1 \\
+    -2 & -1 & -3 &  0 \\
+     1 &  0 & -1 &  1 \\
+  \end{bmatrix},
+  & \quad &
+  P_2 =
+  \begin{bmatrix}
+     3 &  0 &  4 &  2 \\
+     6 & -1 &  4 &  4 \\
+     0 &  2 &  9 &  0 \\
+     2 & -1 & -2 &  1 \\
+  \end{bmatrix},
+  & \quad &
+  P_3 =
+  \begin{bmatrix}
+     1 &  2 &  1 &  2 \\
+     0 &  3 &  1 &  1 \\
+    -1 &  0 &  0 & -1 \\
+    -1 & -1 & -1 & -1 \\
+  \end{bmatrix},
+\end{alignat*}
+\begin{alignat*}{3}
+  &
+  J_4 =
+  \begin{bmatrix}
+    -2 &  1 &  0 &  0 \\
+     0 & -2 &  0 &  0 \\
+     0 &  0 &  1 &  1 \\
+     0 &  0 &  0 &  1 \\
+  \end{bmatrix},
+  & \quad &
+  J_5 =
+  \begin{bmatrix}
+    -1 &  1 &  0 &  0 \\
+     0 & -1 &  0 &  0 \\
+     0 &  0 & -1 &  1 \\
+     0 &  0 &  0 & -1 \\
+  \end{bmatrix},
+  & \quad &
+  J_6 =
+  \begin{bmatrix}
+    -1 &  1 &  0 &  0 \\
+     0 & -1 &  0 &  0 \\
+     0 &  0 & -1 &  0 \\
+     0 &  0 &  0 & -1 \\
+  \end{bmatrix},
+  \\ &
+  P_4 =
+  \begin{bmatrix}
+    -1 &  0 & -2 & -1 \\
+     2 &  1 &  5 &  2 \\
+     0 &  2 &  3 &  0 \\
+     2 & -1 &  1 &  1 \\
+  \end{bmatrix},
+  & \quad &
+  P_5 =
+  \begin{bmatrix}
+    4 & 3 & 2 & 1 \\
+    3 & 3 & 2 & 1 \\
+    2 & 2 & 2 & 1 \\
+    1 & 1 & 1 & 1 \\
+  \end{bmatrix},
+  & \quad &
+  P_6 =
+  \begin{bmatrix}
+     1 &  0 &  1 &  1 \\
+    -2 & -1 &  1 &  1 \\
+    -2 & -1 & -3 &  0 \\
+     1 &  0 &  0 &  1 \\
+  \end{bmatrix}.
+\end{alignat*}
+}$A_i$ の最小多項式を $\varphi_i(\lambda)$ と書くと,
+{\small
+\begin{alignat*}{3}
+  &
+  \varphi_1(\lambda) = (\lambda+2)^3(\lambda-2),
+  & \quad &
+  \varphi_2(\lambda) = (\lambda+1)(\lambda-1),
+  & \quad &
+  \varphi_3(\lambda) = (\lambda+2)^2(\lambda-1),
+  \\ &
+  \varphi_4(\lambda) = (\lambda+2)^2(\lambda-1)^2,
+  & \quad &
+  \varphi_5(\lambda) = (\lambda+1)^2,
+  & \quad &
+  \varphi_6(\lambda) = (\lambda+1)^2,
+\end{alignat*}
+}$A_5$ と $A_6$ の最小多項式は等しいのに Jordan 標準形は異なることに注意せよ.
+そのようなことは3次行列では起こり得ない. 3次以下の行列では最小多項式だけで 
+Jordan 標準形がわかってしまう.
+\qed
+}
+
+% P_i^{-1} A_i P_i = J_i
+
+% A_1 =
+% 
+%   -25    6   -7   21
+%     9   -2    2   -5
+%    21   -4    4  -17
+%   -23    6   -7   19
+% 
+% J_1 =
+% 
+%   -2   1   0   0
+%    0  -2   1   0
+%    0   0  -2   0
+%    0   0   0   2
+% 
+% P_1 =
+% 
+%    1   0   0   1
+%   -2  -1   0   1
+%   -2  -1  -3   0
+%    1   0  -1   1
+
+% A_2 =
+% 
+%   -17   12    0  -12
+%     0    7   -8  -24
+%   -72   36   17    0
+%    24  -10   -8   -7
+% 
+% J_2 =
+% 
+%   -1   0   0   0
+%    0  -1   0   0
+%    0   0   1   0
+%    0   0   0   1
+% 
+% P_2 =
+% 
+%    3   0   4   2
+%    6  -1   4   4
+%    0   2   9   0
+%    2  -1  -2   1
+
+% A_3 =
+% 
+%    12   -8   11    3
+%     9   -8    9    0
+%    -5    2   -4   -3
+%    -8    5   -8   -2
+% 
+% J_3 =
+% 
+%   -2   1   0   0
+%    0  -2   0   0
+%    0   0   1   0
+%    0   0   0   1
+% 
+% P_3 =
+% 
+%    1   2   1   2
+%    0   3   1   1
+%   -1   0   0  -1
+%   -1  -1  -1  -1
+
+% A_4 =
+% 
+%    -4   -6    5    5
+%    -4    7   -9  -11
+%   -24   -9    1   -3
+%    16   12   -7   -6
+% 
+% J_4 =
+% 
+%   -2   1   0   0
+%    0  -2   0   0
+%    0   0   1   1
+%    0   0   0   1
+% 
+% P_4 =
+% 
+%   -1   0  -2  -1
+%    2   1   5   2
+%    0   2   3   0
+%    2  -1   1   1
+
+% A_5 =
+% 
+%   -5   8  -6   4
+%   -3   5  -5   4
+%   -2   4  -5   4
+%   -1   2  -2   1
+% 
+% J_5 =
+% 
+%   -1   1   0   0
+%    0  -1   0   0
+%    0   0  -1   1
+%    0   0   0  -1
+% 
+% P_5 =
+% 
+%   4  3  2  1
+%   3  3  2  1
+%   2  2  2  1
+%   1  1  1  1
+
+% A_6 =
+% 
+%   -12    2   -3    9
+%    22   -5    6  -18
+%    22   -4    5  -18
+%   -11    2   -3    8
+% 
+% J_6 =
+% 
+%   -1   1   0   0
+%    0  -1   0   0
+%    0   0  -1   0
+%    0   0   0  -1
+% 
+% P_6 =
+% 
+%    1   0   1   1
+%   -2  -1   1   1
+%   -2  -1  -3   0
+%    1   0   0   1
+
+\medskip
+\noindent
+計算問題の作り方: 上のような問題を作るのときには, まず正則行列 $P$ を色々
+作る.  Jordan 標準形 $J$ を任意に用意して $A=PJP^{-1}$ を計算して「$A$ の 
+Jordan 標準形を求めよ」とすれば計算問題のいっちょあがりである. 
+問題は逆行列の計算が易しい $P$ を系統的に生成することである.  
+逆行列の分母には $\det P$ が登場する.  だから $A$ を整数だけで構成された
+行列にしたければ分母の $\det P$ が $1$ であることが望ましい.  
+その場合は逆行列の計算も易しくなる.  
+
+行列式が $1$ の $n$ 次正方行列全体の集合 $SL_n(K)$ は群をなし, 
+その任意の元は $E+a E_{ij}$ ($a\in K$, $i\ne j$) の形の行列を有限個かけ合わ
+せたもので表わせる.  ($E_{ij}$ は $(i,j)$ 成分だけが $1$ で
+他の成分が $0$ であるような正方行列であり, 行列単位と呼ばれている.)
+成分を整数に制限した $SL_n(\Z)$ の場合も
+その任意の元は $E+n E_{ij}$ ($n\in K$, $i\ne j$) の形の行列を有限個かけ合わ
+せたもので表わせる.  
+この事実を使えば整数を成分に持つ行列式が $1$ の行列を系統的に生成できる.
+実は $SL_n(\Z)$ の任意の元は $E\pm E_{i,i+1}$, $E\pm E_{i+1,i}$ の有限個の積
+で表示できる. 
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{巾零行列と半単純行列}
+\label{sec:nilpotent-semisimple}
+
+$K$ は任意の代数閉体であると仮定し, $K$ の元を成分に持つ行列について考える.
+$K$ の元を数と呼ぶことがある. 「任意の代数閉体」という言葉を使うのが怖い人
+は $K=\C$ であると考えてよい.
+
+正方行列 $A\in M_n(K)$ に対して%
+\footnote{$M_n(K)$ は体 $K$ の元を成分に持つ $n$ 次正方行列全体の集合で
+ある.} $A$ 巾零であることと半単純であることを次のように定める:
+\begin{itemize}
+\item $A$ が{\bf 巾零 (nilpotent)} $\iff$ ある正の整数 $k$ が存在して $A^k=0$.
+\item $A$ が{\bf 半単純 (semisimple)} $\iff$ $A$ は対角化可能.
+\end{itemize}
+ここで $A$ が{\bf 対角化可能 (diagonalizable)} であるとは
+ある正則行列 $P$ で $P^{-1}AP$ が対角行列になるものが存在することである.
+対角成分が $(\alpha_1,\dots,\alpha_n)$ であるような
+対角行列を $\diag(\alpha_1,\dots,\alpha_n)$ と表わすことにする.
+
+2つの正方行列 $A,B\in M_n(K)$ が可換, 同時対角化可能, 同時三角化可能であるこ
+とを以下のように定義する:
+\begin{itemize}
+\item $A$ と $B$ が可換 $\iff$ $AB=BA$.
+\item $A$ と $B$ は同時対角化可能 $\iff$ ある正則行列 $P$ で $P^{-1}AP$ 
+  と $P^{-1}BP$ がともに対角行列になるようなものが存在する.
+\item $A$ と $B$ は同時三角化可能 $\iff$ ある正則行列 $P$ で $P^{-1}AP$ 
+  と $P^{-1}BP$ がともに上三角行列になるようなものが存在する.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $P\in GL_n(K)$ のとき\footnote{$GL_n(K)$ は $K$ の元を成分に持つ $n$ 次正
+  則行列全体の集合である.}以下が成立する:
+  \begin{enumerate}
+  \item $A\in M_n(K)$ が巾零ならば $PAP^{-1}$ も巾零である.
+  \item $A\in M_n(K)$ が半単純ならば $PAP^{-1}$ も半単純である.
+    \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  以下を示せ:
+  \begin{enumerate}
+  \item 上三角行列が巾零であるための必要十分条件は対角成分がすべて $0$ にな
+    ることである.
+  \item 対角行列は半単純である.
+  \item 上三角行列でも下三角行列でもない $2$ 次複素巾零行列が存在する.
+  \item 対角行列でない $2$ 次複素半単純行列が存在する.
+  \item 巾零でも半単純でも上三角でもない $2$ 次複素正方行列が存在する.
+    \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:ss-cap-nil=0}
+  $A\in M_n(K)$ が巾零でかつ半単純ならば $A=0$ である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 巾零ならば固有値は $0$ だけである.  よって $A$ を対角化すると $0$ に
+なる.  そのような $A$ は $0$ だけである.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:nilpotent:[B,C;0,D]}
+  $m+n$ 次正方行列 $A$ 
+  を $m$ 次正方行列 $B$ と $n$ 次正方行列 $C$ と $(m,n)$ 型行列 $D$ を
+  用いて $
+    A =
+    \begin{bmatrix}
+      B & D \\
+      0 & C \\
+    \end{bmatrix}
+  $ と定めると, $A$ が巾零であることと $B$ と $C$ の両方が巾零であることは
+  同値である.  
+  \qed
+\end{question}
+
+\noindent
+ヒント: $A^n$ は $
+\begin{bmatrix}
+  B^n & *   \\
+    0 & C^n \\
+\end{bmatrix}$ の形になり, $
+\begin{bmatrix}
+  0 & * \\
+  0 & 0 \\
+\end{bmatrix}$ の形の行列は巾零になる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:semisimple:[B,0;0,C]}
+  $m+n$ 次正方行列 $A$ を $m$ 次正方行列 $B$ と $n$ 次正方行列 $C$ を
+  用いて $
+    A =
+    \begin{bmatrix}
+      B & 0 \\
+      0 & C \\
+    \end{bmatrix}
+  $ と定めると, $A$ が半単純であることと $B$ と $C$ の両方が半単純であること
+  は同値である. 
+  \qed
+\end{question}
+
+\noindent
+ヒント: $B$ と $C$ が半単純ならば $m$ 次正方行列 $Q$ と $n$ 次正方行列 $R$ 
+が存在して $Q^{-1}BQ$ と $R^{-1}CR$ はともに対角行列になるので, $Q$ と $R$ 
+を対角線に並べてできる行列を $P$ とすれば $P$ は $A$ を対角化する.  
+逆を示すために $A$ は半単純であると仮定し, $m+n$ 次正方行列 $P$ で対角化され
+ていると仮定する. 
+そのとき $P$ の中の列ベクトルを $p_1,\dots,p_{m+n}$ は $A$ の固有ベクトルに
+なる.  各 $p_i$ を $p_i = 
+\begin{bmatrix}
+  u_i \\
+  v_i \\
+\end{bmatrix}$ ($u_i\in K^m$, $v_i\in K^n$) と表わすと $u_i$ は $B$ の固有ベ
+クトルになり, $v_i$ は $C$ の固有ベクトルになる. 
+適当に $u_{i_1},\dots,u_{i_m}$ を選ぶとそれらは $K^m$ の基底をなし,
+適当に $v_{j_1},\dots,v_{j_n}$ を選ぶとそれらは $K^n$ の基底をなす%
+\footnote{$K^{m+n}$ の任意のベクトルは $p_i$ たちの一次結合になっているので,
+  $K^m$, $K^n$ の任意のベクトルはそれぞれ $u_i$ たち, $v_j$ たちの一次結合に
+  なっている.  よって $u_i$ たちから $K^m$ の基底を選び, 
+  $v_j$ たちから $K^n$ の基底を選ぶことができる.}.
+このとき $Q=[u_{i_1}\ \cdots\ u_{i_m}]$, $R=[v_{j_1}\ \cdots\ v_{j_n}]$ と置
+けば,  $Q$ は $B$ を対角化し, $R$ は $C$ を対角化する. 
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:B-commutes-semisimple-A}
+  $\alpha_1,\dots,\alpha_s\in K$ は互いに異なり, 
+  $n=n_1+\cdots+n_s$, $n_i>0$ であるとする.  $n$ 次対角行列 $A$ を
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      \alpha_1 E_{n_1} &                  &        & \bigzerou \\
+                       & \alpha_2 E_{n_2} &        & \\
+                       &                  & \ddots & \\
+      \bigzerol        &                  &        & \alpha_s E_{n_s} \\
+    \end{bmatrix}
+  \end{equation*}
+  と定める. このとき, $n$ 次正方行列 $B$ が $A$ と可換であるための必要十分条
+  件は $B$ が次の形をしていることである:
+  \begin{equation*}
+    B = 
+    \begin{bmatrix}
+      B_1       &     &        & \bigzerou \\
+                & B_2 &        & \\
+                &     & \ddots & \\
+      \bigzerol &     &        & B_s \\
+    \end{bmatrix}.
+  \end{equation*}
+  ここで $B_i$ は $n_i$ 次正方行列である. \qed
+\end{question}
+
+\noindent
+ヒント: 任意の $n$ 次正方行列 $B$ は $(n_i,n_j)$ 型正方行列 $B_{ij}$ を用いて
+\begin{equation*}
+  B =
+  \begin{bmatrix}
+    B_{11} & B_{12} & \cdots & B_{1n} \\
+    B_{21} & B_{22} & \cdots & B_{2n} \\
+    \vdots & \vdots &        & \vdots \\
+    B_{n1} & B_{n2} & \cdots & B_{nn} \\
+  \end{bmatrix}
+\end{equation*}
+と表わされる.  $AB$ と $BA$ を計算して比較してみよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+$\alpha\in K$ に対して $n$ 次正方行列 $J_n(\alpha)$ を次のように定める: 
+\begin{equation*}
+  J_n(\alpha) = \alpha E_n + J_n(0) =
+  \begin{bmatrix}
+    \alpha &    1   &        &        & \bigzerou \\
+           & \alpha &    1   &        & \\
+           &        & \alpha & \ddots & \\
+           &        &        & \ddots & 1 \\
+    \bigzerol &     &        &        & \alpha \\
+  \end{bmatrix},
+  \qquad
+  J_n(0) =
+  \begin{bmatrix}
+    0 & 1 &   &        & \bigzerou \\
+      & 0 & 1 &        & \\
+      &   & 0 & \ddots & \\
+      &   &   & \ddots & 1 \\
+    \bigzerol &  &  &  & 0 \\
+  \end{bmatrix}.
+\end{equation*}
+  
+\begin{question}
+\label{q:A-commutes-J_n(alpha)}
+  $A\in M_n(K)$ が $J_n(\alpha)$ と可換であるための
+  必要十分条件は $A$ が次の形をしていることである.
+  \begin{equation*}
+    A = \sum_{k=0}^{n-1} a_k J_n(0)^k = 
+    \begin{bmatrix}
+      a_0 & a_1 & a_2 & \cdots & a_{n-1} \\
+          & a_0 & a_1 & \ddots & \vdots \\
+          &     & a_0 & \ddots & a_2 \\
+          &     &     & \ddots & a_1 \\
+      \bigzerol &  &  &        & a_0 \\
+    \end{bmatrix},
+    \qquad
+    a_i\in K.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: $\alpha E_n$ は任意の $n$ 次正方行列と可換なので $J_n(0)$ と
+可換な行列がどのような行列であるかを調べれば良い.
+\qed
+
+\medskip
+\noindent
+参考: $J_n(\alpha)$ と可換な行列全体のなす空間の次元は $n$ である.
+対角成分に互いに異なる $n$ 個の数が並んでいる任意の $n$ 次対角行列 $A$ に対
+して, $A$ と可換な行列全体と対角行列全体は一致するので, $A$ と可換な行列全体
+のなす空間の次元は $n$ になる.  
+実は「任意に $n$ 次正方行列 $A$ を与えたとき, $A$ と可換な行列全体のなす空間
+の次元は $n$ 以上になる」ことを証明できる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:nilpotent:A+B}
+  $A,B\in M_n(K)$ が可換でかつともに巾零ならば $A+B$ も巾零になる.
+  \qed
+\end{question}
+
+\noindent
+ヒント:  $A$ と $B$ が可換ならば $(A+B)^k$ の展開に二項定理を適用できる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[同時対角化]
+\label{q:semisimple:A+B}
+  $A,B\in M_n(K)$ が可換でかつともに半単純ならば $A$ と $B$ は同時対角化可能
+  であり, $A+B$ も半単純になる.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $A$ と $B$ が同時対角化可能ならば $A+B$ も対角化可能であることはすぐ
+にわかる. $A$, $B$ が可換でかつともに半単純ならば同時対角化可能であることは
+問題 \qref{q:semisimple:[B,0;0,C]} と問題 \qref{q:B-commutes-semisimple-A} 
+を用いて証明される. 
+$A$ は半単純なのである正則行列 $P$ で $P^{-1}AP$ が
+問題 \qref{q:B-commutes-semisimple-A} の $A$ の形の対角行列になるものが存在
+する. そのとき $P^{-1}AP$ と可換な $P^{-1}BP$ は
+問題 \qref{q:B-commutes-semisimple-A} の $B$ の形をしている.  
+問題 \qref{q:semisimple:[B,0;0,C]} より, $P^{-1}BP$ の対角線に並ぶ
+各ブロック $B_i$ も半単純になるのである正則行列 $Q_i$ で対角化される. 
+$Q_i$ たちを対角線に並べてできる行列を $Q$ とする.
+このとき $PQ$ は $A$ と $B$ を同時対角化する.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:doji-taikakuka}
+  次の行列 $A$, $B$ を同時対角化せよ:
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      -4 & 15 & -9 \\
+      -1 &  4 & -3 \\
+      -1 &  5 & -4 \\
+    \end{bmatrix},
+    \quad
+    B =
+    \begin{bmatrix}
+      1 & -15 & 9 \\
+      1 &  -7 & 3 \\
+      1 &  -5 & 1 \\
+    \end{bmatrix}.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: まずどちらか片方をある正則行列 $Q$ で対角化する. 
+すると $Q^{-1}AQ$, $Q^{-1}BQ$ の少なくとも片方は対角行列になっている.  
+運が良ければ両方同時に対角化されてい
+るが, 運が悪い場合には片方の対角線に $(2,2)$ 型のブロックが表われる.  それを
+対角化すれば問題 \qref{q:semisimple:A+B} のヒントの方法で同時対角化が終了す
+る.
+\qed
+
+\commentout{
+\medskip
+\noindent
+略解: 行列 $P$ を次のように定める:
+\begin{equation*}
+  P :=
+  \begin{bmatrix}
+    1 & 2 & 3 \\
+    2 & 1 & 1 \\
+    3 & 1 & 1 \\
+  \end{bmatrix},
+  \quad
+  P^{-1} = 
+  \begin{bmatrix}
+     0 & -1 &  1 \\
+    -1 &  8 & -5 \\
+     1 & -5 &  3 \\
+  \end{bmatrix}.
+\end{equation*}
+このとき $P^{-1}AP=\diag(-1,-1,-2)$, $P^{-1}BP=\diag(-2,-2,-1)$.
+\qed
+}
+
+% A =
+% 
+%    -4   15   -9
+%    -1    4   -3
+%    -1    5   -4
+% 
+% B =
+% 
+%     1  -15    9
+%     1   -7    3
+%     1   -5    1
+% 
+% P =
+% 
+%   1  2  3
+%   2  1  1
+%   3  1  1
+% 
+% invP =
+% 
+%     0   -1    1
+%    -1    8   -5
+%     1   -5    3
+% 
+% diagA =
+% 
+%   -1   0   0
+%    0  -1   0
+%    0   0  -2
+% 
+% diagB =
+% 
+%   -2   0   0
+%    0  -2   0
+%    0   0  -1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[同時三角化]
+\label{q:triangulizable:A,B}
+  $A,B\in M_n(K)$ が可換ならば $A$ と $B$ は同時三角化可能である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $n$ に関する帰納法. 
+$K$ は代数閉体だと仮定したので, 特性多項式 $p_A(\lambda)=|\lambda E - A|$ の
+根 $\alpha$ が $K$ の中に存在する.  
+$\alpha$ に対応する $A$ の固有空間の基底を $v_1,\dots,v_k$ とし,
+それを $K^n$ 全体の基底 $v_1,\dots,v_k,v_{k+1},\dots,v_n$ に拡張する.
+$\alpha$ に対応する $A$ の固有空間のベクトル $v$ に
+対して $ABv=BAv=\alpha Bv$ なので $Bv$ も $\alpha$ に対応する $A$ の固有空間
+に含まれる.  すなわち $B$ の作用で $\alpha$ に対応する $A$ の固有空間は保た
+れる.  よって $Bq_1,\dots,Bq_k$ は $q_1,\dots,q_k$ の一次結合になる. 
+したがって, $V=[v_1\ \cdots\ v_n]$ と置くと,
+\begin{equation*}
+  V^{-1}AV=
+  \begin{bmatrix}
+    \alpha E_k & *   \\
+      0        & A'' \\
+  \end{bmatrix},
+  \quad
+  V^{-1}BV=
+  \begin{bmatrix}
+    B' & *   \\
+    0  & B'' \\
+  \end{bmatrix}.
+\end{equation*}
+ここで $B'$ は $k$ 次の正方行列であり, $A''$, $B''$ は $n-k$ 次の正方行列で
+ある.  しかも, $A$ と $B$ が可換であることより $A''$ と $B''$ も可換であるこ
+とが導かれる.  よって帰納法の仮定より, 
+ある $k$ 次正則行列 $Q$ と $n-k$ 次正則行列 $R$ が
+存在して $Q^{-1}B'Q$, $R^{-1}A''R$, $R^{-1}B''R$ はすべて上三角行列になる.
+このとき, $P$ を
+\begin{equation*}
+  P = V
+  \begin{bmatrix}
+    Q & * \\
+    0 & R \\
+  \end{bmatrix}
+\end{equation*}
+と定めれば $P$ によって $A$ と $B$ は同時に上三角化される.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+Jordan 標準形の理論にできるだけ早く進みたい人は
+ここから\secref{sec:Jordan-decomposition}にジャンプして構わない.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{抽象ベクトル空間について}
+\label{sec:abstract-vector-space}
+
+$K$ は任意の体とする.  「任意の体」という言葉が怖い人は $K=\R$ または $\C$ 
+と考えて良い.
+
+今までこの演習では主として縦ベクトルのベクトル空間とそれに作用するの行列を扱
+って来た.  次の subsection では一般の抽象ベクトル空間とそれに作用する一次変
+換を扱う%
+\footnote{代数的な一般論を展開するときには数字が並んでいる縦ベクトルや行列
+を扱うよりも抽象ベクトル空間や一次変換を扱う方が都合が良い.}.  
+この subsection は次の subsection への助走である%
+\footnote{したがって説明は完壁ではない.}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+一般に $V$ が体 $K$ 上の{\bf ベクトル空間 (vector space over $K$)} 
+もしくは{\bf 線形空間 (linear space)} であると
+は $V$ は集合であり, 
+加法 $+:V\times V\to V$ 
+と零元 $0\in V$ 
+と加法に関する逆元 $-:V\to V$ 
+と $K$ の元による $V$ の元のスカラー倍 $\cdot:K\times V\to V$ が
+定めらえていて, 以下のベクトル空間の公理が満たされていることである%
+\footnote{一般に $K$ が体ではなく{\bf 環 (ring)}の場合は同じ公理系を
+  満たす $V$ は $K$ 上の{\bf 加群 (module over $K$)} 
+  もしくは {\bf $K$ 加群 ($K$-module)} と呼ばれる.  
+  加群の方がベクトル空間よりも一般的な述語である.  
+  体 $K$ 上の加群は体 $K$ 上のベクトル空間に等しい.  
+  なお一般の環に $K$ という記号を割り振ることは少ない.
+  英語の ring の頭文字を取って $R$ と書いたり, 
+  フランス語の anneau の頭文字を取って $A$ と書くことが多い.
+  体に $F$ や $K$ という記号が割り振られることが多いのは,
+  英語で体を field と呼び, ドイツ語では K\"orper と呼ぶからである.}:
+\begin{enumerate}
+\item $V$ は加法に関して可換群をなす. すなわち $u,v,w\in V$ に対して,
+  \begin{enumerate}
+  \item $(u + v) + w = u + (v + w)$;
+  \item $0 + u = u + 0 = u$;
+  \item $(-u) + u = u + (-u) = 0$;
+  \item $u + v = v + u$.
+  \end{enumerate}
+\item スカラー倍 $\cdot:K\times V\to V$ は結合的かつ{\bf 双加法的 
+  (bi-additive)} であり, $1$ の積は恒等写像になる.
+  すなわち $a,b\in K$, $u,v\in V$ に対して,
+  \begin{enumerate}
+  \item $(ab)u = a(bu)$;
+  \item $a(u + v) = au + bv$;
+  \item $(a + b)u = au + bu$;
+  \item $1u=u$.
+  \end{enumerate}
+\end{enumerate}
+$U$ と $V$ が体 $K$ 上のベクトル空間であるとき, 
+写像 $f:U\to V$ が{\bf 線形写像もしくは一次写像 (linear mapping)} で
+あるとは $a\in K$, $u,u'\in U$ に対して以下の条件を満たしていることである%
+\footnote{線形写像の定義は幾何的には次のように説明される.  
+  加法性 $f(u+u')=f(u)+f(u')$ は $U$ の中の4点 $0, u, u+u' u', 0$ を
+  順次線分で結んでできる平行四辺形
+  が $f$ によって $V$ の中の4点 $0, f(u), f(u)+f(u'), f(u'), 0$ を
+  順次線分で結んでできる平行四辺形に移されることを意味している.
+  スカラー倍との可換性 $f(au)=af(u)$ は $U$ の中の直線 $\{au\}_{a\in K}$ 
+  が $f$ によって $\{af(u)\}_{a\in K}$ に自然に移されることを意味している.
+  線形写像は真っ直なものや平らなものを真っ直なものと平らなものに移す.
+  色々図を描いて線形写像がどのような写像なのかを直観的に理解するように
+  努力せよ.}:
+\begin{enumerate}
+\item 加法性\quad $f(u+u')=f(u)+f(u')$;
+\item スカラー倍との可換性\quad $f(au)=af(u)$.
+\end{enumerate}
+$V$ からそれ自身への線形写像は $V$ の{\bf 線形変換もしくは一次変換 (linear
+transformation)} と呼ばれる.
+線形写像 $f$ の逆写像 $f^{-1}$ が存在するならば $f^{-1}$ も線形写像になる.
+逆写像を持つような線形写像を{\bf 線形同型写像 (linear isomorphism)} と呼ぶ.
+単に{\bf 同型写像 (isomorphism)} と呼ぶことも多い. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+$K$ 上のベクトル空間 $V$ の部分集合 $\{v_i\}_{i\in I}$ が $V$ の基底である
+とは任意の $v\in V$ が $v=\sum_{i\in I} a_i v_i$ ($a_i\in K$, 有限個を
+除いて $a_i=0$) と一意に表わされることである%
+\footnote{この定理が成立する環は体だけである.  体以外の環上の加群では基底が
+  取れるとは限らないので状況がずっと複雑になる.  体上のベクトル空間の理論が
+  それほど難しくないのは基底が取れるからである.}.  
+体上のベクトル空間の理論の出発点になる定理は「任意の体 $K$ 上の
+任意のベクトル空間 $V$ は基底 $\{v_i\}_{i\in I}$ を持ち, $I$ の濃度は基底の
+取り方によらず $V$ のみによって一意に決まる」という結果である.
+$V$ の基底の濃度が有限であるとき $V$ は{\bf 有限次元 (finite dimensional)} 
+であると言い, 基底の取り方によらずに決まる基底の元の個数を $V$ の次元と
+呼び, $\dim V$ もしくは $\dim_K V$ と表わす.  
+基底の濃度が無限であるとき $V$ は{\bf 無限次元 (infinite dimensional)} であ
+ると言う.  しかし無限次元のベクトル空間の場合は位相を入れて基底の概念を一般
+化しておかないと不便な場合の方が多い. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+以上のように抽象的な定義だけを説明しても何をやりたいのかよくわからないだろう.
+そこで以下では典型的な例について説明する.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{example}[行列]
+  $K^n$ は体 $K$ 上の $n$ 次元ベクトル空間である.
+  我々は $K^n$ を縦ベクトルの空間とみなしてきたのであった.
+  行列の空間 $M_n(K)$ も $K$ 上のベクトル空間であり, その次元は $n^2$ である.
+  任意の正方行列 $A\in M_n(K)$ は縦ベクトルとの積によって $K^n$ の一次変換を
+  定めるのであった.  しかも, $K^n$ の一次変換は正方行列と一対一に対応してい
+  るのであった.  
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{example}[微分作用素]
+  実直線上の任意有限回微分可能な複素数値函数全体の
+  集合 $C^\infty(\R)$ は自然に $\C$ 上の無限次元ベクトル空間をなす.  
+  $f\in C^\infty(\R)$ に対してその導函数 $f'\in C^\infty(\R)$ を対応させる
+  写像を $\d$ と書くことにする. 
+  このとき $\d$ は $C^\infty(\R)$ の一次変換である.
+  任意有限回微分可能な函数 $a\in C^\infty(\R)$ が任意に与えられた
+  とき $f\in C^\infty(\R)$ に函数 $a$ と $f$ の積 $af\in C^\infty(\R)$ を対応
+  させる写像を乗じられる函数と同じ記号で $a$ と書くことにする. 
+  このとき $a$ は $C^\infty(\R)$ の一次変換である.
+  $\d$ や $a$ のように函数の空間に作用する一次変換は
+  {\bf 作用素もしくは演算子 (operator)} と呼ばれることが多い.
+  次の形の作用素は{\bf 常微分作用素 (ordinary differential operator)} と
+  呼ばれている:
+  \begin{equation*}
+    L = a_N \d^N + a_{N-1} \d^{N-1} + \cdots + a_2 \d^2 + a_1 \d + a_0,
+    \qquad
+    a_i \in C^\infty(\R).
+  \end{equation*}
+  変数の個数を増やして {\bf 偏微分作用素 (partial differential operator)} も
+  同様に定義される. 
+  微分作用素の積 (写像の合成) を $\circ$ と書くことにすると%
+  \footnote{面倒なので $\circ$ を書かない場合の方が多い.},
+  \begin{align*}
+    &
+    (\d\circ a - a\circ\d)f
+    = \d(af) - a(\d f)
+    = a'f + af' - af'
+    = a'f,
+    \\ &
+    \therefore\ \d\circ a - a\circ\d = a'
+  \end{align*}
+  となり, $\d$ と函数倍 $a$ は作用素として一般に非可換になる%
+  \footnote{特別に可換になる場合には数学的に非常に面白いことが起こっている場
+    合が多い.  互いに可換な微分作用素を構成するという問題は重要である. 
+    互いに可換な常微分作用素の組に関しては代数曲面の理論との関係付けることに
+    よってかなりよくわかっている.  偏微分作用素の場合に関しては量子可積分系
+    との関係から見て, まだたくさんの面白そうな問題が残っている.}.  
+  可換になるのは $a$ が定数である場合だけである.
+  2つの行列が一般に非可換になるのと同じように2つの微分作用素も一般に非可換に
+  なる.  微分作用素は線形写像の重要な例である.
+  \qed
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{example}[積分作用素]
+  閉区間 $[0,1]$ 上の連続な複素数値函数全体の
+  集合 $C([0,1])$ は自然に $\C$ 上の無限次元ベクトル空間をなす.  
+  閉区間の直積 $[0,1]\times[0,1]$ 常の複素数値連続函数 $K(x,y)$ を任意に取り,
+  写像 $T_K:C([0,1])\to C([0,1])$ を次のように定める:
+  \begin{equation*}
+    (T_K f)(x) = \int_0^1 K(x,y)f(y)\,dy
+    \qquad (f\in C([0,1])).
+  \end{equation*}
+  このとき $T_K$ は $C([0,1])$ の一次変換である.
+  $T_K$ は{\bf 核函数 (kernel function)} $K(x,y)$ に対応する
+  {\bf 積分作用素 (integral operator)} と呼ばれる.
+  積分作用素も線形写像の重要な例である.
+  $n$ 次正方行列 $K=[k_{ij}]$ と縦ベクトル $f=\tp{[f_1\ \cdots\ f_n]}$ の
+  積 $Kf$ の第 $i$ 成分を $(Tf)_i$ と書くと, 行列の積の定義より
+  \begin{equation*}
+    (Kf)_i = \sum_{i=1}^n k_{ij}f_j
+    \qquad (f=\tp{[f_1\ \cdots\ f_n]}\in K^n).
+  \end{equation*}
+  この式と上の積分作用素の定義を比較すれば積分作用素は行列の積の定義における有
+  限和を積分に置き換えることによって定義されていることがわかる.
+
+  実際には存在しないが, もしも
+  \begin{equation*}
+    f(x) = \int_0^1 \delta(y-x)f(y)\,dx
+  \end{equation*}
+  を満たす函数 $\delta(y-x)$ が存在すればそれを核函数に持つ積分作用素
+  は恒等写像になる.  $\delta(y-x)$ は函数としては存在しないが, 
+  測度 (measure) もしくくは超函数 (distribution) としては存在する%
+  \footnote{$\delta(y-x)$ は実際には (写像の意味での) 函数ではないのに 
+    (Dirac の){\bf デルタ函数 (delta function)} と呼ばれている.  
+    直観的に $\delta(y-x)$ は $y=x$ に無限に近い領域の外で $0$ に
+    なり, $y=x$ に無限に近い領域では無限大の値を
+    取り, $y$ に関して積分すると $1$ になるような``函数''である.
+    Dirac のデルタ函数は Kronecker のデルタの連続版である.
+    Kronecker デルタを成分に持つような行列が単位行列になるのと同じように,
+    Dirac のデルタ函数を核函数に持つ積分作用素は恒等写像になる.
+
+    超函数 (distribution) は
+    問題 \qref{q:rapidly-decreasing-Cinfty-function} で定義されている
+    急減少 $C^\infty$ 函数の空間 $\cS(\R)$ に適切な位相を入れたものの
+    {\bf 位相的双対空間 (topological dual space)} の元として定義される.  
+    函数空間の位相的双対空間の概念を用いれば函数の概念を手軽にかつ大幅に拡張
+    できる. 
+
+    函数概念の一般化の仕方にはこの双対空間を用いる Schwartz の方法の
+    他に実領域を複素領域に膨らませることによって複素正則函数の実領域における 
+    代数的境界値として超函数 {\bf (hyperfunction)} を定義する佐藤幹夫の方法
+    がある.
+    実軸は複素上半平面と複素下半平面に挟まれている.
+    複素上半平面上の正則函数 $F_+(z)$ と複素下半平面上の正則函数 $F_-(z)$ 
+    を任意に与えたとき, $f(x) = F_+(x+0i) - F_-(x-0i)$ によって実軸上の佐藤
+    の超函数が定義される.  たとえば Dirac のデルタ函数は次のように定義される:
+    \begin{equation*}
+      \delta(x) 
+      = -\frac{1}{2\pi i} 
+      \left(
+        \frac{1}{x + 0i} - \frac{1}{x - 0i}
+      \right).
+    \end{equation*}
+    これが $\int_{-\infty}^\infty \delta(x)f(x)\,dx = f(0)$ を
+    満たしていることは Cauchy の積分公式を形式的に適用すれば確かめられる.
+    すなわち複素函数論における Cauchy の積分公式を佐藤超函数の視点から眺めな
+    おすと Dirac のデルタ函数が満たすべき公式に見えてしまうのである.
+    1変数複素函数論を十分に習得すると1変数の佐藤超函数論を大きな困難抜きに理
+    解できるようになる. 
+    多変数の場合には多変数複素函数論が必要になるのでずっと難しい.
+    
+    なお, 核函数として超函数も許すことにすると微分作用素も積分作用素の形で
+    表わすことができる. たとえば函数 $a(x)$ をかける作用素と $x$ で微分する
+    作用素は
+    \begin{equation*}
+      \int_{-\infty}^\infty \delta(y-x)a(y)f(y)\,dy = a(x)f(x),
+      \qquad
+      -\int_{-\infty}^\infty \delta'(y-x)f(y)\,dy = f'(x).
+    \end{equation*}
+    と表現される.  後者の公式は形式的に部分積分すれば得られる.  
+    これらの公式は超函数論によって厳密な数学として正当化可能である.}.
+  \qed
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[急減少 $C^\infty$ 函数の空間]
+\label{q:rapidly-decreasing-Cinfty-function}
+  $\R$ 上の複素数値函数 $f$ が{\bf 急減少 $C^\infty$ 函数 (rapidly
+  decreasing $C^\infty$-function)} であるとは $f$ が $C^\infty$ 
+  (任意有限回微分可能) でかつ任意の $m,n=0,1,2,\ldots$ に対して
+  \begin{equation*}
+    \lim_{x\to\pm\infty} x^m f^{(n)}(x) = 0
+  \end{equation*}
+  が成立することである.  $\R$ 上の急減少 $C^\infty$ 函数全体のなす無限次元複
+  素ベクトル空間を $\cS(\R)$ と表わす.  このとき以下が成立する:
+  \begin{enumerate}
+  \item $\cS(\R)$ には内積を次のように入れることができる%
+    \footnote{内積の公理を満たしていることを示せ.}:
+    \begin{equation*}
+      \bra f,g\ket = \int_{-\infty}^\infty \cc{f(x)}g(x)\,dx
+      \qquad
+      \bigl(f,g\in\cS(\R)\bigr).
+    \end{equation*}
+    (ヒント: 任意の $f,g\in\cS(\R)$ に対して $|x|$ を十分大きく
+    すれば $\left|\cc{f(x)}g(x)\right|\le |x|^{-2}$ となる.)
+  \item 線形写像 $\d:\cS(\R)\to\cS(\R)$ を $(\d f)(x) = f'(x)$ と
+    定めることができる.
+  \item 任意の多項式 $a\in\C[x]$ に対して, 
+    線形写像 $a:\cS(\R)\to\cS(\R)$ を $(af)(x)=a(x)f(x)$ と
+    定めることができる.
+  \item 多項式 $a_0,\dots,a_N\in\C[x]$ に対して,
+    線形写像 $P=\sum_{n=0}^N a_n \d^n:\cS(\R)\to\cS(\R)$ を
+    次のように定めることができる: 
+    \begin{equation*}
+      Pf = \sum_{n=0}^N a_n f^{(n)}
+      \qquad (f\in\cS(\R)).
+    \end{equation*}
+  \end{enumerate}
+  このような $P$ は{\bf 多項式係数の常微分作用素 (ordinary differential
+  operator with polynomial coefficients)} と呼ばれている. 
+  \qed
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+無限次元のベクトル空間の典型的な例は適当な条件を満たす函数全体の空間である.
+我々は $V=K^n$ のような有限次元ベクトル空間における直観の多くをある種の函数
+全体のなす無限次元ベクトル空間にも適用できる.  有限次元のベクトル空間に関す
+る理解は無限次元の場合にも役に立つ.  特に微分作用素や積分作用素に行列に関し
+て学んだ考え方や直観を適用することは生産的である%
+\footnote{もちろん無限次元の場合には有限次元の場合にはない難しさがある.
+  しかしそもそもその困難が無限次元特有の問題であることを認識するためには
+  有限次元の場合に関する知識が不可欠である.}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+$V$ が体 $K$ 上のベクトル空間であるとき, 
+$V$ の部分集合 $W$ が加法とスカラー倍で閉じていれば $W$ も自然に体 $K$ 上の
+ベクトル空間とみなせる.  そのとき $W$ は $V$ の{\bf ベクトル部分空間 
+(vector subspace)} もしくは{\bf 線形部分空間 (linear subspace)} と呼ばれる.
+単に{\bf 部分空間 (subspace)} と呼ばれることも多い.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{example}
+  実直線上の複素数値函数全体の集合を $V$ と書くと $V$ は自然に $\C$ 上
+  の無限次元ベクトル空間をなす.  
+  実直線上の複素数値連続函数全体の集合 $W=C(\R)$ は $V$ の線形部分空間であり,
+  実直線上の複素数値連続微分可能函数全体の集合 $U=C^1(\R)$ は $W=C(\R)$ の線形
+  部分空間である%
+  \footnote{$\R$ 上の複素数値函数は $\R$ の各点ごとに複素数が対応しているので
+    連続無限個の複素数の組だとみなすことができる.  しかし実際にはすべての函数
+    をまとめて考えると意味のある議論はできないので, 連続性や微分可能性を仮定し
+    たりするので単に無限個の数字が並んでいるだけとはみなせなくなる.}.
+  \qed
+\end{example}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  以上に登場した例のどれか1つを詳細に解説してみよ. \qed
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $V$ は複素ベクトル空間であり, $H$ と $A$ は $V$ の一次変換で
+  あり, ある $\alpha\in\C$ について $[H,A]=\alpha A$ を満たしているとする%
+  \footnote{$[H,A]=HA - AH$ である.}.
+  このとき $v\in V$ が $H$ の固有値 $\beta$ に属する固有ベクトルで
+  かつ $Av\ne 0$ ならば $Av$ は $H$ の固有値 $\alpha+\beta$ に属する
+  固有ベクトルになる. \qed
+\end{question}
+
+\noindent
+ヒント: $[H,A]=\alpha A$ は $HA = A(\alpha+H)$ と書き直される.
+よって $Hv=\beta v$ ならば $HAv = A(\alpha+H)v = (\alpha+\beta)Av$.
+\qed
+
+\medskip
+\noindent
+参考: 固有ベクトル (もしくは函数空間に作用する作用素の固有函数) を
+具体的に求めるために上の問題の方法は非常によく使われる.
+その典型例は量子調和振動子 \qref{q:quantum-harmonic-oscillator} の場合である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+$U$, $V$ は体 $K$ 上のベクトル空間であるとし, $f:U\to V$ は線形写像であると
+する.  このとき $f$ の{\bf 核 (kernel)} $\Ker f$ 
+と{\bf 像 (image)} $\Image f$ が次のように定義される%
+\footnote{実はさらに{\bf 余核 (cokernel)} $\Coker f$ 
+  と{\bf 余像 (coimage)} $\Coimage f$ が次のように定義される:
+  \begin{equation*}
+    \Coker f = V/\Image f,
+    \qquad 
+    \Coimage f = U/\Ker f.
+  \end{equation*}
+  準同型定理とは「自然な同型 $\Coimage f \isomto \Image f$ が存在する」とい
+  う結果のことである.}:
+\begin{equation*}
+  \Ker f = f^{-1}(0) = \{\, u\in U \mid f(u) = 0 \,\},
+  \qquad
+  \Image f = f(U) = \{\, f(u) \mid u \in U \,\}.
+\end{equation*}
+$\Ker f$, $\Image f$ はそれぞれ $U$, $V$  の部分空間をなす%
+\footnote{$\Ker f$ を求める問題は $f(u)=0$ の形の一次方程式を解くことに対応
+  しており, $\Image f$ を求める問題は $u$ に関する一次方程式 $f(u)=v$ が解を
+  持つような $v$ の全体を求めることに対応している.  これらの二種類の一次
+  方程式の理論は線形写像の核と像の理論に集約されることになる.}.
+
+\begin{question}
+\label{q:Ker-Image-1}
+  上の設定のもとでさらに $U$ が有限次元ならば
+  \begin{equation*}
+    \dim U - \dim\Ker f = \dim\Image f.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+結論の直観的な説明%
+\footnote{論理的な説明と直観的な説明の両方が重要である.  論理と直観は数学を
+  やる上でどちらも不可欠である.}: %
+$n=\dim U$ と置く.
+線形写像 $f$ は $n$ 次元ベクトル空間 $U$ 
+を $k$ 次元分の方向を潰して $V$ の中に移すとする.
+そのとき $f$ による $U$ の像の次元は $k$ 次元潰れた分だけ下がって $n-k$ 
+になる. これが上の問題の結論の直観的意味である.  上の問題の結論を書き直した
+\begin{equation*}
+    \dim U - \dim\Image f = \dim\Ker f.
+\end{equation*}
+という式の直観的意味は次のように説明される.  
+線形写像 $f$ は $n$ 次元ベクトル空間 $U$ を $V$ の中の $l$ 次元の部分空間う
+つすとする.  $n$ 次元が $l$ 次元に移されるためには $n-l$ 次元分の方向をつ
+ぶしてうつさなければいけない.  たとえば直方体を長方形にうつすためにはある1つ
+の方向について潰さなければいけない.  直方体を線分にうつすためには2つの方向に
+ついて潰さなければいけない.  その潰す方向の本数が $f$ の核 $\Ker f$ の次元な
+のである.
+
+\medskip
+\noindent
+ヒント1: $k = \dim\Ker f$ と置く.  $\Ker f$ の基底 $u_1,\dots,u_k$ を取り, 
+それに $u_{k+1},\dots,u_n$ を付け加えて $U$ 全体の基底を構成できる.
+そのとき $v_i=f(u_{k+i})$ と置くと $v_1,\dots,v_{n-k}$ は $\Image f$ の基底
+をなす. 
+\qed
+
+\medskip
+\noindent
+ヒント2: 準同型定理 $U/\Ker f \isomto \Image f$ 
+より $\dim\Image f = \dim(U/\Ker f) = \dim U - \dim\Ker f$.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:Ker-Image-2}
+  $V_i$ は体 $K$ 上の有限次元ベクトル空間であるとし, 
+  次の線形写像の列を考える:
+  \begin{equation*}
+  \begin{CD}
+    V_1 @>f_1>> V_2 @>f_2>> \cdots @>f_{s-1}>> V_s @>f_s>> V_{s+1}.
+  \end{CD}
+  \end{equation*}
+  この列を $f_1$ から $f_i$ まで合成してできる $V_1$ から $V_k$ への線形写像
+  を $f_i\circ\cdots\circ f_1$ ($i=0$ のときは $\id_{V_1}$) と書くことにする.
+  このとき
+  \begin{equation*}
+    \sum_{i=1}^s \dim(\Ker f_i \cap \Image(f_{i-1}\circ\cdots\circ f_1))
+    = \dim\Ker(f_s\circ\cdots\circ f_1).
+  \end{equation*}
+  よって,
+  \begin{equation*}
+    \sum_{i=1}^s \dim\Ker f_i
+    \ge \dim\Ker(f_s\circ\cdots\circ f_1).
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+結論の直観的な説明: 線形写像 $f_1,\dots,f_s$ によって $n$ 次元
+ベクトル空間 $V_1$ を順次潰してより小さな次元のベクトル空間に
+うつすことを考える.  
+最終的に潰れる次元 $\dim\Ker(f_s\circ\cdots\circ f_1)$ は
+各ステップで潰れる
+次元 $\dim(\Ker f_i \cap \Image(f_{i-1}\circ\cdots\circ f_1))$ の総和になる.
+$\Image(f_{i-1}\circ\cdots\circ f_1)$ は $f_{i-1}\circ\cdots\circ f_1$ でつ
+ぶした結果の像であり, $\Ker f_i$ は $f_i$ が $V_i$ 全体をどれだけ潰すかを意
+味している. $f_i$ は $\Image(f_{i-1}\circ\cdots\circ f_1)$ 
+を $\Ker f_i \cap \Image(f_{i-1}\circ\cdots\circ f_1)$ の分だけ潰す.
+
+\medskip
+\noindent
+ヒント: $g_i=f_i\circ\cdots\circ f_1$ ($g_0=\id_{V_1}$) と置く.
+問題 \qref{q:Ker-Image-1} の結論
+を $\dim U - \dim\Image f = \dim\Ker f$ と変形
+して, $f_i$ の $\Image g_{i-1}$ への
+制限 $f_i|_{\Image g_{i-1}}
+:\Image g_{i-1}\to V_{i+1}$ に適用すると
+\begin{equation*}
+  \dim\Image g_{i-1} - \dim\Image g_{i-1}
+  = \dim(\Ker f_i\cap\Image g_{i-1})
+\end{equation*}
+となることがわかる.  
+この等式を $i=1,\dots,s$ について足し上げる
+と, $\Image g_0 = \dim V_1$, $g_s=f_s\circ\cdots\circ f_1$ なので
+\begin{equation*}
+    \sum_{i=1}^s \dim(\Ker f_i \cap \Image g_{i-1}) 
+    = \dim V_1 - \dim\Image(f_s\circ\cdots\circ f_1)
+    = \dim\Ker(f_s\circ\cdots\circ f_1).
+\end{equation*}
+$\dim\Ker f_i\ge\dim(\Ker f_i \cap \Image g_{i-1})$ なので
+ただちに次が導かれる:
+\begin{equation*}
+  \sum_{i=1}^s \dim\Ker f_i
+  \ge \dim V_1 - \dim\Image(f_s\circ\cdots\circ f_1).
+\qed
+\end{equation*}
+
+\medskip
+\noindent
+注意: $A\in M_{m,n}(K)$ のとき $A$ が定める線形写像 $A:K^n\to K^m$ に
+ついて次が成立している:
+\begin{equation*}
+   \rank A = \dim\Image A, \qquad  n - \rank A = \dim\Ker A.
+\end{equation*}
+この演習の一部に登場した $n - \rank A$ という式
+は $\dim\Ker A$ を意味している.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{固有空間分解}
+\label{sec:eigenspace-decomp}
+
+$K$ は任意の体とする.  「任意の体」という言葉が怖い人は $K=\R$ または $\C$ 
+と考えて良い.
+
+$K$ 上のベクトル空間 $V$ がその部分空間 $V_1,\dots,V_s$ の直和で
+あるとは任意の $v\in V$ が
+\begin{equation*}
+  v = v_1 + \cdots + v_s,
+  \qquad
+  v_i\in V_i
+\end{equation*}
+と一意的に表わされることである%
+\footnote{$V_i$ たちの中に $\{0\}$ が混じっていてもこの定義は意味を持ってい
+  る.  $V_i=\{0\}$ ならば $V_i$ のベクトルとして $0$ 以外に選びようがないの
+  でそのような $V_i$ を除いて考えても直和全体には影響しないが, $V_i=\{0\}$ 
+  の場合も含めておく方が良い.}.  %
+このとき次のように書く:
+\begin{equation*}
+  V = \bigoplus_{i=1}^s V_i
+    = V_1\oplus\cdots\oplus V_s 
+    = V_1\dotplus\cdots\dotplus V_s.
+\end{equation*}
+$K$ 上のベクトル空間 $V$ と $V$ の一次変換 $A:V\to V$ と $\alpha\in K$ に
+対して, $V$ の部分空間 $V_\alpha=V(A;\alpha)$ を次のように定義する:
+\begin{equation*}
+  V_\alpha = V(A;\alpha) = \{\, v\in V \mid Av = \alpha v \,\}.
+\end{equation*}
+$V$ が $A$ の固有空間の直和に分解するとは
+\begin{equation*}
+  V = \bigoplus_{\alpha\in K} V_\alpha = \bigoplus_{\alpha\in K} V(A;\alpha)
+\end{equation*}
+が成立すること, すなわち任意の $v\in V$ が
+\begin{equation*}
+  v = \sum_{\alpha\in K} v_\alpha, 
+  \quad
+  (\text{$v_\alpha\in V_\alpha$ であり, 
+    有限個の $\alpha\in K$ を除き $v_\alpha=0$})
+\end{equation*}
+と一意に表わされることである.
+$V_\alpha=V(A;\alpha)\ne 0$ のとき $V(A;\alpha)$ は $A$ の{\bf 固有空間} と
+呼ばれ, $V(A;\alpha)$ に含まれる $0$ でないベクトル
+を $A$ の{\bf 固有値} $\alpha$ に対応する{\bf 固有ベクトル}と呼ぶ.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:xdx+ydy}
+  $K$ 上の2変数多項式全体の空間 $V=K[x,y]$ は $A=x\d/\d x+y\d/\d y$ の固有空
+  間の直和に分解する. \qed
+\end{question}
+
+\noindent
+ヒント: $x^my^n$ ($m,n\in\Z_{\ge0}$) は $V=K[x,y]$ の基底である.
+\qed
+
+\commentout{
+\medskip
+\noindent
+注意: $K$ の標数が $0$ ならば $x\d/\d x+y\d/\d y$ の
+固有値全体の集合は $\Z_{\ge0}$ になり, 
+固有空間はすべて有限次元になる.
+$K$ の標数が $p>0$ ならば $x\d/\d x+y\d/\d y$ の
+固有値全体の集合は $\F_p=\{0,1,2,\dots,p-1\}$ になり, 
+同時固有空間はすべて無限次元になる. 
+\qed
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $\R$ 上の任意有限回微分可能な複素数値函数全体のなす複素ベクトル
+  空間を $C^\infty(\R)$ と表わし, 
+  その部分空間 $C^\infty(S^1)$ を次のように定義する: 
+  \begin{equation*}
+    C^\infty(S^1) 
+    = \{\, f\in C^\infty(\R) \mid f(x+2\pi) = f(x)\ (x\in\R) \,\}.
+  \end{equation*}
+  $C^\infty(S^1)$ には内積 $\bra\ ,\ \ket$ を次のように定めることができる%
+  \footnote{内積の公理を満たしていることをチェックせよ.}:
+  \begin{equation*}
+    \bra f,g\ket = \frac{1}{2\pi}\int_0^{2\pi} \cc{f(x)}g(x)\,dx
+    \qquad \bigl(f,g,\in C^\infty(S^1)\bigr)
+  \end{equation*}
+  $\d = d/dx$ と $\Delta= -\d^2$ は $C^\infty(S^1)$ からそれ自身への複素線形
+  写像であり, 
+  \begin{equation*}
+    \bra f,\Delta g\ket = \bra \Delta f, g\ket = \bra \d f, \d g\ket,
+    \qquad \bra f,\Delta f\ket = \norm{\d f}^2 \ge 0
+  \end{equation*}
+  を満たしている($\Delta$ の半正値 Hermite 性).  
+  $C^\infty(S^1)$ に作用する作用素 $\Delta$ の固有値と固有函数を
+  すべて求めよ.  
+  \qed
+\end{question}
+
+\noindent
+ヒント: $f,g\in C^\infty(S^1)$ に対して
+部分積分の公式 $\int_0^{2\pi} f(x)g'(x)\,dx = - \int_0^{2\pi} f'(x)g(x)\,dx$ 
+が成立していることを使えば $\Delta$ の半正値 Hermite 性を示せる.
+$\Delta$ の半正値 Hermite 性より $\Delta$ の固有値は $0$ 以上の実数になる.
+固有値の集合は函数 $u$ に関する
+微分方程式 $-u''=\lambda u$ が $C^\infty(S^1)$ の中
+に解を持つような $\lambda\ge 0$ の全体に一致し, 
+固有函数はそのときの $0$ でない解に一致する%
+\footnote{微分方程式論をまだ未習の場合には次の事実を認めて使って良い:
+  $-u''=p^2 u$ ($p\in\C$) の $C^\infty(\R)$ における解全体の集合は $2$ 次元
+  のベクトル空間をなす.  
+  $p\ne 0$ のとき解空間の基底として $e^{ipx}$ と $e^{-ipx}$ が取れ, 
+  $p=0$ のとき解空間の基底として $1,x$ が取れる.}.
+まず微分方程式 $-u''=\lambda u$ を解き, その解が周期 $2\pi$ を持つ場合を抽出
+せよ.
+\qed
+
+\commentout{
+\medskip
+\noindent
+略解: 固有値全体の集合は $\{n^2\}_{n\in\Z}=\{0,1,4,9,\ldots\}$ である.
+固有値 $0$ に属する固有函数は $1$ の定数倍であり,
+$n\ne 0$ のとき固有値 $n^2$ に属する固有函数は $e^{\pm nix}$ の
+一次結合になる.  
+\qed
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:eigenspace-decomp-pre}
+  $V$ は $K$ 上のベクトル空間であるとし, $A$ は $V$ の一次変換であるとする.
+  $\alpha_1,\dots,\alpha_s\in K$ は $A$ の相異なる固有値
+  であり\footnote{相異なる固有値の{\bf 全体}でなくてもよい.}, %
+  $\alpha_i$ に対応する固有空間を $V_i$ と書くことにする. 
+  このとき, $v_i\in V_i$ かつ $v_1+\cdots+v_s = 0$ 
+  ならば $v_1=\cdots=v_s=0$ である. 
+  特に $\dim V_1+\cdots+\dim V_s \le \dim V$ である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $v_1+\cdots+v_s=0$ の両辺に $E,A,A^2,\dots,A^{s-1}$ を
+作用させた結果を行列で書くと, 
+\begin{equation*}
+  \begin{bmatrix}
+    1              & 1              & \cdots & 1 \\
+    \alpha_1       & \alpha_2       & \cdots & \alpha_s \\
+    \vdots         & \vdots         &        & \vdots \\
+    \alpha_1^{s-1} & \alpha_2^{s-1} & \cdots & \alpha_s^{s-1} \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    v_1 \\ v_2 \\ \vdots \\ v_s \\
+  \end{bmatrix}
+  = 0
+\end{equation*}
+左辺の正方行列の行列式は Vandermonde の公式より $0$ でない.
+よって $v_1=\cdots=v_s=0$ である.
+このことから $V_i$ の基底の $i=1,\dots,s$ に関する和集合は
+一次独立になることが示される. 
+よって $\dim V_1+\cdots+\dim V_s \le \dim V$ である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:eigenspace-decomp}
+  $A\in M_n(K)$ を $V=K^n$ の一次変換とみなすとき, $A$ が対角化可能であるこ
+  とと $V$ が $A$ の固有空間の直和に分解することは同値である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $A$ が対角化可能であるならばある正則行列 $P$ で $P^{-1}AP$ が
+対角行列になるものが存在する.  そのとき $P$ の中の列ベクトル $p_1,\dots,p_n$ 
+は $A$ の固有ベクトルだけで構成された $K^n$ の基底になっている.
+固有値 $\alpha_i$ に属する固有ベクトルになっている $p_j$ の
+全体を $p_{i,1},\dots,p_{i,n_i}$ と書き, 
+これらで張られる $K^n$ の部分空間を $V_i$ と書くことにする.
+このとき $V_1\oplus\cdots\oplus V_s=V=K^n$ であり, $V_i=V(A;\alpha_i)$ である%
+\footnote{$V_i\subset V(A;\alpha_i)$ であることはすぐにわかる.
+  $v\in K^n$ を $v=v_1+\cdots+v_s$, $v_i\in V_i$ と表わしておくと,
+  $Av=\alpha_iv$ となるための必要十分条件は $j\ne i$ に対して $v_j=0$ となる
+  ことであることがわかる.}.
+よって $V(A;\alpha_1)\oplus\cdots\oplus V(A;\alpha_s)=V$ である.
+逆にこの条件が成立しているならば $V(A;\alpha_i)$ の基底たち
+の $i=1,\dots,s$ に関する和集合を $p_1,\dots,p_n$ と
+書き, $P=[p_1\ \cdots\ p_n]$ と置くと, $P^{-1}AP$ は対角行列になる.
+\qed
+
+\medskip
+\noindent
+解説: 行列の性質を行列の成分の操作だけによって理解しようとするのは苦しい.
+行列の性質を行列の成分にさわらずにとらえておくと理論の展開が易しくなる場合が
+多い.  行列の半単純性を対角化可能性ではなく, 固有空間分解可能性によってとら
+えておくと便利な場合が多い.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $K$ 上のベクトル空間 $V$ はその一次変換 $A$ の固有空間の直和に分解している
+  と仮定する:
+  \begin{equation*}
+    V = \bigoplus_{\alpha\in K} V_\alpha,
+    \qquad
+    V_\alpha = V(A;\alpha) = \{\,v\in V\mid Av=\alpha v\,\}.
+  \end{equation*}
+  すなわち任意の $v\in V$ は 
+  \begin{equation*}
+    v = \sum_{\alpha\in K} v_\alpha, 
+    \quad
+    (\text{$v_\alpha\in V_\alpha$ であり, 
+      有限個の $\alpha\in K$ を除き $v_\alpha=0$})
+  \end{equation*}
+  と一意に表わされると仮定する.  $v\in V$ に対して $v_\alpha\in V_\alpha$ を
+  対応させる $V$ からそれ自身への写像を $P_\alpha$ と書き, 
+  それを $V$ から $V_\alpha$ への{\bf 射影 (projection)} と呼ぶ.
+  任意の $v\in V$ に対して $P_\alpha v\ne 0$ となる $\alpha\in K$ は高々有限
+  個しか存在しない. さらに次が成立している:
+  \begin{equation*}
+    V_\alpha = \Image P_\alpha,
+    \qquad
+    P_\alpha P_{\beta} = \delta_{\alpha,\beta} P_\alpha,
+    \qquad
+    \sum_{\alpha\in K} P_\alpha = \id_V,
+    \qquad
+    A = \sum_{\alpha\in K} \alpha P_\alpha.
+  \end{equation*}
+  ここで $\sum_{\alpha\in K} P_\alpha$ 
+  や $\sum_{\alpha\in K} \alpha P_\alpha$ は一般には無限和になってしまうが,
+  $P_\alpha v$ は高々有限個の $\alpha$ の除いて $0$ になると仮定してあるので 
+  線形写像として well-defined であることに注意せよ. 
+  \qed
+\end{question}
+
+\noindent
+ヒント: 定義を用いて計算するだけで良い.  
+たとえば $\id_V v = v = \sum v_\alpha = \sum P_\alpha v$ 
+より $\sum P_\alpha = \id_V$ である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $V$ は体 $K$ 上の任意のベクトル空間であり, 
+  各 $\alpha\in K$ に対して線形写像 $P_\alpha:V\to V$ が与えられており,
+  任意の $v\in V$ に対して $P_\alpha v\ne 0$ となる $\alpha\in K$ は高々有限
+  個しか存在せず, 
+  \begin{equation*}
+    P_\alpha P_{\beta} = \delta_{\alpha,\beta} P_\alpha,
+    \qquad
+    \sum_{\alpha\in K} P_\alpha = \id_V
+  \end{equation*}
+  が成立していると仮定する.  このとき, $V$ の一次変換 $A$ を
+  \begin{equation*}
+    A = \sum_{\alpha\in K} \alpha P_\alpha
+  \end{equation*}
+  と定めると, $V$ は $A$ の固有空間 $\Image P_\alpha$ の直和に分解される. \qed
+\end{question}
+
+\noindent
+ヒント: $\sum P_\alpha = \id_V$ 
+より $v = \sum P_\alpha v$ であるから, 
+任意の $v\in V$ は $v = \sum v_\alpha$ ($v_\alpha\in\Image P_\alpha$ は有限
+個を除いて $0$) と表わされる. 
+$P_\alpha P_{\beta} = \delta_{\alpha,\beta} P_\alpha$ 
+より, $\sum v_\beta = 0$ ($v_\beta\in\Image P_\beta$ は有限個を除いて $0$) 
+のとき, $0 = P_\alpha\sum v_\beta = v_\alpha$ である.  これより表示の一意性
+が出るので $V = \bigoplus\Image P_\alpha$ である. 
+$V(A;\alpha)=\Image P_\alpha$ となることもすぐにわかる.
+\qed
+
+\medskip
+\noindent
+解説: 以上の2つ問題によって $K$ 上のベクトル空間 $V$ がその一次変換 $A$ の固
+有空間の直和に分解されるための必要十分条件は
+ある線形写像 $P_\alpha:V\to V$ ($\alpha\in K$) で
+任意の $v\in V$ に対して $P_\alpha v\ne 0$ となる $\alpha\in K$ は高々有限
+個しか存在せず, 
+\begin{equation*}
+  P_\alpha P_{\beta} = \delta_{\alpha,\beta} P_\alpha,
+  \qquad
+  \sum_{\alpha\in K} P_\alpha = \id_V
+\end{equation*}
+を満たしているものが存在し, これらによって $A$ が
+\begin{equation*}
+  A = \sum_{\alpha\in K} \alpha P_\alpha
+\end{equation*}
+と表示できることであることがわかった.  
+このとき $V(A;\alpha)=\Image P_\alpha$ となる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+$V$ は $K$ 上の任意のベクトル空間であるとし, $A$, $B$ は $V$ の一次変換であ
+るとする.  $V$ の部分空間 $V_{\alpha,\beta} = V(A,B;\alpha,\beta)$ を次
+のように定める: 
+\begin{equation*}
+  V_{\alpha,\beta} = V(A,B;\alpha,\beta) =
+  \{\, v\in V \mid Av=\alpha v,\ Bv=\beta v \,\}.
+\end{equation*}
+$V_{\alpha,\beta}=V(A,B;\alpha,\beta)\ne 0$ の
+とき $V_{\alpha,\beta}=V(A,B;\alpha,\beta)$ 
+は $(A,B)$ の{\bf 同時固有空間} と呼ばれ, 
+$V_{\alpha,\beta}=V(A,B;\alpha,\beta)$ に
+含まれる $0$ でないベクトルを $(A,B)$ の{\bf 同時固有値}%
+\footnote{「同時固有値」という用語はあまり標準的ではない.
+  その代わりによく使われるのが「ウェイト (weight)」という用語である.
+  $V_{\alpha,\beta}$ に含まれるベクトルをウェイト $(\alpha,\beta)$ を持つベ
+  クトルと呼び, $V_{\alpha,\beta}$ をウェイト $(\alpha,\beta)$ のウェイト空
+  間と呼ぶことにする場合が多い.} %
+$(\alpha,\beta)$ を持つ{\bf 同時固有ベクトル}と呼ぶ.
+
+$V$ が $A,B$ の同時固有空間の直和に分解するとは
+\begin{equation*}
+  V
+  = \bigoplus_{\alpha,\beta\in K} V_{\alpha,\beta}
+  = \bigoplus_{\alpha,\beta\in K} V(A,B;\alpha,\beta)
+\end{equation*}
+が成立すること, すなわち任意の $v\in V$ が
+\begin{equation*}
+    v = \sum_{\alpha,\beta\in K} v_{\alpha,\beta}
+    \quad
+    (\text{$v_{\alpha\,\beta} \in V_{\alpha,\beta}$ であり, 
+      有限個の $(\alpha,\beta)\in K^2$ を除き $v_{\alpha,\beta}=0$})
+\end{equation*}
+と一意に表わされることである.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $K$ 上の2変数多項式全体の空間 $V=K[x,y]$ 
+  は $A=x\d/\d x$ と $B=y\d/\d y$ の同時固有空間の直和に分解する. \qed
+\end{question}
+
+\noindent
+ヒント: $x^my^n$ ($m,n\in\Z_{\ge0}$) は $V=K[x,y]$ の基底である.
+\qed
+
+\commentout{
+\medskip
+\noindent
+注意: $K$ の標数が $0$ ならば $x\d/\d x$ と $y\d/\d y$ の
+同時固有値全体の集合は $\Z_{\ge0}\times\Z_{\ge0}$ になり, 
+同時固有空間はすべて $1$ 次元になる.
+$K$ の標数が $p>0$ ならば $x\d/\d x$ と $y\d/\d y$ の
+同時固有値全体の集合は $\F_p\times\F_p$ になり, 
+同時固有空間はすべて無限次元になる. 
+\qed
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:diag-iff-eigendecomp:A,B}
+  $A,B\in M_n(K)$ を $V=K^n$ の一次変換とみなすとき,
+  $A,B$ が同時対角化可能であること
+  と $V$ が $A,B$ の同時固有空間の直和に分解することは同値である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 問題 \qref{q:eigenspace-decomp} と同様の議論で良い.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[同時固有空間分解]
+\label{q:eigen-decomp:A,B}
+  $A,B$ は $K$ 上のベクトル空間 $V$ の互いに可換な一次変換であり, 
+  $V$ が $A$, $B$ それぞれの固有空間の直和に分解するならば,
+  $V$ は $A,B$ の同時固有空間の直和に分解する.
+  \qed
+\end{question}
+
+\noindent
+解説: $V=K^n$ ならば同時対角化可能性と同時固有空間分解可能性が同値である
+こと \qref{q:diag-iff-eigendecomp:A,B} を使えば
+問題 \qref{q:semisimple:A+B} の結果からこの問題の結論が直ちに導かれる.
+しかし, それでは無限次元の $V$ の場合の証明にはならない.
+行列の成分を操作する「対角化」の概念を用いずに, 
+「固有空間分解」のような行列の成分に一切触らずに定義できる概念だけで
+証明を閉じておくことも重要である.  
+\qed
+
+\medskip
+\noindent
+ヒント: 仮定より $V=
+\bigoplus_{\alpha\in K}V(A;\alpha)=\bigoplus_{\beta\in K}V(B;\beta)$ で
+かつ $AB=BA$ である. 
+定義より $V(A,B;\alpha,\beta)=V(A;\alpha)\cap V(B;\beta)$ である.
+
+任意の $v\in V$ が有限個の $v_{\alpha,\beta}\in V(\alpha,\beta)$ の有限和で
+一意に表わされることを示さなければいけない.
+
+まず表示の一意性を証明しよう. $v_{\alpha,\beta},w_{\alpha,\beta}\in 
+V(\alpha,\beta)$ は有限個を除いて $0$ であり,  $v=
+\sum_{\alpha,\beta} v_{\alpha,\beta}=
+\sum_{\alpha,\beta} w_{\alpha,\beta}$ を満たしていると仮定する.
+このとき $u_{\alpha,\beta}=
+v_{\alpha,\beta}-w_{\alpha,\beta}\in V(\alpha_i,\beta)$ 
+は $\sum_{\alpha,\beta}u_{\alpha,\beta}=0$ を満たしている.  
+表示の一意性を示すためには $u_{\alpha,\beta}=0$ を示せば良い.
+$u_\alpha:=\sum_\beta u_{\alpha,\beta}$ 
+と置くと $u_\alpha\in V(A;\alpha)$ かつ $\sum_\alpha u_\alpha=0$ で
+あるから $V=\bigoplus_{\alpha\in K}V(A;\alpha)$ より $u_\alpha=0$ である.
+さらに $u_{\alpha,\beta}\in V(B;\beta)$ 
+と $V=\bigoplus_{\beta\in K} V(B;\beta)$ より $u_{\alpha,\beta}=0$ が導かれる.
+(ここまでは $A$ と $B$ の可換性を使っていない.)
+
+次に表示の存在を証明しよう. 
+$V=\bigoplus_{\alpha\in K}V(A;\alpha)$ より任意の $v\in V$ 
+は $v=\sum_\alpha v_\alpha$ ($v_\alpha\in V(A;\alpha)$ は有限個を除いて $0$) 
+と表わせる.   $V=\bigoplus_{\beta\in K}V(B;\beta)$ より各 $v_\alpha$ 
+は $v_\alpha=\sum_\beta v_{\alpha,\beta}$ 
+($v_{\alpha,\beta}\in V(B;\beta)$ は有限個を除いて $0$) と表わせる.
+このとき 
+\begin{equation*}
+  \sum_\beta A v_{\alpha,\beta} 
+  = A v_\alpha 
+  = \alpha v_\alpha
+  = \sum_\alpha \alpha v_{\alpha,\beta}, 
+  \qquad
+  \alpha v_{\alpha,\beta} \in V(B;\beta)
+\end{equation*}
+であり, $A,B$ の可換性より
+\begin{equation*}
+  B A v_{\alpha,\beta} 
+  = A B v_{\alpha,\beta} 
+  = A \beta v_{\alpha,\beta} 
+  = \beta A v_{\alpha,\beta}
+\end{equation*}
+より $A v_{\alpha,\beta}\in V(B;\beta)$ である. 
+$V=\bigoplus_{\beta\in K}V(B;\beta)$ 
+より $A v_{\alpha,\beta}=\alpha v_{\alpha,\beta}$ 
+すなわち $v_{\alpha,\beta}\in V(A;\alpha)$ である.
+以上によって $v_{\alpha,\beta}\in V(A;\alpha)\cap V(B;\beta)
+=V(A,B;\alpha,\beta)$ であることがわかった.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:semipositive-A-and-A^k}
+  複素ベクトル空間 $V$ の半単純一次変換について以下が成立する:
+  \begin{enumerate}
+  \item $A$ はすべての固有値が非負の実数であるような $V$ の半単純一次変換で
+    あり, $k=1,2,3,\ldots$ であるとする.
+    このとき $A$ の固有値 $\alpha$ に対応する固有空間 $V(A,\alpha)$ 
+    と $A^k$ の固有値 $\alpha^k$ に対応する固有空間 $V(A^k,\alpha^k)$ は等しい.
+    よって $V$ の $A$ に関する固有空間分解
+    と $A^k$ に関する固有空間分解は一致する.
+  \item $A$, $B$ はともにすべての固有値が非負の実数であるような $V$ の半単純
+    一次変換であるとし, $k=1,2,3,\ldots$ であるとする. 
+    このとき $A^k=B^k$ ならば $A=B$ である%
+    \footnote{この結果は「2つの非負の実数 $a$, $b$ が $a^k=b^k$ を満たしている
+      ならば $a=b$ である」という事実の行列の場合への拡張になっている.}.
+  \item $A$ はすべての固有値が非負の実数であるような $V$ の半単純一次変換で
+    あるとし, $k=1,2,3,\ldots$ であるとする.
+    このとき $V$ の一次変換 $B$ と $A$ が可換であることと $B$ と $A^k$ と
+    可換であることは同値である.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント: 1. $V(A,\alpha)\subset V(A^k,\alpha^k)$ は常に成立する.
+$A$ はすべての固有値が非負の実数であるような半単純一次変換
+なので $V=\bigoplus_{\alpha\ge 0}V(A,\alpha)$ である.
+$\alpha,\beta\ge0$ のとき $\alpha\ne\beta$ ならば $\alpha^k\ne\beta^k$ 
+なので $V(A^k,\alpha^k)\cap V(A^k,\beta^k)=\{0\}$ である.
+これより $\alpha\ge 0$ に対して $V(A,\alpha)=V(A^k,\alpha^k)$ で
+あることがわかる.
+
+2. 上の結果より $A$ と $A^k$ に関する固有空間分解は等しく, $B$ と $B^k$ に関
+する固有空間分解は等しい.  $A^k=B^k$ より $A$ と $B$ の固有値の集合は
+等しく, $A$ と $B$ に関する固有空間分解が等しいことがわかる.
+よって $A=B$ である.
+
+3. 半単純一次変換 $A$ と任意の一次変換 $B$ が可換であるための必要十分条件
+は $A$ の固有空間を $B$ が保つことである.  仮定より $A$ と $A^k$ に関する
+固有空間分解は等しいので $B$ と $A$ が可換であることと $B$ と $A^k$ が可換で
+あることは同値である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[極分解]
+  $A$ は $n$ 次の複素正方行列であるとする.
+  このとき固有値のすべてが非負の実数であるような Hermite 行列 $H$ と
+  ユニタリー行列 $U$ で $A=HU$ を満たすものが存在する.
+  これを $A$ の{\bf 極分解 (polar decomposition)} と呼ぶ.
+  $H$ は常に一意的であり, もしも $A$ が可逆ならば $U$ も一意的である.
+  そして $A$ が正規行列であることと $H$ と $U$ が可換であることは同値である.
+  \qed
+\end{question}
+
+\noindent
+解説: この問題は「任意の複素数 $z$ は $z=re^{i\theta}$ ($r\in\R_{\ge0}$,
+$\theta\in\R$ と表わされ, $r$ は常に一意的であり, 
+$z\ne 0$ ならば $e^{i\theta}$ も一意的である」という結果の行列への拡張である.
+\qed
+
+\medskip
+\noindent
+ヒント: 問題 \qref{q:complex-PAQ} の結果より, あるユニタリー行列 $P$, $Q$ 
+で $D=P^*AQ$ が対角成分が非負の実数であるような対角行列になるものが存在する.
+よって $H=PDP^*$, $U=PQ^*$ と置けば $A=HU$ かつ $H$ は固有値がすべて
+非負の Hermite 行列であり, $U$ はユニタリー行列である.
+これで極分解の存在が示された.
+$A=H_1U_1=H_2U_2$ を $A$ の2つの極分解とすると $AA^*=H_1^2=H_2^2$ が成立する.
+よって問題 \qref{q:semipositive-A-and-A^k} の結果より $H_1=H_2$ となる.
+これで $H$ の一意性が示された.
+もしも $A$ が可逆ならば $H_1=H_2$ も可逆になる.
+そのとき $U_1=H_1^{-1}H_2U_2=U_2$ である.
+これで可逆な $A$ に対する $U$ の一意性も示された.
+$H$ と $U$ が可換であれば $A^*A=U^{-1}H^2U=U^{-1}UH^2=H^2=AA^*$ なので $A$ 
+は正規行列になる.  逆に $A$ が正規行列であれば $U^{-1}H^2U=A^*A=AA^*=H^2$ で
+あるから $H^2$ と $U$ は可換である. 
+よって問題 \qref{q:semipositive-A-and-A^k} の結果より $H$ と $U$ は可換にな
+る. 
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{最小多項式}
+\label{sec:minimal-polynomial}
+
+$K$ は任意の代数閉体であると仮定し, $K$ の元を成分に持つ行列について考える.
+$K$ の元を数と呼ぶことがある. 「任意の代数閉体」という言葉を使うのが怖い人
+は $K=\C$ であると考えてよい.
+
+$A\in M_n(K)$ に対して, 多項式の集合 $I_A$ を次のように定める%
+\footnote{$I$ はイデアル (ideal) の頭文字を取った.  標準的な記法ではない.
+  ここだけの記法である.}:
+\begin{equation*}
+  I_A = \{\, f\in K[\lambda] \mid f(A) = 0 \,\}.
+\end{equation*}
+このとき $I_A$ は和と任意の多項式倍で閉じている.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-1}
+  $I_A\ne 0$. \qed
+\end{question}
+
+\noindent
+ヒント1: Cayley-Hamilton の定理.
+\qed
+
+\noindent
+ヒント2: 任意の $f\in K[\lambda]$ に対して $f(A)=0$ ならば $f=0$ と仮定して
+矛盾を導こう.  もしもそうならば $E,A,A^2,A^3,\ldots$ は一次独立になる.
+よって $n^2$ 次元の $M_n(K)$ が $E,A,A^2,A^3,\ldots$ で張られる無限次元の部
+分空間を含むことになって矛盾する.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[最小多項式の定義]
+\label{q:minimal-polyn-2}
+  $I_A$ に含まれる $0$ でない多項式の中で次数が最小でかつモニック%
+  \footnote{最高次の係数が $1$ であるという意味.}なものが一意に存在する.
+  その多項式を $A$ の{\bf 最小多項式 (minimal polynomial)} と呼び,
+  $\varphi_A(\lambda)$ と書くことにする.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 存在は上の問題より.  $f,g\in I_A$ はともに条件を満たしているとする.
+このとき $f$ を $g$ で割った商を $q$ と書き, 余りを $r$ と書く.
+もしも $q\ne 1$ ならば $f$ または $g$ がモニックでなくなるので $q=1$ である.
+もしも $r\ne 0$ ならば $r(A)=0$ より $f,g$ の次数の最小性に矛盾する
+ので $r=0$ である.  よって $f=g$ である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-3}
+  $A$ の最小多項式を $\varphi_A$ と書くと $I_A = K[\lambda]\varphi_A$ である.
+  すなわち $A$ を代入して $0$ になる任意の多項式は最小多項式の多項式倍で表わ
+  される.  特に $A$ の特性多項式は $A$ の最小多項式で割り切れる.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $g\in I_A$ を最小多項式 $\varphi_A$ で割った余りを $r$ とする
+と, $r(A)=0$ となるので $\varphi_A$ の次数の最小性より $r=0$ でなければいけ
+ない.  よって $g$ は $\varphi_A$ で割り切れる. 
+$A$ の特性多項式 $p_A$ は Cayley-Hamilton の定理
+より $I_A$ の元なので最小多項式で割り切れる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-4}
+  $A\in M_n(K)$ と $P\in GL_n(K)$ に
+  対して $A$ と $PAP^{-1}$ の最小多項式は等しい. \qed
+\end{question}
+
+\noindent
+ヒント: $f\in K[\lambda]$ に対して $f(PAP^{-1})=Pf(A)P^{-1}$ で
+あるから $f(A)=0 \iff f(PAP^{-1})=0$.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-8}
+  $m$ 次正方行列 $B$ と $n$ 次正方行列 $C$ を
+  用いて $m+n$ 次正方行列 $A$ を $A =
+  \begin{bmatrix}
+    B & 0 \\
+    0 & C \\
+  \end{bmatrix}$ と定める.  
+  このとき $A$ の最小多項式 $\varphi_A$ 
+  は $B$ の最小多項式 $\varphi_B$ と $C$ の最小多項式 $\varphi_C$ 
+  の最小公倍多項式になる.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 最小公倍多項式の定義より, $\varphi_A$ が $\varphi_B$, $\varphi_C$ で
+割り切れることと, $f\in K[\lambda]$ が $\varphi_B$, $\varphi_C$ で割り切れる
+ならば $f$ は $\varphi_A$ でも割り切れることを示せば良い.
+$0=\varphi_A(A)= 
+\begin{bmatrix}
+  \varphi_A(B) & 0 \\
+  0 & \varphi_A(C) \\
+\end{bmatrix}$ より $\varphi_A(B)=0$ かつ $\varphi_A(C)=0$.  
+よって $\varphi_A$ は $\varphi_B$, $\varphi_C$ で割り切れる.
+$f$ が $\varphi_B$, $\varphi_C$ で割り切れるならば $f(B)=0$, $f(C)=0$ 
+となるので $f(A) = 0$ となる.  よって $f$ は $\varphi_A$ で割り切れる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-7}
+  $A\in M_n(K)$ のとき, 
+  $A$ の最小多項式 $\varphi_A$ の $n$ 乗は $A$ の特性多項式 $p_A$ で割り切れる.
+  \qed
+\end{question}
+
+\noindent
+注意: この問題の結果を \qref{q:minimal-polyn-3} の $p_A$ が $\varphi_A$ で割り
+切れるという結果を合わせると, $p_A$ と $\varphi_A$ の根が重複度を除き一致して
+いることもわかる.
+\qed
+
+\medskip
+\noindent
+ヒント: 
+行列係数の多項式に関する剰余定理 \qref{q:matrix-remainder-theorem}
+を $\varphi_A(\lambda)E$ に適用すると, ある行列係数多項式 $G(\lambda)$ が存在
+して $\varphi_A(\lambda)E = (\lambda E - A)G(\lambda)$ となる.
+この等式の両辺の行列式を
+取ると $\varphi_A(\lambda)^n=p_A(\lambda)\det G(\lambda)$.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-9}
+  $\alpha,\beta,\gamma\in K$ は互いに異なると仮定し,
+  $x,y,z\in K$ に対して行列 $A,B,C,D$ を次のように定める:
+  \begin{equation*}
+    A = 
+    \begin{bmatrix}
+      \alpha & x     & z \\
+      0      & \beta & y \\
+      0      & 0     & \gamma \\
+    \end{bmatrix},
+    \quad
+    B = 
+    \begin{bmatrix}
+      \alpha & x      & z \\
+      0      & \alpha & y \\
+      0      & 0      & \gamma \\
+    \end{bmatrix},
+    \quad
+    C = 
+    \begin{bmatrix}
+      \alpha & x      & z \\
+      0      & \alpha & y \\
+      0      & 0      & \alpha \\
+    \end{bmatrix},
+    \quad
+    D =
+    \begin{bmatrix}
+      0  & 1  & 0 \\
+      0  & 0  & 1 \\
+      -z & -y & -x \\
+    \end{bmatrix}.
+  \end{equation*}
+  このとき以下が成立する:
+  \begin{enumerate}
+  \item $A$ の最小多項式は  
+    常に $(\lambda-\alpha)(\lambda-\beta)(\lambda-\gamma)$ になる.
+  \item $B$ の最小多項式は $(\lambda-\alpha)(\lambda-\gamma)$ 
+    または $(\lambda-\alpha)^2(\lambda-\gamma)$ になる.
+    そして前者になるための必要十分条件は $x=0$ である.
+  \item $C$ の最小多項式は $\lambda-\alpha$ または $(\lambda-\alpha)^2$
+    または $(\lambda-\alpha)^3$ のどれかになる.
+    そして $(\lambda-\alpha)^2$ になるための必要十分条件%
+    \footnote{他の場合は簡単である.}は $xy=0$ である.
+  \item $D$ の最小多項式は常に $\lambda^3+x\lambda^2+y\lambda+z$ になる. 
+    \\(ヒント: $D$ の特性多項式
+    は $p_D(\lambda)=\lambda^3+x\lambda^2+y\lambda+z$ である.
+    $K$ は代数閉体だと仮定してあるので, 特性多項式
+    は $p_D(\lambda)=(\lambda-a)(\lambda-b)(\lambda-c)$ ($a,b,c\in K$) 
+    と一次式の積に分解する.  $(D-aE)(D-bE)$ の一番右上の成分は $1$ になる.)
+    \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-5}
+  $\alpha_1,\dots,\alpha_s\in K$ は互いに異なり, 
+  $n=n_1+\cdots+n_s$, $n_i>0$ であるとする.  $n$ 次対角行列 $A$ を
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      \alpha_1 E_{n_1} &                  &        & \bigzerou \\
+                       & \alpha_2 E_{n_2} &        & \\
+                       &                  & \ddots & \\
+      \bigzerol        &                  &        & \alpha_s E_{n_s} \\
+    \end{bmatrix}
+  \end{equation*}
+  と定める.  このとき $A$ の最小多項式
+  は $\varphi(\lambda)=(\lambda-\alpha_1)\cdots(\lambda-\alpha_s)$ である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $\varphi(A)=0$ であることがすぐにわかる.  
+$\varphi(A)$ を割り切る次数が $s$ 未満の任意の多項式を $f$ と
+すると $f(A)\ne 0$ となることもすぐに確かめられる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-6}
+  次の $n$ 次正方行列の最小多項式を求めよ:
+  \begin{equation*}
+    J_n(\alpha) = \alpha E_n + J_m(0) =
+    \begin{bmatrix}
+      \alpha &    1   &        &        & \bigzerou \\
+             & \alpha &    1   &        & \\
+             &        & \alpha & \ddots & \\
+             &        &        & \ddots & 1 \\
+      \bigzerol &     &        &        & \alpha \\
+    \end{bmatrix}.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: $A=J_n(\alpha)$ の特性多項式は $p_A(\lambda)=(\lambda-\alpha)^n$ と
+なる.  実☆☆れ☆そ☆まま☆小☆項☆☆☆る.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[コンパニオン行列]
+\label{q:minimal-polyn-10}
+  次の形の $n$ 次正方行列のを {\bf コンパニオン行列 (同伴行列, 
+  companion matrix)} と呼ぶ:
+  \begin{equation*}
+    C(a_0,\dots,a_{n-1}) =
+    \begin{bmatrix}
+      0         &    1     &        &      & \bigzerou \\
+                &    0     & \ddots &      & \\
+                &          & \ddots &  1   & \\
+      \bigzerol &          &        &  0   &  1 \\
+      -a_{n-1}  & -a_{n-2} & \cdots & -a_1 & -a_0 \\
+    \end{bmatrix}.
+  \end{equation*}
+  コンパニオン行列 $C(a_0,\dots,a_{n-1})$ の特性多項式は
+  \begin{equation*}
+    p_{C(a_0,\dots,a_{n-1})}(\lambda)
+    = \lambda^n + a_0\lambda^{n-1} + a_1\lambda^{n-2}
+    + \cdots + a_{n-2}\lambda + a_{n-1}
+  \end{equation*}
+  となり, 最小多項式は特性多項式に等しい.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 行列式 $|\lambda E - C(a_0,\dots,a_{n-1})|$ を第1列について
+余因子展開することによって帰納的に特性多項式を計算できる:
+{\small
+\begin{equation*}
+  \begin{vmatrix}
+    \lambda &   -1    &        &         & \bigzerou \\
+            & \lambda & \ddots &         & \\
+            &         & \ddots &    -1   & \\
+    \bigzerol &       &        & \lambda & -1 \\
+    a_{n-1} & a_{n-2} & \cdots & a_1     & \lambda-a_0 \\
+  \end{vmatrix}
+  =
+  \lambda
+  \begin{vmatrix}
+    \lambda & -1     &         & \bigzerou \\
+            & \ddots & \ddots  & \\
+    \bigzerol &      & \lambda & -1 \\
+    a_{n-2} & \cdots & a_1     & \lambda-a_0 \\
+  \end{vmatrix}
+  + (-1)^n a_n
+  \begin{vmatrix}
+    -1      &        &         & \bigzerou \\
+    \lambda & -1     &         & \\
+            & \ddots & \ddots  & \\
+    \bigzerol &      & \lambda & -1 \\
+  \end{vmatrix}.
+\end{equation*}
+}よって $p_n(\lambda) = p_{C(a_0,\dots,a_{n-1})}(\lambda)$ と
+置くと $p_n(\lambda) = \lambda p_{n-1}(\lambda) + a_{n-1}$ である.
+最小多項式については次の問題を見よ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-11}
+  次の形の $n$ 次正方行列の最小多項式は特性多項式に等しくなる:
+  \begin{equation*}
+    A =
+    \begin{bmatrix}
+      *         & 1      &        & \bigzerou \\
+      \vdots    & \ddots & \ddots & \\
+      \vdots    &        & \ddots & 1 \\
+      \bigstarl & \cdots & \cdots & * \\
+    \end{bmatrix}.
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: $A$ の形の行列を $n-1$ 個かけると一番右上の $(1,n)$ 成分
+は $1$ になる.  より一般に $A$ の形の行列を $k$ 個かけると次の形になる:
+\begin{equation*}
+  \begin{bmatrix}
+    b_{11}    & \cdots & b_{1,k} & 1      &        & \bigzerou \\
+    *         & \ddots &         & \ddots & \ddots & \\
+    \vdots    & \ddots & \ddots  &        & \ddots & 1 \\
+    \vdots    &        & \ddots  & \ddots &        & b_{n-k+1,n} \\
+    \vdots    &        &         & \ddots & \ddots & \vdots \\
+    \bigstarl & \cdots & \cdots  & \cdots & *      & b_{nn} \\
+  \end{bmatrix}.
+\end{equation*}
+よって $A$ の特性多項式の根を $\alpha_1,\dots,\alpha_n$ 
+と書くと $k<n$ のとき $(A-\alpha_1E)\cdots(A-\alpha_kE)\ne 0$ である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:minimal-polyn-12}
+  問題 \qref{q:minimal-polyn-11} の行列 $A$ に対して,
+  対角成分が $1$ の下三角行列 $U$ と $a_1,\dots,a_n\in K$ 
+  で $U^{-1}AU = C(a_0,\dots,a_{n-1})$ を満たすものが一意に存在する.
+  ここで $C(a_0,\dots,a_{n-1})$ は問題 \qref{q:minimal-polyn-10} で
+  定義したコンパニオン行列である. 
+  \qed
+\end{question}
+
+\noindent
+ヒント1: $A$, $U$ の成分に記号を割り振り, 
+$U$ と $a_i$ に関する方程式 $AU=UC(a_0,\dots,a_{n-1})$ が一意に解けることを
+確かめれば良い.  たとえば $n=3$ のとき,
+\begin{align*}
+  &
+  \begin{bmatrix}
+    a_{11} & 1      & 0 \\
+    a_{21} & a_{22} & 1 \\
+    a_{31} & a_{32} & a_{33} \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    1      & 0      & 0 \\
+    u_{21} & 1      & 0 \\
+    u_{31} & u_{32} & 1 \\
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+    a_{11}+u_{21}                    & 1                   & 0 \\
+    a_{21}+a_{22}u_{21}+u_{31}       & a_{22}+u_{32}       & 1 \\
+    a_{31}+a_{32}u_{21}+a_{33}u_{31} & a_{32}+a_{33}u_{32} & a_{33} \\
+  \end{bmatrix},
+  \\ &
+  \begin{bmatrix}
+    1      & 0      & 0 \\
+    u_{21} & 1      & 0 \\
+    u_{31} & u_{32} & 1 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    0    & 1    & 0 \\
+    0    & 0    & 1 \\
+    -a_2 & -a_1 & -a_0 \\
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    0    & 1          & 0 \\
+    0    & u_{21}     & 1 \\
+    -a_3 & u_{31}-a_2 & u_{32}-a_1 \\
+  \end{bmatrix}.
+\end{align*}
+よって $u_{ij}$ と $a_0,a_1,a_2$ に関する方程式 $AU=UC(a_0,a_1,a_2)$ 
+は $u_{21}=-a_{11}$, 
+$u_{31}=-a_{21}-a_{22}u_{21}$, 
+$a_2 = -a_{31}-a_{32}u_{21}-a_{33}u_{31}$, 
+$u_{32}=u_{21}-a_{22}$, 
+$a_1=u_{31}-a_{32}-a_{33}u_{32}$,
+$a_0=u_{32}-a_{33}$ と一意に解ける.
+\qed
+
+\medskip
+\noindent
+ヒント2: 対角成分の1つ右上の成分だけが $1$ で他の成分が $0$ で
+あるような $n$ 次正方行列を $\Lambda$ と表わす.
+各 $k=0,1,2,\dots$ に対して $(k+1,1),(k+2,2),\dots,(n,n-k)$ 以外の成分が
+すべて $0$ であるような下三角行列全体の空間を $V_k$ と書くことにする.
+$k\ge n$ の場合は $V_n=0$ と約束しておく.
+このとき問題の行列 $A$ は $A=\Lambda+A_0+\cdots+A_{n-1}$, $A_k\in V_k$ と一
+意に表わされ, 対角成分がすべて $1$ であるような下三角行列 $U$ 
+は $U=E+U_1+\cdots+U_{n-1}$, $U_k\in V_k$ と一意に表わされる.
+$(i,j)$ 行列単位を $E_{ij}$ と書き%
+\footnote{$(i,j)$ 成分だけが $1$ で他の成分がすべて $0$ である
+  正方行列を $(i,j)$ 行列単位と呼び, $E_{ij}$ と書く.}, 
+$C_k = -a_kE_{n,n-k}$ と置くと $C_k\in V_k$ であり,
+コンパニオン行列 $C=C(a_0,\dots,a_{n-1})$ 
+は $C = \Lambda+C_0+\cdots+C_{n-1}$ と表わされる.
+このとき $AU=UC$ は $U_k$, $C_k$ に関する次の連立方程式と同値である:
+\begin{align*}
+  &
+  [\Lambda, U_1] - C_0 
+  = - A_0,
+  \\ &
+  [\Lambda, U_2] - C_1 
+  = - A_0U_1 - A_1 + U_1C_0,
+  \\ &
+  [\Lambda, U_3] - C_2 
+  = - A_0U_2 - A_1U_1 - A_2 + U_1C_1 + U_2C_0,
+  \\ &
+  \qquad\qquad\cdots\cdots
+  \\ &
+  [\Lambda, U_{n-1}] - C_{n-2} 
+  = - A_0U_{n-2} - \cdots - A_{n-3}U_1 - A_{n-2} 
+  + U_1C_{n-3} + \cdots + U_{n-3}C_0,
+  \\ &
+  [\Lambda, U_n] - C_{n-1}
+  = - A_0U_{n-1} - \cdots - A_{n-2}U_1 - A_{n-1} 
+  + U_1C_{n-2} + \cdots + U_{n-2}C_0.
+\end{align*}
+ここで $U_n=0$ である. 
+任意の $Z_k\in V_k$ は $[\Lambda, X_{k+1}] + Y_k$ 
+($X_{k+1}\in V_{k+1}$, $Y_k \in K E_{n,n-k}$) と
+一意に表わされることを示せる.  
+よって上の連立方程式は上から順に一意に解ける.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[最小多項式による半単純性の判定法]
+\label{q:minimal-polyn-semisimple}
+  $A\in M_n(K)$ が半単純であるための必要十分条件
+  は $A$ の最小多項式が重根を持たないことである.
+  特に $A$ の特性多項式が重根を持たなければ $A$ は半単純である.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 問題 \qref{q:minimal-polyn-4}, \qref{q:minimal-polyn-5} より
+半単純なら最小多項式が重根を持たないことがわかる.
+最小多項式 $\varphi_A(\lambda)$ が重根を持たないと仮定する. 
+すなわち $\varphi_A(\lambda)=(\lambda-\alpha_1)\cdots(\lambda-\alpha_s)$ と
+一次式の積に分解され $\alpha_i$ は互いに異なると仮定する. このとき
+\begin{equation*}
+  \varphi_A(A)=(A-\alpha_1E)\cdots(A-\alpha_sE)=0
+\end{equation*}
+であるから, 問題 \qref{q:Ker-Image-2} の結果より
+\begin{equation*}
+  \sum_{i=1}^s \dim\Ker(A - \alpha_iE) \ge \dim\Ker\varphi(A) = n.
+\end{equation*}
+$A$ の固有値 $\alpha_i$ に対応する固有空間は $\Ker(A - \alpha_iE)$ 
+に等しい.  問題 \qref{q:eigenspace-decomp-pre} の結果より逆向きの不等式が
+成立しているので等号が成立する. 
+よって $A$ の固有ベクトルだけで構成された $K^n$ の基底 $p_1,\dots,p_n$ が
+存在する.  このとき $P=[p_1\ \dots\ p_n]$ は $A$ を対角化する. 
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[最小多項式の有理的計算法]
+  $A\in M_n(K)$ とし, $A$ の最小多項式を $\varphi_A(\lambda)$ と書き,
+  特性多項式を $p_A(\lambda)=\det(\lambda E - A)$ と書くことにする.
+  $\lambda E - A$ のすべての $(i,j)$ 余因子のモニックな最大公約多項式
+  を $d(\lambda)$ と書くと $\varphi_A(\lambda)=p_A(\lambda)/d(\lambda)$ である.
+  \qed
+\end{question}
+
+\noindent
+解説: 行列式の定義より特性多項式と余因子は四則演算だけで計算でき, 
+最大公約多項式も Euclid の互除法より四則演算で計算できるので,
+正方行列の最小多項式は四則演算だけで計算できることがわかる.
+よって代数閉体 $K$ の任意の部分体 $L$ に対して $A\in M_n(L)$ の
+最小多項式は $L$ 係数の多項式として四則演算だけで計算できる.
+\qed
+
+\medskip
+\noindent
+ヒント: $\lambda E - A$ の $(i,j)$ 余因子を $f_{ij}(\lambda)$ と
+書き, $F(\lambda) = [f_{ij}(\lambda)]$ と置く.  
+$d(\lambda)$ は $f_{ij}(\lambda)$ たちの最大公約多項式である
+から, ある行列係数多項式 $G(\lambda)$ でその成分の最大公約多項式が $1$ 
+で $F(\lambda) = d(\lambda)G(\lambda)$ を満たすものが存在する. 
+余因子展開の公式より,
+\begin{equation*}
+  d(\lambda)\tp{G(\lambda)}(\lambda E - A)
+  = \tp{F(\lambda)}(\lambda E - A)
+  = p_A(\lambda) E.
+\end{equation*}
+よって特性多項式 $p_A(\lambda)$ は $d(\lambda)$ で割り切れる.
+$f=p_A/d\in K[\lambda]$ と置く
+と $\tp{G(\lambda)}(\lambda E - A) = f(\lambda)E$ である.
+このとき行列係数多項式の剰余定理 \qref{q:matrix-remainder-theorem} 
+より $f(A)=0$ となる.  よって $f(\lambda)$ は最小多項式 $\varphi_A(\lambda)$ 
+で割り切れる.  $g=f/\varphi_A\in K[\lambda]$ と置く.
+$\varphi_A(\lambda)E$ に行列係数多項式の
+剰余定理 \qref{q:matrix-remainder-theorem} を適用するとある行列係数
+多項式 $H(\lambda)$ で $\varphi_A(\lambda)E=H(\lambda)(\lambda E - A)$ を満たす
+ものが存在する.  この等式の両辺に $g=f/\varphi_A$ をかけ
+て左辺に $\tp{G(\lambda)}(\lambda E - A) = f(\lambda)E$ を適用する
+と $\tp{G(\lambda)}(\lambda E - A)=g(\lambda)H(\lambda)(\lambda E - A)$ とな
+る.  この等式の両辺に右から $\tp{F(\lambda)}$ をかけて $p_A(\lambda)$ で割る
+と $\tp{G(\lambda)} = g(\lambda)H(\lambda)$ となる.  ところが $G(\lambda)$ 
+の成分たちの最大公約多項式は $1$ なので $g$ は定数でなければいけない.
+ところが $g=f/\varphi_A=p_A/(\varphi_A d)$ より $g$ の最高次の係数は $1$ でな
+ければいけない. したがって $g=1$ である.  これで $f=\varphi_A$ が示された.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Jordan 分解と一般固有空間分解}
+\label{sec:Jordan-decomposition}
+
+行列の Jordan 標準形の話に戻ろう. 
+
+$K$ は任意の代数閉体であると仮定し, $K$ の元を成分に持つ行列について考える.
+$K$ の元を数と呼ぶことがある. 「任意の代数閉体」という言葉を使うのが怖い人
+は $K=\C$ であると考えてよい.
+
+\begin{theorem}[Jordan 分解]
+  任意の行列 $A\in M_n(K)$ に対して
+  半単純行列 $S\in M_n(K)$ と巾零行列 $N\in M_n(K)$ の組
+  で $A=S+N$ かつ $SN = NS$ を満たすものが一意に存在する. 
+  しかも各 $A$ ごとにある多項式 $g\in K[\lambda]$ 
+  で $S = g(A)$, $N = A - g(A)$ を満たすものが存在する.  
+  上のような $A=S+N$ を行列 $A$ の{\bf Jordan 分解 (Jordan decomposition)} と
+  呼ぶ.  (あとで説明する乗法的 Jordan 分解との区別を強調したい場合は
+  {\bf 加法的 Jordan 分解 (additive Jordan decomposition)} と呼ぶ.)
+  $S$, $N$ はそれぞれ $A$ の{\bf 半単純部分 (semisimple part)}, 
+  {\bf 巾零部分 (nilpotent part)} と呼ばれている.
+  \qed  
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+Jordan 分解の証明では\secref{sec:Euclidean-algorithm-K[x]}で特に詳しく説
+明した問題 \qref{q:Euclidean-algorithm-3} の結果が決定的に重要な役目を果たす.
+その結果をここに再掲しておこう:
+\begin{quote}
+  $f_1,\dots,f_n\in K[\lambda]$ の最大公約元を $d\in K[\lambda]$ とすると,
+  ある $a_1,\dots,a_n\in K[\lambda]$ 
+  で $d=a_1f_1+\cdots+a_nf_n$ を満たすものが存在する. \qed
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[Jordan 分解の存在]
+\label{q:Jordan-decomp-1}
+  $A\in M_n(K)$ の Jordan 分解が存在して,
+  $A$ の半単純部分と巾零部分が $A$ の多項式で表わされることを
+  以下の方針で証明せよ:
+  \begin{enumerate}
+  \item ある $0$ でないモニックな多項式 $f\in K[\lambda]$ で $f(A)=0$ となる
+    ものが存在する.  (ヒント: Cayley-Hamilton の定理もしくは最小多項式の存在.)
+  \item $K$ は代数閉体だと仮定してあったので $f$ は一次式の積に分解する:
+    \begin{equation*}
+      f(\lambda) = (\lambda-\alpha_1)^{m_1}\cdots(\lambda-\alpha_s)^{m_s}.
+    \end{equation*}
+    ここで $\alpha_1,\dots,\alpha_s\in K$ は互いに異なり, $m_i$ は正の整数で
+    ある.  $f_i(\lambda)=f(\lambda)/(\lambda-\alpha_i)^{m_i}$ と置く
+    と $f_1,\dots,f_s$ の最大公約多項式は $1$ になる.
+    よって問題 \qref{q:Euclidean-algorithm-3} の結果より, 
+    ある $a_1,\dots,a_s\in K[\lambda]$ が存在
+    して $a_1 f_1 + \cdots + a_s f_s = 1$ となる.
+  \item $p_i = a_i f_i$ と置き, $P_i = p_i(A)$ と置くと
+    \begin{equation*}
+      P_i P_j = \delta_{ij} P_i, 
+      \qquad
+      P_1 + \cdots + P_s = E.
+    \end{equation*}
+    (ヒント: $p_1+\cdots+p_s=1$ なので $P_1+\cdots+P_s=E$ である.
+    $i\ne j$ のとき $f_if_j$ は $f$ で割り切れるので $f_i(A)f_j(A)=0$.
+    よって $P_iP_j=0$ ($i\ne j$).  $P_i=EP_i=(P_1+\cdots+P_s)P_i=P_i^2$.)
+  \item $K^n$ の部分空間 $V_i$ 
+    を $V_i=\Image P_i = \{\, P_i x \mid x \in K^n \,\}$ と定めると,
+    任意の $v\in K^n$ は $v = v_1 + \cdots + v_s$, $v_i\in V_i$ と
+    一意に表わされる. 
+    (ヒント: 表示の存在は $P_1 + \cdots + P_s = E$ より.
+    表示の一意性は $P_i P_j = \delta_{ij} P_i$ より.)
+  \item $S = \alpha_1 P_1 + \cdots + \alpha_s P_s$, $N=A-S$ と
+    置くと $S$, $N$ は $A$ の多項式になるので, $SN=NS$ である.
+  \item $S$ は半単純である.
+    (ヒント: $V_i$ たちの基底の和集合を $u_1,\dots,u_n$ と
+    書くと $U=[u_1\ \cdots\ u_n]$ は $S$ を対角化する.)
+  \item $N$ は巾零である.
+    (ヒント: $v_i\in V_i$ に対して $Nv_i = (A - \alpha_iE)v_i$ である.
+    $P_i=p_i(A)$ と $A$ は可換なので $Nv_i\in V_i$ である.
+    $(\lambda-\alpha_i)^{m_i}p_i(\lambda)=a_i(\lambda)f(\lambda)$ な
+    ので $N^{m_i}v_i = (A - \alpha_iE)^{m_i}v_i 
+    = a_i(A)f(A)v_i = 0$.
+    一般の $v\in V$ は $v=v_1+\cdots+v_s$, $v_i\in V_i$ と
+    表わされるので $m = \max\{m_1,\dots,m_s\}$ と置くと $N^mv=0$.)
+    \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[Jordan 分解の一意性]
+\label{q:Jordan-decomp-2}
+  Jordan 分解の一意性を証明せよ. \qed
+\end{question}
+
+\noindent
+ヒント: 問題 \qref{q:Jordan-decomp-1} より $A$ の 
+Jordan 分解 $A=S+N$ で $S$, $N$ が $A$ の多項式になるものが存在する.
+もう1つの Jordan 分解 $A=S'+N'$ が与えられたとき $S'=S$, $N'=N$ となることを
+示せば良い.  $A=S+N=S'+N'$ より $S-S'=N'-N$ である.
+Jordan 分解の定義から $S'$ と $N'$ は互いに可換である
+ので $A$ とも可換である.  $S$, $N$ は $A$ の多項式なの
+で $S'$, $N'$ は $S$, $N$ とも可換である.
+よって, 問題 \qref{q:semisimple:A+B} より $S-S'$ も半単純になり,
+問題 \qref{q:nilpotent:A+B} より $N'-N$ も巾零になる.
+したがって, 問題 \qref{q:ss-cap-nil=0} より $S-S'=N'-N=0$ である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:Jordan-decomp-4}
+  $A,B\in M_n(K)$ であるとし $A$ の Jordan 分解を $A=S+N$ ($S$ は半単純, 
+  $N$ は巾零) と書いておく.  このとき $A$ と $B$ が可換であるための必要十分
+  条件は $B$ が $S$ および $N$ と可換になることである.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $A=S+N$ より $B$ が $S$ および $N$ と可換ならば $A$ とも可換である.
+$S$ と $N$ は $A$ の多項式で書けるので,  $B$ が $A$ と可換ならば $S$ お
+よび $N$ とも可換である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[一般固有空間分解]
+\label{q:generalized-eigenspace}
+  $K^n$ は $A$ の一般固有空間
+  \begin{equation*}
+    W_A(\alpha_i) 
+    = \{\, v\in K^n \mid (A-\alpha_i E)^k v = 0\ (\exists k \ge 0)\,\}
+    \qquad (i=1,\dots,s)
+  \end{equation*}
+  の直和に分解される.  ここで $\alpha_1,\dots,\alpha_s$ は $A$ の相異なる固
+  有値の全体である.  
+  すなわち任意の $v\in V$ は $v=v_1+\cdots+v_s$, $v_i\in W_A(\alpha_i)$ の形
+  で一意に表わされる. 
+  \qed
+\end{question}
+
+\noindent
+ヒント:  問題 \qref{q:Jordan-decomp-1} の記号のもと
+で $V_i=W_A(\alpha_i)$ が成立することを示せば良い%
+\footnote{問題 \qref{q:Jordan-decomp-1} の $f$ は $A$ の固有値以外の根を持た
+  ないものが取れる. たとえば $A$ の特性多項式や最小多項式が取れる.
+  よって $\alpha_i$ は $A$ の固有値であると考えて良い.}.
+$V_i\subset W_A(\alpha_i)$ 
+は $(\lambda-\alpha_i)^{m_i}p_i(\lambda)=a_i(\lambda)f(\lambda)$ 
+より $(A - \alpha_i E)^{m_i}V_i = a_i(A)f(A)V = 0$ となることより出る.
+$V_i\supset W_A(\alpha_i)$ の方は次のように示される.
+$(A-\alpha_iE)^kv=0$ と仮定する.
+もしも $p_i$ が $\lambda-\alpha_i$ で割り切れる
+ならば $p_1+\cdots+p_s=1$ も $\lambda-\alpha_i$ で割り切れるので矛盾する.
+よって $p_i(\lambda)$ は $(\lambda-\alpha_i)^k$ と共通因子を持たない.
+したがってある多項式 $a,b\in K[\lambda]$ が
+存在して $a(\lambda)p_i(\lambda)+b(\lambda)(\lambda-\alpha_i)^k=1$ とな
+る.  これの $\lambda$ に $A$ を代入して $v$ に作用させる
+と $P_ia(A)v = v$ となる.  よって $v\in P_iK^n=V_i$ である.)
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}[Jordan 標準形の一歩手前]
+\label{q:Jordan-decomp-3}
+  正方行列 $A \in M_n(K)$ の Jordan 分解を $A=S+N$ ($S$ は半単純, $N$ は巾零) 
+  と書くことにする.  このとき, ある正則行列 $P\in GL_n(K)$ が
+  存在して $P^{-1}AP$, $P^{-1}SP$, $P^{-1}NP$ は以下のような形になる:
+  {\small
+  \begin{align*}
+    P^{-1}AP &=
+    \begin{bmatrix}
+      \alpha_1  & *        & \cdots & \bigstaru & & & & & & \bigzerou \\
+                & \alpha_1 & \ddots & \vdots    & & & & & & \\
+                &          & \ddots & *         & & & & & & \\
+      \bigzerol &          &        & \alpha_1  & & & & & & \\
+                & & & & \ddots & & & & \\
+                & & & & & \ddots & & & \\
+                & & & & & & \alpha_s  & *        & \cdots & \bigstaru \\
+                & & & & & &           & \alpha_s & \ddots & \vdots \\
+                & & & & & &           &          & \ddots & * \\
+      \bigzerol & & & & & & \bigzerol &          &        & \alpha_s \\
+    \end{bmatrix},
+    \\
+    P^{-1}SP &=
+    \begin{bmatrix}
+      \alpha_1  &          &        &           & & & & & & \bigzerou \\
+                & \alpha_1 &        &           & & & & & & \\
+                &          & \ddots &           & & & & & & \\
+                &          &        & \alpha_1  & & & & & & \\
+                & & & & \ddots & & & & \\
+                & & & & & \ddots & & & \\
+                & & & & & & \alpha_s  &          &        & \\
+                & & & & & &           & \alpha_s &        & \\
+                & & & & & &           &          & \ddots & \\
+      \bigzerol & & & & & &           &          &        & \alpha_s \\
+    \end{bmatrix},
+    \\
+    P^{-1}NP &=
+    \begin{bmatrix}
+      0         & *        & \cdots & \bigstaru & & & & & & \bigzerou \\
+                & 0        & \ddots & \vdots    & & & & & & \\
+                &          & \ddots & *         & & & & & & \\
+      \bigzerol &          &        & 0         & & & & & & \\
+                & & & & \ddots & & & & \\
+                & & & & & \ddots & & & \\
+                & & & & & & 0         & *        & \cdots & \bigstaru \\
+                & & & & & &           & 0        & \ddots & \vdots \\
+                & & & & & &           &          & \ddots & * \\
+      \bigzerol & & & & & & \bigzerol &          &        & 0 \\
+    \end{bmatrix}.
+  \end{align*}
+  }ここで, $\alpha_1,\dots,\alpha_s$ は $A$ の相異なる固有値の全体で
+  あり,  $\alpha_i$ の重複度を $n_i$ と書くと, $P^{-1}AP$ と $P^{-1}SP$ 
+  の対角線には各 $\alpha_i$ が $n_i$ 個ずつ並んでおり,
+  $P^{-1}AP$ と $P^{-1}NP$ の対角線には $n_i$ 次の上三角行列が並んでいる.
+
+  特に $A$ と $S$ の特性多項式, トレース, 行列式は等しい.
+  \qed
+\end{question}
+
+\noindent
+ヒント: $S$ は半単純なのである正則行列 $Q$ が存在して $Q^{-1}SQ$ は上の形に
+なる.  このとき $Q^{-1}NQ$ は $Q^{-1}SQ$ と可換なので
+問題 \qref{q:B-commutes-semisimple-A} の結果より次の形になる:
+\begin{equation*}
+  Q^{-1}NQ = 
+  \begin{bmatrix}
+    N_1       &        & \bigzerou \\
+              & \ddots & \\
+    \bigzerol &        & N_s \\
+  \end{bmatrix}.
+\end{equation*}
+ここで $N_i$ は $n_i$ 次の正方行列である.  
+$N$ は巾零なので問題 \qref{q:nilpotent:[B,C;0,D]} の結果より $N_i$ たちも巾
+零になる.  問題 \qref{q:triangularizable} もしく
+は(その一般化である問題 \qref{q:triangulizable:A,B}) より各 $N_i$ に
+対してある $n_i$ 次正則行列 $R_i$ が存在して $R_i^{-1}N_iR_i$ は上三角行列に
+なる.  $N_i$ は巾零なので $R_i^{-1}N_iR_i$ の対角成分はすべて $0$ でなければ
+いけない.  $R_1,\dots,R_s$ を対角線に並べてできる正則行列を $R$ と
+書き, $P=QR$ と置く.
+このとき $R$ は $Q^{-1}SQ$ と可換なの
+で $P^{-1}SP=R^{-1}Q^{-1}SQR = Q^{-1}SQ$ で
+あり, $P^{-1}NP=R^{-1}Q^{-1}NQR$ は対角線に $R_i^{-1}N_iR_i$ が並んでいる行
+列になる.  よって $P^{-1}SP$ と $P^{-1}NP$ は上に示された形になっている.
+そのとき $P^{-1}AP=P^{-1}SP+P^{-1}NP$ も上に示された形になっている.
+このとき, $p_A(\lambda)=p_{P^{-1}AP}(\lambda)=p_{P^{-1}SP}(\lambda)
+=p_S(\lambda)$ である.  トレースと行列式についても同様である%
+\footnote{トレースが特性多項式の $\lambda^{n-1}$ の係数の $-1$ 倍に等しく,
+  行列式が特性多項式の定数項の $(-1)^n$ 倍に等しいという結果を使っても良いし,
+  トレースは重複を含めた固有値の和に等しく, 行列式は重複を含めた固有値の積に
+  等しいという結果を使っても良い.}.
+\qed
+
+\medskip
+\noindent
+解説: 上のヒントは Jordan 分解可能性さえ認めてしまえば, Jordan 標準形の一歩
+手前の結果を容易に導けることも示している.  
+ただし, Jordan 分解の他に次のような結果も必要になるのだが:
+「対角行列と可換な行列がどのような形になるか」
+\qref{q:B-commutes-semisimple-A},
+「対角線に正方ブロックが並んだ行列が巾零でならば各ブロックも巾零である」
+\qref{q:nilpotent:[B,C;0,D]},
+「任意の正方行列は相似変換で上三角行列に変換できる」
+\qref{q:triangularizable}.
+これらの結果は直接的な計算や行列のサイズに関する帰納法で容易に証明可能である.
+
+Jordan 標準形の理論は「途中で使われた結果は後の方で示された結果を認めれば容
+易に示されてしまう」という性質を持っている.  だから結論を暗記するためには
+後の方で証明されるより強い結果を覚えるようにして, 
+その強い結果を認めれば途中で使われた中間的な結果が容易に導かれることをチェッ
+クしておけば良い%
+\footnote{たとえば Jordan 標準形の一歩手前の結果を認めて Cayley-Hamilton の
+  定理を証明してみよ.}.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $A\in M_n(K)$ の半単純部分を $S$ と書く.
+  $A$ と $S$ の最小多項式が等しくならない場合があることを示せ.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 例を1つ以上示せば良い.  
+対角部分が $\alpha E$ であるような上三角行列でそのような例を探してみよ.
+(そのとき $S=0$ となる.)
+問題 \qref{q:minimal-polyn-9} も参考にせよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+正方行列 $A\in M_n(K)$ が{\bf 巾単 (unipotent)} である
+とは $A-E$ が巾零 (nilpotent) になることである.
+すなわち $A$ が $A=E+N$ ($N$ は巾零) と表わされるとき $A$ は巾単であるという.
+
+\begin{question}
+  巾単行列は正則行列である. \qed
+\end{question}
+
+\noindent
+ヒント: 等比級数の和の公式 $1/(1+x) = 1 - x + x^2 - x^3 + \cdots$ 
+を $A=E+N$, $N^r=0$ に適用せよ.  
+$B = E - N + N^2 - N^3 + \cdots + (-1)^rN^r$ (有限和) と
+置くと $AB = BA = E$ となる.
+\qed
+
+\medskip
+\noindent
+解説: 行列や作用素の等比級数は{\bf Neumann 級数 (Neumann series)} と
+呼ばれている. もしも Neumann 級数 $\sum_{k=0}^\infty (-N)^k$ が
+収束すればそれは $E+N$ の逆行列になっている.  
+$N$ が巾零ならば Neumann 級数は有限和になる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{theorem}[乗法的 Jordan 分解]
+\label{theorem:mult-Jordan-decomp}
+  任意の正則行列 $A\in GL_n(K)$ に対して
+  半単純正則行列 $S\in GL_n(K)$ と巾単行列 $U\in GL_n(K)$ の組
+  で $A=SU$ かつ $SU = US$ を満たすものが一意に存在する. 
+  これを正則行列 $A$ の
+  {\bf 乗法的 Jordan 分解 (multiplicative Jordan decomposition)} 
+  もしくは{\bf Chevalley 分解 (Chevalley decomposition)} と呼ぶ.
+  このとき $S$, $U$ はそれぞれ $A$ の{\bf 半単純部分 (semisimple part)}, 
+  {\bf 巾単部分 (unipotent part)} と呼ばれている.
+  乗法的 Jordan 分解における半単純部分と加法的 Jordan 分解における半単純部分
+  は等しいので, それらを区別する必要はない.
+  \qed  
+\end{theorem}
+
+\begin{question}
+  以下の方針で乗法的 Jordan 分解の存在と一意性を証明せよ.
+  \begin{enumerate}
+  \item $A$ の Jordan 分解を $A = S + N$ ($S$ は半単純, $N$ は巾零) と書く.
+    Jordan 標準形の一歩手前 \qref{q:Jordan-decomp-3} の結果
+    より $0\ne\det A=\det S$ である.  よって $S$ も正則行列である.
+  \item $U=S^{-1}A=E+S^{-1}N$ と置く. 
+    $S$ と $N$ は可換なので $S^{-1}$ と $N$ は可換になり,
+    $S^{-1}N$ は巾零になる. よって $U$ は巾単行列である.
+  \item $S$ と $S^{-1}N$ は可換なので $U$ と $S$ も可換である. 
+    これで乗法的 Jordan 分解の存在が示された.
+  \item 逆に $A=SU$ ($S$ は半単純, $U$ は巾単) が乗法的 Jordan 分解
+    であるとき, $N=A-S=S(U-E)$ と置くと $A=S+N$ は加法的 Jordan 分解で
+    ある.  よって乗法的 Jordan 分解の一意性は加法的 Jordan 分解の一意性に
+    帰着する.
+    \\(ヒント: $A=SU=S'U'$ ($S,S'$ は半単純, $U,U'$ は巾単) は2種類の
+    乗法的 Jordan 分解であるとし, $N=A-S$, $N'=A-S'$ と置く.
+    このとき $A=S+N=S'+N'$ は2種類の加法的 Jordan 分解である.
+    加法的 Jordan 分解の一意性より $S=S'$, $N=N'$ である.
+    このとき $U=S^{-1}A={S'}^{-1}A=U'$ である.)
+    \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{巾零行列の標準形と Jordan 標準形}
+\label{sec:Jordan-normal-form}
+
+$K$ は任意の代数閉体であると仮定し, $K$ の元を成分に持つ行列について考える.
+$K$ の元を数と呼ぶことがある. 「任意の代数閉体」という言葉を使うのが怖い人
+は $K=\C$ であると考えてよい.
+
+\medskip
+
+任意に正方行列 $A\in M_n(K)$ を取り, 
+$A$ の相異なる固有値の全体を $\alpha_1,\dots,\alpha_s$ と書き,
+各 $\alpha_i$ の重複度を $n_i$ と書くことにする.
+
+Jordan 標準形の一歩手前 \qref{q:Jordan-decomp-3} の結果によれば, 
+ある正則行列 $P\in GL_n(K)$ が存在して $P^{-1}AP$ が対角線には $n_i$ 次の
+上三角行列のブロックが並んだ形になり, 
+各々のブロックの対角線には $\alpha_i$ が $n_i$ 個並んでいる.
+しかし,  $*$ で表示されている非対角線部分の形をどれだけ単純化できるかという
+問題はまだ残っている.  以下ではその問題を解くことにしよう.
+
+その問題を解くためは $P^{-1}AP$ の対角線に並んだ各ブロックごとに解けば良い
+ので, 最初から $A$ が次の形をしていると仮定して構わない:
+\begin{equation*}
+  A = \alpha E + N, \qquad
+  N = 
+  \begin{bmatrix}
+    0 & a_{12} & \cdots & a_{1n} \\
+      & 0      & \ddots & \vdots \\
+      &        & \ddots & a_{n-1,n} \\
+    \bigzerol & &       & 0 \\
+  \end{bmatrix}.
+\end{equation*}
+問題は巾零行列 $N$ の形をある正則行列 $P$ による相似変換 $P^{-1}NP$ によって
+できるだけ単純化することである.  
+$\alpha E$ の部分は任意の $P$ と可換なので無視して構わない.
+
+答を説明するために $m$ 次正方行列 $J_m(\alpha)$ を次のように定義する:
+\begin{equation*}
+  J_m(\alpha) := 
+  \begin{bmatrix}
+    \alpha    & 1      &        & \bigzerou \\
+              & \alpha & \ddots & \\
+              &        & \ddots & 1 \\
+    \bigzerol &        &        & \alpha \\
+  \end{bmatrix}
+  = \alpha E_m + J_m(0),
+  \qquad
+  J_m(0) =
+  \begin{bmatrix}
+    0         & 1 &        & \bigzerou \\
+              & 0 & \ddots & \\
+              &   & \ddots & 1 \\
+    \bigzerol &   &        & 0 \\
+  \end{bmatrix}.
+\end{equation*}
+$J_m(\alpha)$ の形の行列を {\bf Jordan ブロック行列 (Jordan block matrix)} 
+と呼び, $J_m(0)$ の形の行列を {\bf 巾零 Jordan ブロック行列 (nilpotent Jordan
+block matrix)} と呼ぶことにする.  
+特に $J_1(\alpha)$ は $1$ 次の正方行列なので
+数の $\alpha$ と同一視できる.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+さて, 問題の答は以下の通り.
+
+\begin{theorem}[巾零行列の標準形]
+\label{theorem:nilpotent-normal-form}
+  任意の巾零行列 $N\in M_n(K)$ に対してある正則行列 $P\in GL_n(K)$ 
+  をうまく選んで, $P^{-1}NP$ が対角線に
+  巾零 Jordan ブロック $J_{m_1}(0),\dots,J_{m_t}(0)$ が並んだ形の行列に
+  なるようにできる:
+  {\small
+  \begin{equation*}
+    P^{-1}NP =
+    \begin{bmatrix}
+      J_{m_1}(0) &        & \bigzerou \\
+                 & \ddots & \\
+      \bigzerol  &        & J_{m_t}(0) \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      0         & 1        & \cdots & \bigzerou & & & & & & \bigzerou \\
+                & 0        & \ddots & \vdots    & & & & & & \\
+                &          & \ddots & 1         & & & & & & \\
+      \bigzerol &          &        & 0         & & & & & & \\
+                & & & & \ddots & & & & \\
+                & & & & & \ddots & & & \\
+                & & & & & & 0         & 1        & \cdots & \bigzerou \\
+                & & & & & &           & 0        & \ddots & \vdots \\
+                & & & & & &           &          & \ddots & 1 \\
+      \bigzerol & & & & & & \bigzerol &          &        & 0 \\
+    \end{bmatrix}.
+  \end{equation*}
+  }しかも $(m_1,\dots,m_t)$ はその並べ方の順序を除いて $P$ の取り方に
+  よらずに $N$ のみから一意に定まる.
+  この形の $P^{-1}NP$ を巾零行列 $N$ の Jordan 標準形と呼び, 
+  各 $J_{m_i}(0)$ を $N$ の Jordan 細胞と呼ぶ.
+  \qed
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+我々が目標としている最終定理は次の Jordan 標準形の存在と一意性である.
+
+\begin{theorem}[Jordan 標準形]
+\label{theorem:Jordan-normal-form}
+  任意の正方行列 $A\in M_n(K)$ に対してある正則行列 $P\in GL_n(K)$ 
+  で $P^{-1}AP$ が
+  対角線に Jordan ブロック $J_{m_1}(\alpha_1),\dots,J_{m_t}(\alpha_t)$ が
+  並んだ形の行列になるようにできる:
+  {\small
+  \begin{equation*}
+    P^{-1}AP =
+    \begin{bmatrix}
+      J_{m_1}(\alpha_1) &        & \bigzerou \\
+                        & \ddots & \\
+      \bigzerol         &        & J_{m_t}(\alpha_t) \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \alpha_1  & 1        &        & \bigzerou & & & & & & \bigzerou \\
+                & \alpha_1 & \ddots &           & & & & & & \\
+                &          & \ddots & 1         & & & & & & \\
+      \bigzerol &          &        & \alpha_1  & & & & & & \\
+                & & & & \ddots & & & & \\
+                & & & & & \ddots & & & \\
+                & & & & & & \alpha_t  & 1        &        & \bigzerou \\
+                & & & & & &           & \alpha_t & \ddots & \\
+                & & & & & &           &          & \ddots & 1 \\
+      \bigzerol & & & & & & \bigzerol &          &        & \alpha_t \\
+    \end{bmatrix}.
+  \end{equation*}
+  }しかも $(m_1,\alpha_1;\dots;m_t,\alpha_t)$ はその並べ方の順序を除い
+  て $P$ の取り方によらず, $A$ だけから一意に定まる.
+  上の $P^{-1}AP$ を行列 $A$ の
+  {\bf Jordan 標準形 (Jordan normal form, Jordan canonical form)} 
+  と呼び, 各 $J_{m_i}(\alpha_i)$ を $A$ の 
+  {\bf Jordan 細胞 (Jordan cell)} と呼ぶ.
+  \qed
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+以下における我々の目標は以上の結果を証明することである.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:existence-Jordan}
+  Jordan 標準形の一歩手前 \qref{q:Jordan-decomp-3} の結果と
+  巾零行列の標準形の存在 (\theoremref{theorem:nilpotent-normal-form}の一部) 
+  を仮定して, 正方行列の Jordan 標準形の存在 
+  (\theoremref{theorem:Jordan-normal-form}の一部) を証明せよ. 
+  \qed
+\end{question}
+
+\noindent
+ヒント: Jordan 標準形の一歩手前 \qref{q:Jordan-decomp-3} の結果より, 
+任意の正方行列 $A\in M_n(K)$ に対してある正則行列 $Q\in GL_n(K)$ が
+存在して $Q^{-1}AQ$ は次の形になる:
+\begin{equation*}
+  Q^{-1}AQ = 
+  \begin{bmatrix}
+    \alpha_1 E_{n_1} &        & \bigzerou \\
+                     & \ddots & \\
+    \bigzerol        &        & \alpha_s E_{n_s} \\
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    N_1       &        & \bigzerou \\
+              & \ddots & \\
+    \bigzerol &        & N_s \\
+  \end{bmatrix}.
+\end{equation*}
+ここで $\alpha_1,\dots,\alpha_s$ は $A$ の相異なる固有値の全体で
+あり, $n_i$ は $\alpha_i$ の重複度であり, $N_i$ は $n_i$ 次の巾零行列である.
+巾零行列の標準形の存在より, 
+各 $N_i$ に対してある正則行列 $R_i\in GL_{n_i}(K)$ が
+存在して $R_i^{-1}N_iR_i$ が次の形になる:
+\begin{equation*}
+  R_i^{-1}N_iR_i =
+  \begin{bmatrix}
+    J_{m_{i1}}(0) &        & \bigzerou \\
+                  & \ddots & \\
+    \bigzerol     &        & J_{m_{i,t(i)}}(0) \\
+  \end{bmatrix}.
+\end{equation*}
+$R_i$ を順に対角線に並べてできる行列を $R$ と書き, $P=QR$ と置く.
+$\alpha_{ij}=\alpha_i$ ($i=1,\dots,s$, $j=1,\dots,t(i)$) と置き,
+$(m_{ij}, \alpha_{ij})$ 全体の番号を付け
+直して, $(m_k, \alpha_k)$ ($k=1,\dots,t$) と書く.
+このとき $P^{-1}AP$ はちょうど\theoremref{theorem:Jordan-normal-form}の
+Jordan 標準形の形になっている.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+巾零行列 $N\in M_n(K)$ に対して $V=K^n$ の部分空間 $V_j$ を
+次のように定める:
+\begin{equation*}
+  V_j = \Ker N^j = \{\, v\in V=K^n \mid N^j v = 0 \,\}
+  \qquad (j=0,1,2,\ldots).
+\end{equation*}
+これ以後 $N^{\nu-1}\ne 0$, $N^\nu=0$ であると仮定する.
+このとき, $j$ が大きくなるほど $N^j$ の作用で $0$ になるベクトルは増えるので
+\begin{equation*}
+  0 = V_0 \subset V_1 \subset V_2 \subset 
+      \cdots \subset V_{\nu-1} \subset V_\nu = V = K^n.
+\end{equation*}
+そして $NV_j \subset V_{j-1}$ が成立している.  
+この様子と相性の良い $V=K^n$ の基底を取ることが目標である.
+(その基底で $N$ を表示すると巾零行列の標準形の形になっている.)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+この段落は一般論であり, 
+この段落に限っては $V$ と書いても $K^n$ であるとは限らない.
+一般に $K$ 上のベクトル空間 $U$ とその部分空間 $V$ に
+対して $U$ の部分空間 $W$ が $V$ の{\bf 補空間 (complement)} である
+とは $U$ が $V$ と $W$ の直和分解されること
+(すなわち $U=V\oplus W$) である%
+\footnote{任意の $u\in U$ が $u=v+w$ ($v\in V$, $w\in W$) と一意的に表わされ
+  るとき $U$ は $V$ と $W$ に直和分解されるといい, $U=V\oplus W$ と書く.
+  $V$ と $W$ が $U$ の部分空間であるとき $U=V\oplus W$ であるための必要十分
+  条件は $U=V+W$ かつ $V\cap W=0$ が成立することである.}.
+$V$ の基底を $\{v_i\}_{i\in I}$ とすると
+それに一次独立な $U$ のベクトルの集合 $\{w_j\}_{j\in J}$ を追加
+して $U$ の基底を構成することができる%
+\footnote{$U$ が無限次元の場合は選択公理と同値な Zorn の補題が必要になる.
+  Jordan 標準形の理論では有限次元の場合だけを扱うので Zorn の補題を用いた証
+  明を知らなくても何も問題がない.}.
+そのとき $W$ を $\{w_j\}_{j\in J}$ で張られる $U$ の部分空間%
+\footnote{$\sum_{j\in J} b_j w_j$  ($b_j\in K$ は有限個を除いて $0$) の
+  形の $U$ のベクトル全体の集合は $U$ の部分空間をなす.  
+  それを $\{w_j\}_{j\in J}$ で張られる $U$ の部分空間と呼ぶ.}%
+とすると $W$ は $V$ の補空間である.  以下では $U$ の任意の部分空間 $V$ 
+の $U$ における補空間 $W$ が存在することを自由に用いる.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+さて我々の議論の基礎になるのは次の結果である.
+
+\begin{question}
+\label{q:nilp-1}
+  上の方の記号のもとで $j=2,\dots,\nu$ に
+  対して, $V_j$ における $V_{j-1}$ の補空間 $X_j$ を任意に取る.
+  このとき $N$ の $X_j$ への制限は単射である.
+  さらに $NX_j\subset V_{j-1}$, $NX_j\cap V_{j-2}=0$ が
+  成立しているので $V_{j-1}$ における $V_{j-2}$ の補空間で $NX_j$ を
+  含むものが存在する. \qed
+\end{question}
+
+\noindent
+ヒント: $v\in X_j$, $Nv=0$ ならば $N^{j-1}v=0$ すなわち $v\in V_{j-1}$ とな
+り $v\in X_j\cap V_{j-1}=0$ となる. よって $N$ の $X_j$ への制限は単射である.
+$X_j\subset V_j$ なので $NX_j\subset NV_j\subset V_{j-1}$ である.
+$v\in X_j$ が $Nv\in V_{j-2}$ を満たしているならば $N^{j-1}v=0$ 
+すなわち $v\in V_{j-1}$ となるので $v\in X_j\cap V_{j-1}=0$ 
+なので $Nv=N0=0$ である.  これで $NX_j\cap V_{j-2}=0$ も示された.
+よって $NX_j$ の基底と $V_{j-2}$ の基底の和集合を
+拡張して $V_{j-1}$ の基底を構成できる. 
+拡張した分と $NX_j$ の基底の和集合で張られる $V_{j-1}$ の
+部分空間は $V_{j-1}$ における $V_{j-2}$ の補空間になる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+上の問題 \qref{q:nilp-1} の状況で $X_j$ の基底を $x_1,\dots,x_p$ と書き, 
+$V_{j-1}$ における $V_{j-2}$ の補空間で $NX_j$ を含むもの
+の基底を $Nx_1,\dots,Nx_p$, $y_1,\dots,y_q$ と
+取り,  $V_{j-2}$ の基底
+を $N^2x_1,\dots,N^2x_p$, $Ny_1,\dots,Ny_q$, $z_1,\dots,z_r$ と
+取ると, 以下のように $V_j$, $V_{j-1}$, $V_{j-2}$ の基底が取れたことになる:
+\begin{equation*}
+  V_j
+  \left\{
+    \begin{array}{l}
+      \hphantom{V_{j-1}\{\}} 
+      \hphantom{V_{j-2}\{\}}\;\;
+            x_1,\dots,x_p \\
+      V_{j-1}
+      \left\{
+        \begin{array}{l}
+          \hphantom{V_{j-2}\{\}} 
+            Nx_1,\dots,Nx_p,\;\;\;\; y_1,\dots,y_q \\
+          V_{j-2}
+          \left\{\;
+            N^2x_1,\dots,N^2x_p,\; Ny_1,\dots,Ny_q,\; z_1,\dots,z_r
+          \right. \\
+        \end{array}
+      \right. \\
+    \end{array}
+  \right.
+\end{equation*}
+この様子を $V$ 全体に拡張しよう.
+そのために $j=\nu,\nu-1,\nu-2,\ldots,1$ と上から順に
+$V_j$ の部分空間 $U_j\subset W_j$ を以下のように定める.
+
+まず, $V_\nu$ における $V_{\nu-1}$ の補空間 $U_\nu$ を任意に取り, 
+$V_\nu$ の部分空間 $W_\nu$ を次のように定義する:
+\begin{equation*}
+  W_\nu = U_\nu + NU_\nu + \cdots + N^{\nu-1}U_\nu.
+\end{equation*}
+
+次に, $V_{\nu-1}$ における $NU_\nu+V_{\nu-2}$ の補空間 $U_{\nu-1}$ を
+任意に取り, $V_{\nu-1}$ の部分空間 $W_{\nu-1}$ を次のように定義する:
+\begin{equation*}
+  W_{\nu-1} = U_{\nu-1} + NU_{\nu-1} + \cdots + N^{\nu-2}U_{\nu-1}.
+\end{equation*}
+
+その次に, $V_{\nu-2}$ における $N^2U_\nu+NU_{\nu-1}+V_{\nu-3}$ の
+補空間 $U_{\nu-1}$ を任意に取り,
+$V_{\nu-2}$ の部分空間 $U_{\nu-2}$ を次のように定義する:
+\begin{equation*}
+  W_{\nu-2} = U_{\nu-2} + NU_{\nu-2} + \cdots + N^{\nu-3}U_{\nu-1}.
+\end{equation*}
+
+帰納的に $V_j$ の部分空間 $U_j\subset W_j$ が $j=\nu,\nu-1,\dots,k+1$ 
+まで構成されたと仮定する.  
+もしも $k+1=1$ ならばそれで部分空間の構成を終了する.
+もしも $k+1\ge 2$ ならば $V_k$ に
+おける $N^{\nu-k}U_\nu+N^{\nu-k-1}U_{\nu-1}+\cdots+NU_{k+1}+V_{k-1}$ の
+補空間 $U_k$ を任意に取り, $V_k$ の部分空間 $W_k$ を次のように定義する:
+\begin{equation*}
+  W_k = U_k + NU_k + \cdots + N^{k-1}U_k.
+\end{equation*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:nilp-2}
+  以上の構成のもとで以下が成立している:
+  \begin{enumerate}
+  \item $V = W_1\oplus W_2\oplus\cdots\oplus W_\nu$.
+  \item $W_k = U_k\oplus NU_k\oplus\cdots\oplus N^{k-1}U_k$.
+  \item $N$ は次の同型写像の列を与える: $
+    U_k\isomto NU_k\isomto\cdots\isomto N^{k-1}U_k$. 
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+解説: この問題の結論は $V$ が以下の表にあるベクトル空間の直和に分解
+され, 各 $k$ に対して $U_k,NU_k,\dots,N^{k-1}U_k$ はすべて $N$ による対応に
+よって同型になるということである:
+\begin{equation*}
+  \begin{array}{ccccccc}
+             U_\nu & & & & & & \\
+          N  U_\nu &          U_{\nu-1} & & & & & \\
+          N^2U_\nu &       N  U_{\nu-1} &          U_{\nu-2} & & & & \\
+            \vdots &             \vdots &             \vdots & \ddots & & & \\
+    N^{\nu-3}U_\nu & N^{\nu-4}U_{\nu-1} & N^{\nu-5}U_{\nu-2} & \cdots &    U_3 & & \\
+    N^{\nu-2}U_\nu & N^{\nu-3}U_{\nu-1} & N^{\nu-4}U_{\nu-2} & \cdots &   NU_3 &  U_2 & \\
+    N^{\nu-1}U_\nu & N^{\nu-2}U_{\nu-1} & N^{\nu-3}U_{\nu-2} & \cdots & N^2U_3 & NU_2 & U_1 \\
+  \end{array}
+  \tag{$\ast$}
+\end{equation*}
+そして右から $k$ 番目の縦の列の直和が $W_k$ に等しく, 下から $k$ 段目までの
+直和が $V_k$ になる.
+
+\medskip
+\noindent
+ヒント: 問題 \qref{q:nilp-1} の結果を用いて上の図 ($\ast$) の上の方から順番
+に示したい結果が成立していることを証明する.  $U_\nu$ の構成の仕方より
+\begin{equation*}
+  V=K^n=V_\nu=U_\nu\oplus V_{\nu-1}.
+\end{equation*}
+問題 \qref{q:nilp-1} より $U_\nu$ は $NU_\nu\subset V_{\nu-1}$ に同型
+に移される.  $U_{\nu-1}$ の構成の仕方より
+\begin{equation*}
+  V_{\nu-1}=NU_\nu\oplus U_{\nu-1}\oplus V_{\nu-2}.
+\end{equation*}
+問題 \qref{q:nilp-1} より $NU_\nu\oplus U_{\nu-1}$ 
+は $N^2U_\nu\oplus NU_{\nu-1}\subset V_{\nu-2}$ に同型にうつされる%
+\footnote{同型写像は直和を保つ.}. 
+$U_{\nu-2}$ の構成より
+\begin{equation*}
+  V_{\nu-2} = N^2U_\nu\oplus NU_{\nu-1}\oplus U_{\nu-2}\oplus V_{\nu-2}.
+\end{equation*}
+以上の議論を帰納的に繰り返せば良い.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+各 $U_k$ の基底 $u_{k1},\dots,u_{k,t_k}$ 任意に取り,
+それらを次のような順番に並べる:
+\begin{align*}
+  &
+  u_{11};\;\dots;\; u_{1t_1};
+  \\ &
+  Nu_{21},u_{21};\;\cdots;\; Nu_{2t_2},u_{2t_2};
+  \\ &
+  N^2u_{31},Nu_{31},u_{31};\;\cdots;\; N^2u_{3t_3},Nu_{3t_3},u_{3t_3};
+  \tag{$\ast\ast$}
+  \\ &
+  \qquad\qquad\qquad\qquad\cdots\cdots\cdots
+  \\ &
+  N^{\nu-1}u_{\nu1},\dots,N^2u_{\nu1},Nu_{\nu1},u_{\nu1};\;\cdots;\; 
+  N^{\nu-1}u_{\nu t_\nu},\dots,N^2u_{\nu t_\nu},Nu_{\nu t_\nu},u_{\nu t_\nu}.
+\end{align*}
+問題 \qref{q:nilp-2} よりこれらは $V$ の基底をなす.  
+これらの全体を $p_1,\dots,p_n$ と書き $P=[p_1\ \cdots\ p_n]$ と置く.
+
+\begin{question}
+\label{q:nilp-3}
+  以上の構成のもとで $P^{-1}NP$ は\theoremref{theorem:nilpotent-normal-form}
+  の意味で標準形になっている.
+  \qed
+\end{question}
+
+\noindent
+ヒント: ($\ast\ast$) の ($u_{11};\cdots;
+N^{\nu-1}u_{\nu t_\nu},\dots,Nu_{\nu t_\nu},u_{\nu t_\nu})$ の
+部分列 ($N^{k-1}u_{ki},\dots,Nu_{ki},u_{ki}$) で
+張られる $V=K^n$ の部分空間は $N^ku_{ki}=0$ なので $N$ の作用で閉じている.
+$N$ を $N^{k-1}u_{ki},\dots,Nu_{ki},u_{ki}$ に作用させると,
+\begin{equation*}
+  N[N^{k-1}u_{ki}\ \dots\ Nu_{ki}\ u_{ki}]
+  = [N^{k-1}u_{ki}\ \dots\ Nu_{ki}\ u_{ki}]
+  \begin{bmatrix}
+    0         & 1 &        & \bigzerou \\
+              & 0 & \ddots & \\
+              &   & \ddots & 1 \\
+    \bigzerol &   &        & 0 \\
+  \end{bmatrix}.
+\end{equation*}
+よって $P^{-1}NP$ はこの式の右辺に表われた巾零 Jordan ブロックを対角線に並べ
+た形になる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+以上によって巾零行列の存在 (\theoremref{theorem:nilpotent-normal-form}の一部) 
+が証明された.  よって問題 \qref{q:existence-Jordan} によって Jordan 標準形の
+存在 (\theoremref{theorem:Jordan-normal-form}の一部) も証明されたことになる.
+あとは Jordan 標準形の一意性だけが問題になる.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:nilp-4}
+  巾零行列 $N\in M_n(K)$ の $j$ 次の\footnote{「サイズが $j$ の」という意味.}
+  Jordan 細胞の個数は
+  \begin{equation*}
+      (\dim\Ker N^j     - \dim\Ker N^{j-1}) 
+    - (\dim\Ker N^{j+1} - \dim\Ker N^j)
+  \end{equation*}
+  に等しい.  特に巾零 Jordan 細胞の全体 $(J_{m_1}(0),\dots,J_{m_t}(0))$ 
+  はその並べ方を除いて巾零行列 $N$ だけから一意に定まる. 
+  \qed
+\end{question}
+
+\noindent
+ヒント: $N' = P^{-1}NP$ が標準形になっていると
+仮定し, $N'$ に対して図 ($\ast$) の状況を構成し, $U_j$ の代わりに $U'_j$ と
+表わす.  $N'$ は標準形になっているので基底 ($\ast\ast$) は $V=K^n$ の標準的
+な基底を並べ直すことによって構成できる. 
+その作業を実行すれば $N'$ の中のサイズ $j$ の Jordan 細胞の
+個数は $\dim U'_j$ に等しいことがわかる.
+$N$, $U_j$ を $N'$, $U'j$ で置き換えた図 ($\ast$) に
+おいて下から $j$ 段目までの部分空間の直和は $\Ker{N'}^j$ に等しい.
+よって下から $j$ 段目だけの部分空間の直和の次元
+は $\dim\Ker {N'}^j - \dim\Ker {N'}^{j-1}$ に等しい.
+したがって $U'_j$ の次元は「下から $j$ 段目だけの部分空間の直和の次元」から
+「下から $j+1$ 段目だけの部分空間の直和の次元」を引いた数に等しい.
+以上によって $N'$ の中のサイズ $j$ の Jordan 細胞の個数は
+\begin{equation*}
+  \dim U'_j 
+  = (\dim\Ker {N'}^j - \dim\Ker {N'}^{j-1}) 
+  - (\dim\Ker {N'}^{j+1} - \dim\Ker {N'}^j)
+\end{equation*}
+に等しい.  ${N'}^j = P^{-1}N^jP$ なので $\dim\Ker{N'}^j = \dim\Ker N^j$ なの
+で示したい結果が得られる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+これで\theoremref{theorem:nilpotent-normal-form} 
+(巾零行列の標準形の存在と一意性) が証明された.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:nilp-5}
+  正方行列 $A\in M_n(K)$ の固有値 $\alpha$ に属する $j$ 次の Jordan 細胞の
+  個数は $B=A-\alpha E$ に対する
+  \begin{equation*}
+      (\dim\Ker B^j     - \dim\Ker B^{j-1}) 
+    - (\dim\Ker B^{j+1} - \dim\Ker B^j)
+  \end{equation*}
+  に等しい.  
+  特に Jordan 細胞の全体 $(J_{m_1}(\alpha_1),\dots,J_{m_t}(\alpha_t))$ 
+  はその並べ方を除いて正方行列 $A$ だけから一意に定まる. 
+  \qed
+\end{question}
+
+\noindent
+ヒント: $A' = P^{-1}AP$ が Jordan 標準形になっていると
+仮定し, $B'=A'-\alpha E$ の中の巾零 Jordan ブロック全体を対角線に並べてできる
+行列を $N'$ と書く.  このとき $\dim\Ker{B'}^j = \dim\Ker (N')^j$ で
+あり,  $N'$ の中のサイズ $j$ の巾零 Jordan 細胞の個数
+と $A'$ の中の固有値 $\alpha$ に属する $j$ 次の Jordan 細胞の個数に等しい.
+よって, 問題 \qref{q:nilp-4} の結果
+より, $A'$ の中の固有値 $\alpha$ に属する $j$ 次の Jordan 細胞の個数は
+\begin{equation*}
+    (\dim\Ker{B'}^j     - \dim\Ker{B'}^{j-1}) 
+  - (\dim\Ker{B'}^{j+1} - \dim\Ker{B'}^j)
+\end{equation*}
+に等しい.  ${B'}^j = P^{-1}B^jP$ なので示したい結果が得られる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\medskip
+
+これで\theoremref{theorem:Jordan-normal-form}
+(正方行列の Jordan 標準形の存在と一意性) も証明された.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  次の $n$ 次複素正方行列 $A$ の Jordan 標準形 $J$ と $P^{-1}AP=J$ を
+  満たす正則行列 $P$ の例と最小多項式 $\varphi(\lambda)$ を求めよ:
+  \begin{equation*}
+    A = 
+    \begin{bmatrix}
+      0   & 1 &        & \\
+          & 0 & \ddots & \\
+          &   & \ddots & 1 \\
+      a^n &   &        & 0 \\
+    \end{bmatrix}
+    \qquad (a\in \C).
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: $a=0$ のときは $A$ 自身が Jordan 標準形になっているので, $a\ne 0$ の
+場合だけが問題になる.  $a\ne 0$ と仮定する.  
+$A$ の特性多項式は $p_A(\lambda)=\lambda^n - a^n$ なので $A$ は互いに
+異なる $n$ 個の固有値 $a e^{2\pi ik/n}$ ($k=0,1,\ldots,n-1$) を持つ.  
+よって $A$ は☆単☆であり, その Jordan 標準形 $J$ は相異なる固有値を☆角成☆
+に並べた対☆☆列になる.  最小多項式は☆☆多☆式に等しい.
+固有値 $\alpha_k = a e^{2\pi ik/n}$ に属す固有ベクトルと
+して $p_k = \tp{[1\ \alpha_k\ \alpha_k^2\ \cdots\ \alpha_k^{n-1}]}$ が取れる.
+これを並べてできる行列を $P$ とすれば $P^{-1}AP=J$ となる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $p$ は任意の素数であるとし, $K$ は標数 $p$ の代数閉体であるとする%
+  \footnote{最小の標数 $p$ の代数閉体は $p$ 個の元を持つ
+    有限体 $\F_p$ に $1$ の巾根をすべて付け加えてできる $\F_p$ の
+    代数閉包 $\closure\F_p$ である.}.
+  次のように定められた $p$ 次正方行列 $A\in M_p(K)$ の Jordan 標準形を求めよ:
+  \begin{equation*}
+    A = 
+    \begin{bmatrix}
+      0   & 1 &        & \\
+          & 0 & \ddots & \\
+          &   & \ddots & 1 \\
+      a^p &   &        & 0 \\
+    \end{bmatrix}
+    \qquad (a\in K).
+    \qed
+  \end{equation*}
+\end{question}
+
+\noindent
+ヒント: $a=0$ のときは $A$ 自身が Jordan 標準形になっているので, $a\ne 0$ の
+場合だけが問題になる.  $a\ne 0$ と仮定する.
+一般に標数 $p$ の世界では $(a-b)^p=a^p-b^p$ である.
+よって $A$ の特性多項式は $p_A(\lambda)=\lambda^p-a^p=(\lambda-a)^p$ になる.
+$(A-aE)^{p-1}$ の一番右上の成分は $1$ になるので $(A-aE)^{p-1}\ne 0$ である
+(問題 \qref{q:minimal-polyn-11} のヒントを見よ).
+よって $A$ の最小多項式は特性多項式に一致することがわかる%
+\footnote{実は問題 \qref{q:minimal-polyn-10} の特殊な場合.}.
+したがって $A$ の Jordan 標準形は $J_p(a)$ になる.
+\qed
+
+\medskip
+\noindent
+参考: 標数 $p$ の世界では $(\lambda-a)
+(\lambda^{p-1}+a\lambda^{p-2}+a^2\lambda^{p-3}+\cdots+a^{p-2}\lambda+a^{p-1})
+=\lambda^p-a^p=(\lambda-a)^p$ であるから, $(\lambda-a)^{p-1}
+=\lambda^{p-1}+a\lambda^{p-2}+a^2\lambda^{p-3}+\cdots+a^{p-2}\lambda+a^{p-1}$ 
+である. この公式を用いて $(A-aE)^{p-1}$ を計算してみよ.
+すると, $K^p$ の標準的基底を $e_1,\dots,e_p$ と
+書くとき, $(A-aE)^{p-1}e_p = \tp{[1\ a\ a^2\ \cdots\ a^{p-1}]}\ne 0$ となる
+ことがわかる.  よって 
+\begin{equation*}
+  (A-aE)^{p-1}e_p,\cdots,(A-aE)^2e_p,(A-aE)e_p,e_p
+\end{equation*}
+は $K^p$ の基底をなし, その基底に関する $A$ の表現は $A$ の Jordan 標準形に
+なる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:Frobenius-homomorphism}
+  $p$ は任意の素数であるとし, $K$ は標数 $0$ の体であるとする. このとき
+  任意の $a,b\in K$ に対して $(a+b)^p=a^p+b^p$ かつ $(-a)^p=-a^p$ である%
+  \footnote{$(ab)^p=a^pb^p$ であることは明らかなので $a\mapsto a^p$ は $K$ 
+    から $K$ 自身への体の準同型写像になっている.  
+    これは {\bf Frobenius 準同型 (Frobenius homomorphism)} と呼ばれている.}.
+  \qed
+\end{question}
+
+\noindent
+ヒント: 二項定理より
+\begin{equation*}
+  (a+b)^p = 
+  a^p + \binom{p}{1}a^{p-1}b + \binom{p}{2}a^{p-2}b^2
+  + \cdots + \binom{p}{p-2}a^2b^{p-2} + \binom{p}{p-1}ab^{p-1} + b^p.
+\end{equation*}
+しかし, $\binom{p}{1},\dots,\binom{p}{p-1}$ は $p$ で割り切れる
+ので $K$ の中で $0$ になる.  よって $(a+b)^p=a^p+b^p$ である.
+特に $b=-a$ と置くと $0 = (a+(-a))^p=a^p+(-a)^p$ である.
+よって $(-a)^p=-a^p$ である%
+\footnote{次のように考えても良い. 
+  $p=2$ のとき $K$ の中で $2=0$ より $a+a=0$ なので $-a=a$ である.
+  よって $p=2$ のとき $(-a)^p=(-a)^2=a^2=-a^2$ である.  
+  $p$ が奇素数のとき $(-a)^p=-a^p$ である.}.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:Jordan-varphi=p}
+  正方行列 $A\in M_n(K)$ の特性多項式を $p_A(\lambda)$ と表わす.
+  $K$ は代数閉体だと仮定したので特性多項式は次のように一次式の積に分解される:
+  \begin{equation*}
+    p_A(\lambda) = (\lambda-\alpha_1)^{n_1}\cdots(\lambda-\alpha_s)^{n_s}.
+  \end{equation*}
+  ここで $\alpha_1,\dots,\alpha_s$ たちは $p_A(\lambda)$ の相異なる根の全体
+  である.  このとき以下の二条件は互いに同値である:
+  \begin{enumerate}
+  \item[(a)] $A$ の最小多項式は特性多項式 $p_A(\lambda)$ に一致する.
+  \item[(b)] $A$ の Jordan 標準形 $J$ は次の形になる:
+    \begin{equation*}
+      J = 
+      \begin{bmatrix}
+        J_{n_1}(\alpha_1) &        & \bigzerou \\
+                          & \ddots & \\
+        \bigzerol         &        & J_{n_s}(\alpha_s) \\
+      \end{bmatrix}.
+    \end{equation*}
+    すなわち $A$ の各固有値 $\alpha_i$ に属する Jordan 細胞は唯一つになる.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント: $A$ の固有値 $\alpha_i$ に属する Jordan 細胞のすべてを対角線に並べて
+できる $n_i$ 次正方行列を $J_i$ と書くことにする.  
+$A$ の Jordan 標準形 $J$ は $J_i$ を対角線に並べた行列になる.  
+$A$ の最小多項式は $J$ の最小多項式に等しいので, (a) が成立するための
+必要十分条件は $(J_i-\alpha_i)^{n_i-1}\ne 0$ が成立することである.  
+それが成立するための必要十分条件は $J_i=J_{n_i}(\alpha_i)$ すなわち (b) が
+成立することである.  もしも $J_i$ の中に Jordan 細胞が複数含まれているとすれ
+ばある $m<n_i$ で $(J_i-\alpha_i)^m=0$ となってしまうことが簡単に確かめられ
+る.  $J_m(0)^{m-1}\ne 0$, $J_m(0)^m=0$ に注意せよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{行列方程式 $AX-XB=C$}
+\label{sec:AX-XB=C}
+
+すでに行列の対角化や Jordan 標準形の重要な応用先として $A^n$ や $e^{At}$ を
+計算する問題があることを\secref{sec:exp}, \secref{sec:2x2}, \secref{sec:3x3}で
+説明した.  この節では別の応用先について説明しよう.
+
+$K$ は任意の代数閉体であると仮定し, $K$ の元を成分に持つ行列について考える.
+$K$ の元を数と呼ぶことがある. 「任意の代数閉体」という言葉を使うのが怖い人
+は $K=\C$ であると考えてよい.
+
+この節では $A=[a_{ij}]$ は $m$ 次正方行列であると
+し, $B=[b_{ij}]$ は $n$ 次正方行列であると
+し, $C=[c_{ij}]$ は $(m,n)$ 型行列であるとする.  
+すなわち $A\in M_m(K)$, $B\in M_n(K)$, $C\in M_{m,n}(K)$ であるとする.
+この節では $X=[x_{ij}]\in M_{m,n}(K)$ に関する
+\begin{equation*}
+  AX - XB = 0
+\end{equation*}
+という方程式と
+\begin{equation*}
+  AX - XB = C
+\end{equation*}
+という方程式について考える.  これらの方程式は応用上たびたび現われる.
+
+さらに写像 $\phi:M_{m,n}(K)\to M_{m,n}(K)$ を
+\begin{equation*}
+  \phi(X) = AX - XB
+  \qquad (X\in M_{m,n}(K))
+\end{equation*}
+と定める. このとき $\phi$ は線形写像である. 
+実際, $X,Y\in M_{m,n}(K)$, $a,b\in K$ に対して, 
+\begin{align*}
+  \phi(aX+bY) 
+  & = A(aX+bY)-(aX+bY)B = aAX + bBY - aXB - bYB
+  \\ &
+  = a(AX-XB) + b(AY-YB) = a\phi(X) + b\phi(Y).
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:Ker-phi-Image-phi}
+  線形写像 $\phi$ の核 (kernel) と像 (image) の定義を説明し, 
+  以下の事実を説明せよ:
+  \begin{enumerate}
+  \item 方程式 $AX-XB=0$ の解全体の集合は $M_{m,n}(K)$ の
+    線形部分空間 $\Ker\phi$ に一致する.
+  \item 方程式 $AX-XB=C$ の解が存在するような $C\in M_{m,n}(K)$ 全体の
+    集合は $M_{m,n}(K)$ の線形部分空間 $\Image\phi$ に一致する.
+  \item $X_1$ は方程式 $AX-XB=C$ の任意の解であるとする.  
+    このとき方程式 $AX-XB=C$ の解全体の集合は $X_1$ と方程式 $AX-XB=0$ の解
+    の和全体の集合と一致する.
+    \qed
+  \end{enumerate}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Jordan 標準形の理論より, ある正則行列 $P\in GL_m(K)$ と $Q\in GL_n(K)$ が存
+在して $J_A=P^{-1}AP$ と $J_B=Q^{-1}BK$ はそれぞれ $A$ と $B$ の Jordan 標準
+形になる.  このとき, $Y=PXQ^{-1}$, $D=P^{-1}CQ$ と置けば
+方程式 $AX-XB=C$ は方程式 $J_AY-YJ_B=D$ と同値になる.
+方程式 $AX-XB=C$ の定性的な性質を調べるためには
+最初から $A$, $B$ が Jordan 標準形であると仮定してよい.
+そこで $A$, $B$ は Jordan 標準形であると仮定する:
+\begin{equation*}
+  A = 
+  \begin{bmatrix}
+    J_{m_1}(\alpha_1) &        & \bigzerou \\
+                      & \ddots & \\
+    \bigzerol         &        & J_{m_s}(\alpha_s) \\
+  \end{bmatrix},
+  \qquad
+  B = 
+  \begin{bmatrix}
+    J_{n_1}(\beta_1) &        & \bigzerou \\
+                     & \ddots & \\
+    \bigzerol        &        & J_{n_t}(\beta_t) \\
+  \end{bmatrix}.
+\end{equation*}
+$X$, $C$ を $(m_\mu,n_\nu)$ 型行列 $X_{\mu\nu}$, $C_{\mu\nu}$ に分割して
+\begin{equation*}
+  X = 
+  \begin{bmatrix}
+    X_{11} & \cdots & X_{1t} \\
+    \vdots &        & \vdots \\
+    X_{s1} & \cdots & X_{st} \\
+  \end{bmatrix},
+  \qquad
+  C = 
+  \begin{bmatrix}
+    C_{11} & \cdots & C_{1t} \\
+    \vdots &        & \vdots \\
+    C_{s1} & \cdots & C_{st} \\
+  \end{bmatrix}
+\end{equation*}
+と表わしておく.  このとき方程式 $AX-XB=C$ は次の連立方程式と同値である:
+\begin{equation*}
+  J_{m_\mu}(\alpha_\mu)X_{\mu\nu}J_{n_\nu}(\beta_\nu) = C_{\mu\nu}
+  \qquad (\mu=1,\dots,s,\, \nu=1,\dots,t).
+\end{equation*}
+これより方程式 $AX-XB=C$ の定性的性質を調べる問題は $A$, $B$ が Jordan ブロ
+ック行列である場合に帰着する.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:alpha-ne-beta}
+  $\alpha\ne\beta$, $A=J_m(\alpha)$, $B=J_n(\beta)$ であるとき
+  以下が成立する:
+  \begin{enumerate}
+  \item 方程式 $AX-XB=0$ の解は $X=0$ 以外に存在しない.
+  \item 任意の $C\in M_{m,n}(K)$ に対して $AX-XB=C$ の解が唯一存在する.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント1: $AX$ と $BX$ を具体的に書き下すと,
+\begin{align*}
+  &
+  AX = J_m(\alpha)X =
+  \left[
+  \begin{array}{llcl}
+    \alpha x_{11}    + x_{21} & \alpha x_{12}    + x_{22} & \cdots & \alpha x_{1n}    + x_{2n} \\
+    \quad\vdots               & \quad\vdots               &        & \quad\vdots \\
+    \alpha x_{m-1,1} + x_{m1} & \alpha x_{m-1,2} + x_{m2} & \cdots & \alpha x_{m-1,n} + x_{m-1,n} \\
+    \alpha x_{m1}    + 0      & \alpha x_{m2}    + 0      & \cdots & \alpha x_{m,n}   + 0 \\
+  \end{array}
+  \right],
+  \\ &
+  XB = XJ_n(\beta) =
+  \left[
+  \begin{array}{llcl}
+    \beta x_{11}    + 0 & \beta x_{12}    + x_{11}    & \cdots & \beta x_{1n}    + x_{1,n-1} \\
+    \quad\vdots         & \quad\vdots                 &        & \quad\vdots \\
+    \beta x_{m-1,1} + 0 & \beta x_{m-1,2} + x_{m-1,1} & \cdots & \beta x_{m-1,n} + x_{m-1,n-1} \\
+    \beta x_{m1}    + 0 & \beta x_{m2}    + x_{m1}    & \cdots & \beta x_{m,n}   + x_{m,n-1} \\
+  \end{array}
+  \right].
+\end{align*}
+まず $AX$ と $XB$ の一番左下の $(m,1)$ 成分を比較する. $\alpha\ne\beta$ と仮
+定したので $x_{m1}=0$ であることがわかる.  次に第 $1$ 列を下から順に比較して
+行くと $X$ の第 $1$ 列がすべて $0$ であることがわかる.  同様に第 $m$ 行を左
+から右に順に比較して行くと $X$ の第 $m$ 行がすべて $0$ であることがわかる.
+第 $2$ 列と第 $m-1$ 行以降も左下から上もしくは右に順次成分を比較して行けば
+全部 $0$ であることが確かめられる.  よって $AX-XB=0$ の解は $X=0$ だけである.
+同様の順序で $AX-XB=C$ の両辺の成分を比較すると, 
+任意の $C$ に対して方程式 $AX-XB=C$ の解 $X$ が一意に存在することが確かめら
+れる.
+\qed
+
+\medskip
+\noindent
+ヒント2: $AX-XB=0$ の解が $X=0$ だけであることと
+問題 \qref{q:Ker-phi-Image-phi} の結果から, 
+任意の $C$ に対して $AX-XB=C$ の解が一意に存在することを示せる.
+問題 \qref{q:Ker-phi-Image-phi} の 3 より解の一意性が出る.
+$\dim\Image\phi = \dim M_{m,n}(K) - \dim\Ker\phi = \dim M_{m,n}(K)$ 
+より $\phi$ は全射である.  よって問題 \qref{q:Ker-phi-Image-phi} の 3 より解
+の存在が出る.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:alpha=beta:AX-XB=0}
+  $A=J_m(\alpha)$, $B=J_n(\alpha)$ であるとき以下が成立する:
+  \begin{enumerate}
+  \item $m\le n$ のとき方程式 $AX-XB=0$ の任意の解は次の形で一意に表わされる:
+    \begin{equation*}
+      X = 
+      \begin{bmatrix}
+        0 & \cdots & 0 & x_1 & x_2 & x_3  & \cdots & x_m \\
+          & 0 & \cdots & 0   & x_1 & x_2  & \ddots & \vdots \\
+          &   & 0 & \cdots   & 0   & x_1  & \ddots & x_3 \\
+          &   &   & \ddots   &   & \ddots & \ddots & x_2 \\
+        \bigzerol & & &      & 0 & \cdots & 0      & x_1 \\
+      \end{bmatrix}.
+    \end{equation*}
+  \item $m\ge n$ のとき方程式 $AX-XB=0$ の任意の解は次の形で一意に表わされる:
+    \begin{equation*}
+      X = 
+      \begin{bmatrix}
+        x_1    & x_2    & x_3    & \cdots & x_n \\
+        0      & x_1    & x_2    & \ddots & \vdots \\
+        \vdots & 0      & x_1    & \ddots & x_3 \\
+        0      & \vdots & 0      & \ddots & x_2 \\
+               & 0      & \vdots & \ddots & x_1 \\
+               &        & 0      &        & 0 \\
+               &        &        & \ddots & \vdots \\
+        \bigzerol &     &        &        & 0 \\
+      \end{bmatrix}.
+    \end{equation*}
+  \item 特に方程式 $AX-XB=0$ の解空間 $\Ker\phi$ の次元
+    は $\min\{m,n\}$ になる.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント: $J_m(\alpha)X-XJ_n(\alpha)=J_m(0)X-XJ_n(0)$ なので $\alpha=0$ の場
+合に帰着する.  あとはその各成分を具体的に書き表わし, じっと眺めれば問題の結
+果が成立していることがわかる.
+感じがつかめなければ $(m,n)=(3,5),(4,5),(5,3),(5,4)$ などの
+場合に $J_m(0)X-XJ_n(0)$ の全成分を書き下してみよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:alpha=beta:AX-XB=C}
+  $A=J_m(\alpha)$, $B=J_n(\alpha)$ であるとき以下が成立する:
+  \begin{enumerate}
+  \item $m\le n$ のとき方程式 $AX-XB=C$ の解が存在するための
+    必要十分条件は $C$ が次満たしていることである.
+    \begin{align*}
+      &
+      c_{m1} = 0,
+      \\ &
+      c_{m-1,1} + c_{m2} = 0,
+      \\ &
+      \qquad\cdots\cdots
+      \\ &
+      c_{21} + \cdots + c_{m,m-1} = 0,
+      \\ &
+      c_{11} + c_{22} + \cdots + c_{mm} = 0.
+    \end{align*}
+    この条件は $C$ の中の左上から右下に向けて斜めの成分を足し上げたものが
+    左下から $m$ 段目まで $0$ になるという条件である.
+  \item $m\ge n$ のとき方程式 $AX-XB=C$ の解が存在するための
+    必要十分条件は $C$ が次満たしていることである.
+    \begin{align*}
+      &
+      c_{m1} = 0,
+      \\ &
+      c_{m-1,1} + c_{m2} = 0,
+      \\ &
+      \qquad\cdots\cdots
+      \\ &
+      c_{m-n+2,1} + \cdots + c_{m,n-1} = 0,
+      \\ &
+      c_{m-n+1,1} + c_{m-n+2,2} + \cdots + c_{mn} = 0.
+    \end{align*}
+    この条件は $C$ の中の左上から右下に向けて斜めの成分を足し上げたものが
+    左下から $n$ 段目まで $0$ になるという条件である.
+  \item 特に方程式 $AX-XB=C$ が解を持つ $C$ 全体の空間 $\Image\phi$ の
+    次元は $mn-\min\{m,n\}$ になる.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント: $J_m(\alpha)X-XJ_n(\alpha)=J_m(0)X-XJ_n(0)$ なので $\alpha=0$ の場
+合に帰着する.  あとはその各成分を具体的に書き表わし, じっと眺めれば問題の結
+果が成立していることがわかる.
+感じがつかめなければ $(m,n)=(3,5),(4,5),(5,3),(5,4)$ などの
+場合に $J_m(0)X-XJ_n(0)$ の全成分を書き下してみよ.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:A-cap-B=empty}
+  $A\in M_m(K)$ の固有値全体の集合と $B\in M_n(K)$ の固有値全体の集合の交わ
+  りが空ならば以下が成立する:
+  \begin{enumerate}
+  \item 方程式 $AX-XB=0$ の解は $X=0$ だけである.
+  \item 任意の $C\in M_{m,n}(K)$ に対して方程式 $AX-XB=C$ の解が一意に存在す
+    る.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント: 問題 \qref{q:alpha-ne-beta} に帰着する.
+\qed
+
+\medskip
+\noindent
+解説: この問題の結果は $\det A\ne 0$ ならば任意の $C$ に対して方程式 $AX=C$ 
+の解が一意に存在するという結果を含んでいる.  $AX=C$ は $B=0$ の
+場合の $AX-XB=C$ という方程式である.  $B=0$ の固有値全体の集合は $\{0\}$ で
+ある.  よって $A$ の固有値全体の集合と $B$ の固有値全体の集合の交わりが空で
+あるという条件は $A$ のすべての固有値が $0$ でないという条件と同値である.
+その条件は $\det A\ne 0$ と同値である.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+\label{q:A=B-generic}
+  $m=n$ かつ $A=B$ の場合について考える.
+  $A\in M_n(K)$ に対して以下の条件は互いに同値である:
+  \begin{enumerate}
+  \item[(a)] $A$ の最小多項式は特性多項式に一致する.
+  \item[(b)] $A$ の各固有値に属す Jordan 細胞は唯一つである.
+  \item[(c)] $X\in M_n(K)$ に関する方程式 $[A,X]=0$ の
+    解全体の空間の次元が $n$ になる%
+    \footnote{$[A,X]=AX-XA$ である.}.
+  \end{enumerate}
+  一般に方程式 $[A,X]=0$ の解全体の空間の次元は $n$ 以上になる.
+  \qed
+\end{question}
+
+\noindent
+ヒント: (a)と(b)の同値性は問題 \qref{q:Jordan-varphi=p} である.
+よって(b)と(c)の同値性と $[A,X]=0$ の解全体の空間の次元が $n$ 以上である
+ことを示すことだけが問題になる. 
+最初から $A$ は Jordan 標準形であると仮定して良いので, 解くべき問題は
+問題 \qref{q:alpha-ne-beta}, \qref{q:alpha=beta:AX-XB=0} に帰着する.  
+たとえば $A$, $X$ が
+\begin{equation*}
+  A = 
+  \begin{bmatrix}
+    J_p(\alpha) & 0          \\
+    0           & J_q(\beta) \\
+  \end{bmatrix},
+  \qquad
+  X = 
+  \begin{bmatrix}
+    P & Q \\
+    R & S \\
+  \end{bmatrix}
+\end{equation*}
+という形をしている場合に限定すれば以下のように証明される. 
+ただしここで $0<p\le q$, $p+q=n$, $P\in M_p(K)$, $Q\in M_{p,q}(K)$, 
+$R\in M_{q,p}(K)$, $S\in M_q(K)$ であるとする.  
+このとき $[A,X]=0$ は次と同値である:
+\begin{alignat*}{2}
+  &
+  J_p(\alpha)P - PJ_p(\alpha) = 0, \quad
+  & &
+  J_p(\alpha)Q - QJ_q(\beta)  = 0, \quad
+  \\ &
+  J_q(\beta)R  - RJ_p(\alpha) = 0, \quad
+  & &
+  J_q(\beta)S  - SJ_q(\beta)  = 0.
+\end{alignat*}
+$\alpha\ne\beta$ ならば問題 \qref{q:alpha-ne-beta} の結果
+より $Q=0$, $R=0$ であり, 問題 \qref{q:alpha=beta:AX-XB=0} の結果
+より $P$ に関する方程式の解空間は $p$ 次元であり, $S$ に関する方程式の解空間
+は $q$ 次元になるので, $[A,X]=0$ の解空間の次元は $p+q=n$ になる.
+$\alpha=\beta$ ならば問題 \qref{q:alpha=beta:AX-XB=0} の結果
+より $P$, $Q$, $R$, $S$ に関する方程式の解空間の次元は
+それぞれ $p$, $p$, $p$, $q$ になるので, $[A,X]=0$ の解空間の
+次元は $3p+q > n$ となる.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}
+  $m=n$ かつ $A=B$ の場合について考える.
+  $A\in M_n(K)$ が半単純でかつ固有値が重複を持たないと仮定する.
+  このとき以下が成立する:
+  \begin{enumerate}
+  \item 任意の $X\in M_n(K)$ に対して, $[A,X]=0$ が成立すること
+    と $A$ と $X$ が同時対角化可能であることは同値である.
+  \item 任意の $C\in M_n(K)$ に対して, $X\in M_n(K)$ に関する
+    方程式 $[A,X]=C$ の解が存在するための必要十分条件は, 
+    ある正則行列 $P\in GL_n(K)$ で $P^{-1}AP$ が対角行列で
+    かつ $P^{-1}CP$ の対角成分がすべて $0$ になるものが存在することである.
+    \qed
+  \end{enumerate}
+\end{question}
+
+\noindent
+ヒント: $A$ は半単純 (対角化可能) であると仮定しているのでこの問題はすでに 
+Jordan 標準形の応用問題ではない.  仮定よりある $P\in GL_n(K)$ 
+で $P^{-1}AP=A'=\diag(\alpha_1,\dots,\alpha_n)$ ($\alpha_i$ は互いに異なる) 
+となるものが存在する.  $X'=P^{-1}XP$, $C'=P^{-1}CP$ と置けば $[A,X]=C$ 
+と $[A',X']=C'$ は同値である.  $[A',X']$ の成分を具体的に
+書き下し, $\alpha_i$ たちが互いに異なることに注意すれば問題の結果が容易に示
+される.
+\qed
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{ABCD}
+
+\bibitem[U]{umemura}
+梅村浩, 楕円関数論---楕円曲線の解析学, 東京大学出版会, 2000
+
+\bibitem[KI]{kan-iri}
+韓太舜, 伊理正夫, ジョルダン標準形, UP応用数学選書 8, 東京大学出版会, 1982
+
+\bibitem[C]{cassels}
+キャッセルズ,~J.~W., 楕円曲線入門, 徳永浩雄訳, 岩波書店, 1996
+
+\bibitem[KO]{KO}
+小林俊行, 大島利雄, Lie 群と Lie 環 1, 岩波講座現代数学の基礎 12,
+岩波書店, 1999
+
+\bibitem[St]{satake}
+佐武一郎, 線型代数学, 数学選書 1, 裳華房, 1974
+
+\bibitem[Sh]{shafarevich}
+シャファレヴィッチ,~I.~R., 代数学とは何か, 蟹江幸博訳, シュプリンガー・フェ
+アラーク東京, 2001
+
+\bibitem[ST]{ST}
+シルヴァーマン,~J.~H., テイト,~J., 楕円曲線論入門, 
+足立恒雄, 木田雅成, 小松啓一, 田谷久雄訳, 
+シュプリンガー・フェアラーク東京, 1995
+
+\bibitem[Sg]{sugiura}
+杉浦光夫, Jordan標準形と単因子論 I, II, 岩波講座基礎数学, 線型代数 iii, 1976
+
+\bibitem[Tkg1]{takagi1}
+高木貞治, 代数学講義, 改定新版, 共立出版, 1965
+
+\bibitem[Tkg2]{takagi2}
+高木貞治, 初等整数論講義, 第2版, 共立出版, 1971
+
+\bibitem[Tkc]{takeuchi}
+竹内端三, 楕圓凾數論, 岩波全書, 岩波書店, 1936
+
+\bibitem[Ts]{tasaka}
+田坂隆士, 2次形式 I, II, 岩波講座基礎数学, 線型代数 iii, 1976
+
+\bibitem[Tn]{tanisaki}
+谷崎俊之, リー代数と量子群, 現代数学の潮流, 共立出版, 2002
+
+\bibitem[Hs]{hasegawa-rensai}
+長谷川浩司, 線型代数, 『数学セミナー』における連載, 
+2001年4月号から2002年10月号まで
+
+\bibitem[Ht]{hattori}
+服部昭, 現代代数学, 近代数学講座 1, 朝倉書店, 1968
+
+\bibitem[Kh]{khinchin}
+ヒンチン,~A.~Y., 数論の3つの真珠, 蟹江幸博訳, はじめよう数学4, 日本評論社, 
+2000
+
+\bibitem[T]{terakan}
+寺沢寛一, 自然科学者のための数学概論, 増訂版, 岩波書店, 1954, 1983, 1986
+
+\bibitem[N]{nakamura}
+中村佳正編, 可積分系の応用数理, 裳華房, 2000
+
+\bibitem[H1]{gun-kagun}
+堀田良之, 代数入門――群と加群――, 数学シリーズ, 裳華房, 1987
+
+\bibitem[H2]{10wa}
+堀田良之, 加群十話――加群入門――, すうがくぶっくす 3, 朝倉書店, 1988
+
+\bibitem[YmS]{renzokugunron}
+山内恭彦, 杉浦光夫, 連続群論入門, 新数学シリーズ 18, 培風館, 1960
+
+\bibitem[Ykt]{gun-iso}
+横田一郎, 群と位相, 基礎数学選書, 裳華房, 1971
+
+\bibitem[Ykn]{yokonuma}
+横沼健雄, テンソル代数と外積代数, 岩波講座基礎数学, 線型代数 iv, 1976
+
+\bibitem[R]{reid}
+リード,~M., 可換環論入門, 伊藤由佳理訳, 岩波書店, 2000
+
+\bibitem[W]{wakimoto}
+脇本実, 無限次元 Lie 環, 岩波講座現代数学の展開 3, 岩波書店, 1999
+
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
